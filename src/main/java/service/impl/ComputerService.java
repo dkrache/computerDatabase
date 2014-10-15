@@ -27,9 +27,9 @@ public class ComputerService implements IComputerService {
    * @see service.IComputerService#selectAll()
    */
   @Override
-  public List<ComputerDto> selectAll() throws ServiceException {
+  public List<ComputerDto> selectAll(final int offset) throws ServiceException {
     try {
-      return ConvertComputerDtoDo.createComputerDtos(ComputerDAO.INSTANCE.selectAll());
+      return ConvertComputerDtoDo.createComputerDtos(ComputerDAO.INSTANCE.selectAll(offset));
     } catch (final PersistenceException e) {
       throw new ServiceException(e);
     }
@@ -39,11 +39,11 @@ public class ComputerService implements IComputerService {
    * @see service.IComputerService#selectAll()
    */
   @Override
-  public List<ComputerDto> search(final String name) throws ServiceException {
+  public List<ComputerDto> search(final String name, final int offset) throws ServiceException {
     try {
 
       return name == null ? null : ConvertComputerDtoDo.createComputerDtos(ComputerDAO.INSTANCE
-          .search(name));
+          .search(name, offset));
     } catch (final PersistenceException e) {
       throw new ServiceException(e);
     }

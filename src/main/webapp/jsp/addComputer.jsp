@@ -1,6 +1,6 @@
 <jsp:include page="../include/header.jsp" />
 <script type="text/javascript" src="./js/validationAddComputer.js"></script>
-<%@ taglib prefix="display" uri="http://displaytag.sf.net/el"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <section id="main">
@@ -13,8 +13,7 @@
 		<p style="color: green">${message}</p>
 	</c:if>
 	<form id="formAddComputer" action="AddComputer" method="POST">
-		<fieldset><%@ taglib prefix="display"
-				uri="http://displaytag.sf.net/el"%>
+		<fieldset>
 			<div class="clearfix">
 				<label for="name">Computer name*:</label>
 				<c:if test="${not empty computer}">

@@ -1,4 +1,4 @@
-package main.java.webapp.computer;
+package webapp.computer;
 
 import java.io.IOException;
 
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import service.IComputerService;
 import service.exception.ServiceException;
@@ -54,7 +54,8 @@ public class UpdateComputerServlet extends HttpServlet {
             .getParameter(PARAM_ID_COMPUTER)));
         if (computerDto != null) {
           request.setAttribute("computer", computerDto);
-          requestDispatcher = request.getServletContext().getRequestDispatcher("/jsp/addComputer.jsp");
+          requestDispatcher = request.getServletContext().getRequestDispatcher(
+              "/jsp/addComputer.jsp");
         }
       }
     } catch (final NumberFormatException | ServiceException e) {

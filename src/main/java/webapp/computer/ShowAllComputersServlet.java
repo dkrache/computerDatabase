@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import service.IComputerService;
 import service.exception.ServiceException;
 import service.impl.ComputerService;
@@ -24,6 +27,8 @@ public class ShowAllComputersServlet extends HttpServlet {
   private static final String           PARAM_MESSAGE    = "message";
   private static final long             serialVersionUID = 1L;
   private static final IComputerService COMPUTER_SERVICE = new ComputerService();
+  private static final Logger           LOGGER           = LoggerFactory
+                                                             .getLogger(ShowAllComputersServlet.class);
 
   /**
    * @see HttpServlet#HttpServlet()
@@ -47,12 +52,18 @@ public class ShowAllComputersServlet extends HttpServlet {
       throws ServletException, IOException {
     final RequestDispatcher requestDispatcher = request.getServletContext().getRequestDispatcher(
         "/jsp/dashboard.jsp");
+    int offset = 0;
+    try {
+      offset = Integer.parseInt(request.getParameter("offset"));
+    } catch (final NumberFormatException e) {
+      LOGGER.warn("erreur, le offset entré en paramètre n'est pas correct", e);
+    }
     try {
       final List<ComputerDto> computerDtos;
       if (request.getParameter("search") != null) {
-        computerDtos = COMPUTER_SERVICE.search((String) request.getParameter("search"));
+        computerDtos = COMPUTER_SERVICE.search((String) request.getParameter("search"), offset);
       } else {
-        computerDtos = COMPUTER_SERVICE.selectAll();
+        computerDtos = COMPUTER_SERVICE.selectAll(offset);
       }
       if (computerDtos == null || computerDtos.size() == 0) {
         request.setAttribute(PARAM_ERROR, true);

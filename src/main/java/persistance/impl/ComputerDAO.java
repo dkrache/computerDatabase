@@ -16,21 +16,24 @@ import core.Computer;
 
 public enum ComputerDAO {
   INSTANCE;
-  private static final RowMapper<Computer> MAPPER     = new ComputerRowMapper();
-
-  private static final String              SEARCH     = "select id, name, introduced, discontinued, company_id from computer where name like ? or company_id in (select id from company where name like ?)";
-  private static final String              SELECT_ALL = "select id, name, introduced, discontinued, company_id from computer";
-  private static final String              SELECT     = "select id, name, introduced, discontinued, company_id from computer where id=?";
-  private static final String              INSERT     = "insert into computer (name,introduced,discontinued,company_id) values (?,?,?,?)";
-  private static final String              UPDATE     = "update computer set name=?, introduced=?, discontinued=?, company_id=? where id=?";
-  private static final String              DELETE     = "delete from computer where id=?";
+  private static final RowMapper<Computer> MAPPER           = new ComputerRowMapper();
+  private static final String              LIMIT_AND_OFFSET = "limit 10 offset ?";
+  private static final String              SELECT_ALL       = "select id, name, introduced, discontinued, company_id from computer ";
+  private static final String              SEARCH           = SELECT_ALL
+                                                                + " where name like ? or company_id in (select id from company where name like ?) ";
+  private static final String              SELECT           = "select id, name, introduced, discontinued, company_id from computer where id=?";
+  private static final String              INSERT           = "insert into computer (name,introduced,discontinued,company_id) values (?,?,?,?)";
+  private static final String              UPDATE           = "update computer set name=?, introduced=?, discontinued=?, company_id=? where id=?";
+  private static final String              DELETE           = "delete from computer where id=?";
 
   private ComputerDAO() {}
 
-  public List<Computer> selectAll() throws PersistenceException {
+  public List<Computer> selectAll(final int offset) throws PersistenceException {
     final Connection connection = ConnectionDAO.getConnection();
     try {
-      final PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
+      final PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL
+          + LIMIT_AND_OFFSET);
+      preparedStatement.setInt(1, offset);
       final List<Computer> computers = MAPPER.convertResultSet(preparedStatement.executeQuery());
       return computers;
     } catch (final SQLException e) {
@@ -125,13 +128,15 @@ public enum ComputerDAO {
    * @return
    * @throws PersistenceException
    */
-  public List<Computer> search(final String name) throws PersistenceException {
+  public List<Computer> search(final String name, final int offset) throws PersistenceException {
     final Connection connection = ConnectionDAO.getConnection();
     final char wildcard = '%';
     try {
-      final PreparedStatement preparedStatement = connection.prepareStatement(SEARCH);
+      final PreparedStatement preparedStatement = connection.prepareStatement(SEARCH
+          + LIMIT_AND_OFFSET);
       preparedStatement.setString(1, wildcard + name + wildcard);
       preparedStatement.setString(2, wildcard + name + wildcard);
+      preparedStatement.setInt(3, offset);
       final List<Computer> computers = MAPPER.convertResultSet(preparedStatement.executeQuery());
       return computers;
     } catch (final SQLException e) {

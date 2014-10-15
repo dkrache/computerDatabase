@@ -15,7 +15,7 @@ public interface IComputerService {
    * @return
    * @throws ServiceException
    */
-  List<ComputerDto> selectAll() throws ServiceException;
+  List<ComputerDto> selectAll(final int offset) throws ServiceException;
 
   /**
    * Extraction d'un Computer référencé par externalIdComputer
@@ -37,7 +37,7 @@ public interface IComputerService {
    * MAJ d'un objet computer.
    * @param computerDto
    * @return
-   * @throws ServiceException
+   * @throws ServiceException)
    */
   boolean update(final ComputerDto computerDto) throws ServiceException;
 
@@ -54,5 +54,5 @@ public interface IComputerService {
    * @return
    * @throws ServiceException
    */
-  List<ComputerDto> search(final String name) throws ServiceException;
+  List<ComputerDto> search(final String name, final int offset) throws ServiceException;
 }
