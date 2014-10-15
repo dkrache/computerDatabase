@@ -25,13 +25,11 @@ public class ComputerRowMapper implements RowMapper<Computer> {
     final List<Computer> computers = new ArrayList<>();
 
     while (resultSet.next()) {
-      final Computer computer = new Computer();
-      computer.setId(resultSet.getInt("id"));
-      computer.setCompany(CompanyDAO.INSTANCE.select(resultSet.getInt("company_id")));
-      computer.setComputerName(resultSet.getString("name"));
-      computer.setIntroducedDate(DateUtils.getDate(resultSet.getTimestamp("introduced")));
-      computer.setDiscontinuedDate(DateUtils.getDate(resultSet.getTimestamp("discontinued")));
-      computers.add(computer);
+      computers.add(Computer.builder(resultSet.getString("name"))
+          .company(CompanyDAO.INSTANCE.select(resultSet.getInt("company_id")))
+          .discontinuedDate(DateUtils.getDate(resultSet.getTimestamp("discontinued")))
+          .introducedDate(DateUtils.getDate(resultSet.getTimestamp("introduced")))
+          .id(resultSet.getInt("id")).build());
     }
     return computers;
   }

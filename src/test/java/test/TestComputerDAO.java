@@ -21,11 +21,9 @@ public class TestComputerDAO {
   @Before
   public void setUp() throws PersistenceException {
     company = CompanyDAO.INSTANCE.select(1);
-    computer = new Computer();
-    computer.setCompany(company);
-    computer.setComputerName("test");
-    computer.setDiscontinuedDate(new Date(System.currentTimeMillis()));
-    computer.setIntroducedDate(new Date(System.currentTimeMillis()));
+    computer = Computer.builder("test").company(company)
+        .discontinuedDate(new Date(System.currentTimeMillis()))
+        .introducedDate(new Date(System.currentTimeMillis())).build();
   }
 
   @Test
@@ -34,7 +32,7 @@ public class TestComputerDAO {
     ComputerDAO.INSTANCE.insert(computer);
     List<Computer> computersMAJ = ComputerDAO.INSTANCE.selectAll();
     assertEquals(computersALaBase.size() + 1, computersMAJ.size());
-    final Computer computerRetreived = ComputerDAO.INSTANCE.select(computer.getId());
+    Computer computerRetreived = ComputerDAO.INSTANCE.select(computer.getId());
 
     assertEquals(computerRetreived.getComputerName(), computer.getComputerName());
     assertEquals(computerRetreived.getCompany().getId(), computer.getCompany().getId());
@@ -43,11 +41,9 @@ public class TestComputerDAO {
     // FIXME DKR : Probleme de conversion en BDD au niveau des heures 
     assertEquals(computerRetreived.getDiscontinuedDate(), computer.getDiscontinuedDate());
     assertEquals(computerRetreived.getIntroducedDate(), computer.getIntroducedDate());
-
-    computerRetreived.setComputerName("testUpdated");
-    computerRetreived.setIntroducedDate(new Date(System.currentTimeMillis()));
-    computerRetreived.setDiscontinuedDate(new Date(System.currentTimeMillis()));
-    computerRetreived.setCompany(CompanyDAO.INSTANCE.select(2));
+    computerRetreived = Computer.builder("testUpdated").company(CompanyDAO.INSTANCE.select(2))
+        .discontinuedDate(new Date(System.currentTimeMillis()))
+        .introducedDate(new Date(System.currentTimeMillis())).build();
 
     ComputerDAO.INSTANCE.update(computerRetreived);
     computersMAJ = ComputerDAO.INSTANCE.selectAll();

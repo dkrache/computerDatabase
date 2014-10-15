@@ -43,10 +43,7 @@ public final class ConvertCompanyDtoDo {
     if (companyDto == null) {
       return null;
     }
-    final Company company = new Company();
-    company.setId(companyDto.getExternalId());
-    company.setName(companyDto.getName());
-    return company;
+    return Company.builder(companyDto.getName()).id(companyDto.getExternalId()).build();
   }
 
   /**

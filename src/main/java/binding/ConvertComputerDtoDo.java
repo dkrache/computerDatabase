@@ -1,4 +1,4 @@
-  package binding;
+package binding;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -40,13 +40,12 @@ public final class ConvertComputerDtoDo {
    * @throws ParseException 
    */
   public static Computer createComputer(final ComputerDto computerDto) throws ParseException {
-    final Computer computer = new Computer();
-    computer.setId(computerDto.getExternalId());
-    computer.setComputerName(computerDto.getComputerName());
-    computer.setDiscontinuedDate(DateUtils.createStringToDate(computerDto.getDiscontinuedDate()));
-    computer.setIntroducedDate(DateUtils.createStringToDate(computerDto.getIntroducedDate()));
-    computer.setCompany(ConvertCompanyDtoDo.createCompany(computerDto.getCompanyDto()));
-    return computer;
+    return Computer.builder(computerDto.getComputerName())
+        .company(ConvertCompanyDtoDo.createCompany(computerDto.getCompanyDto()))
+        .id(computerDto.getExternalId())
+        .discontinuedDate(DateUtils.createStringToDate(computerDto.getDiscontinuedDate()))
+        .introducedDate(DateUtils.createStringToDate(computerDto.getIntroducedDate())).build();
+
   }
 
   public static List<ComputerDto> createComputerDtos(final List<Computer> computers) {

@@ -19,16 +19,9 @@ public class CompanyRowMapper implements RowMapper<Company> {
   @Override
   public List<Company> convertResultSet(final ResultSet resultSet) throws SQLException {
     final List<Company> companys = new ArrayList<>();
-
     while (resultSet.next()) {
-      final Company company = new Company();
-      company.setId(resultSet.getInt("id"));
-      // TODO DKR : CRUD for COMPANY
-      //computer.setCompany();
-      company.setName(resultSet.getString("name"));
-      companys.add(company);
+      companys.add(Company.builder(resultSet.getString("name")).id(resultSet.getInt("id")).build());
     }
     return companys;
   }
-
 }

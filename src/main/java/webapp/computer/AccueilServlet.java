@@ -9,13 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-
 import service.IComputerService;
-import service.exception.ServiceException;
 import service.impl.ComputerService;
-import webapp.dto.CompanyDto;
-import webapp.dto.ComputerDto;
 
 /**
  * Servlet implementation class ComputerCrudServlet

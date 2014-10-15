@@ -29,11 +29,11 @@ public class DateUtils {
   }
 
   public static String createDateToString(final Date date) {
-    if(date==null){
+    if (date == null) {
       return null;
     }
     final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-      return dateFormat.format(date);
+    return dateFormat.format(date);
 
   }
 

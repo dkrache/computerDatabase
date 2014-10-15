@@ -11,10 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 
-import service.ICompanyService;
 import service.IComputerService;
 import service.exception.ServiceException;
-import service.impl.CompanyService;
 import service.impl.ComputerService;
 import webapp.dto.CompanyDto;
 import webapp.dto.ComputerDto;

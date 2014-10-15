@@ -1,7 +1,7 @@
 package core;
 
 public class Basic {
-  private long id;
+  protected long id;
 
   /**
    * @return the id
@@ -11,10 +11,9 @@ public class Basic {
   }
 
   /**
-   * @param id the id to set
+   * @return the id
    */
   public void setId(final long id) {
     this.id = id;
   }
-
 }

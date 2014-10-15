@@ -9,8 +9,8 @@ public class ServiceException extends Exception {
   /**
    * 
    */
-  private static final long serialVersionUID = 4675926754664457970L;
-  private static final String DEFAULT_MESSAGE = "hum, c'est embarrassant. Nos services rencontre des difficultés à répondre à votre requête";
+  private static final long   serialVersionUID = 4675926754664457970L;
+  private static final String DEFAULT_MESSAGE  = "hum, c'est embarrassant. Nos services rencontre des difficultés à répondre à votre requête";
 
   /**
    * 

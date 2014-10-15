@@ -1,6 +1,5 @@
 package persistance.exception;
 
-
 public class PersistenceException extends Exception {
 
   public PersistenceException() {
