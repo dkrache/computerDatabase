@@ -5,11 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.swing.tree.RowMapper;
-
 import persistance.ConnectionDAO;
 import persistance.exception.PersistenceException;
 import persistance.mapper.CompanyRowMapper;
+import persistance.mapper.RowMapper;
 import core.Company;
 
 /**

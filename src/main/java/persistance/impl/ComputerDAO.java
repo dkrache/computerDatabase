@@ -8,11 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import javax.swing.tree.RowMapper;
-
 import persistance.ConnectionDAO;
 import persistance.exception.PersistenceException;
 import persistance.mapper.ComputerRowMapper;
+import persistance.mapper.RowMapper;
 import core.Computer;
 
 public enum ComputerDAO {
