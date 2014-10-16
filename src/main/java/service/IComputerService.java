@@ -4,6 +4,7 @@ import java.util.List;
 
 import service.exception.ServiceException;
 import core.Computer;
+import core.Page;
 
 /**
  * @author excilys
@@ -15,7 +16,15 @@ public interface IComputerService {
    * @return
    * @throws ServiceException
    */
-  List<Computer> selectAll(final int offset);
+  List<Computer> selectAll(final Page page);
+
+  /**
+   * Get computers whose name is name.
+   * @param name
+   * @return
+   * @throws ServiceException
+   */
+  List<Computer> search(final Page page);
 
   /**
    * Extract the computer referenced by externalIdComputer
@@ -48,11 +57,4 @@ public interface IComputerService {
    */
   void delete(final long externalIdComputer);
 
-  /**
-   * Get computers whose name is name.
-   * @param name
-   * @return
-   * @throws ServiceException
-   */
-  List<Computer> search(final String name, final int offset);
 }

@@ -11,6 +11,7 @@ import persistance.impl.ComputerDAO;
 import service.IComputerService;
 import service.exception.ServiceException;
 import core.Computer;
+import core.Page;
 
 /**
  * @author excilys
@@ -23,9 +24,9 @@ public class ComputerService implements IComputerService {
    * @see service.IComputerService#selectAll()
    */
   @Override
-  public List<Computer> selectAll(final int offset) {
+  public List<Computer> selectAll(final Page page) {
     try {
-      return ComputerDAO.INSTANCE.selectAll(offset);
+      return ComputerDAO.INSTANCE.selectAll(page);
     } catch (final PersistenceException e) {
       throw new ServiceException(e);
     }
@@ -35,9 +36,9 @@ public class ComputerService implements IComputerService {
    * @see service.IComputerService#selectAll()
    */
   @Override
-  public List<Computer> search(final String name, final int offset) {
+  public List<Computer> search(final Page page) {
     try {
-      return name == null ? null : ComputerDAO.INSTANCE.search(name, offset);
+      return ComputerDAO.INSTANCE.search(page);
     } catch (final PersistenceException e) {
       throw new ServiceException(e);
     }

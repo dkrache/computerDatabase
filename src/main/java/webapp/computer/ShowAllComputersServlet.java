@@ -18,7 +18,9 @@ import service.exception.ServiceException;
 import service.impl.ComputerService;
 import webapp.dto.ComputerDto;
 import webapp.utils.Constants;
+import webapp.utils.PageUtils;
 import binding.ComputerMapper;
+import core.Page;
 
 /**
  * Servlet implementation class ComputerCrudServlet
@@ -48,20 +50,9 @@ public class ShowAllComputersServlet extends HttpServlet {
       throws ServletException, IOException {
     final RequestDispatcher requestDispatcher = request.getServletContext().getRequestDispatcher(
         Constants.JSP_DASHBOARD);
-    int offset = 0;
     try {
-      offset = Integer.parseInt(request.getParameter("offset"));
-    } catch (final NumberFormatException e) {
-      LOGGER.warn("Error :  offset incorrect : {}", e);
-    }
-    try {
-      final List<ComputerDto> computerDtos;
-      if (request.getParameter("search") != null) {
-        computerDtos = ComputerMapper.toDto(COMPUTER_SERVICE.search(
-            (String) request.getParameter("search"), offset));
-      } else {
-        computerDtos = ComputerMapper.toDto(COMPUTER_SERVICE.selectAll(offset));
-      }
+      final Page page = PageUtils.createPage(request);
+      final List<ComputerDto> computerDtos = ComputerMapper.toDto(COMPUTER_SERVICE.search(page));
       if (computerDtos == null || computerDtos.isEmpty()) {
         request.setAttribute(PARAM_ERROR, true);
         request.setAttribute(PARAM_MESSAGE, "Any element was found.");
@@ -73,6 +64,7 @@ public class ShowAllComputersServlet extends HttpServlet {
       request.setAttribute(PARAM_MESSAGE, e.getMessage());
     }
     requestDispatcher.forward(request, response);
-
   }
+
+ 
 }

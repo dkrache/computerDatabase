@@ -2,7 +2,6 @@ package webapp.computer;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,19 +31,9 @@ public class AccueilServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
       throws ServletException, IOException {
-    doPost(request, response);
-  }
-
-  /* (non-Javadoc)
-   * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-   */
-  @Override
-  protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
-      throws ServletException, IOException {
-    final RequestDispatcher requestDispatcher = request.getServletContext().getRequestDispatcher(
-        "/ShowAllComputers");
-
-    requestDispatcher.forward(request, response);
+    request.getServletContext().getRequestDispatcher(Constants.SERVLET_SHOW_ALL_COMPUTER)
+        .forward(request, response);
 
   }
+
 }
