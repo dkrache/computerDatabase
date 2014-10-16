@@ -9,35 +9,36 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import service.IComputerService;
-import service.impl.ComputerService;
+import webapp.utils.Constants;
 
 /**
  * Servlet implementation class ComputerCrudServlet
  */
-@WebServlet("/Accueil")
+@WebServlet(Constants.SERVLET_ACCUEIL)
 public class AccueilServlet extends HttpServlet {
-  private static final long             serialVersionUID = 1L;
-  private static final IComputerService COMPUTER_SERVICE = new ComputerService();
+  private static final long serialVersionUID = 1L;
 
   /**
+   * Default constructor
    * @see HttpServlet#HttpServlet()
    */
   public AccueilServlet() {
     super();
   }
 
-  /**
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletRes!StringUtils.isNullOrEmpty(request.getParameter("company"))ponse response)
+  /* (non-Javadoc)
+   * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
    */
+  @Override
   protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
       throws ServletException, IOException {
     doPost(request, response);
   }
 
-  /**
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+  /* (non-Javadoc)
+   * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
    */
+  @Override
   protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
       throws ServletException, IOException {
     final RequestDispatcher requestDispatcher = request.getServletContext().getRequestDispatcher(

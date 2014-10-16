@@ -17,12 +17,13 @@ import service.IComputerService;
 import service.exception.ServiceException;
 import service.impl.ComputerService;
 import webapp.dto.ComputerDto;
+import webapp.utils.Constants;
 import binding.ComputerMapper;
 
 /**
  * Servlet implementation class ComputerCrudServlet
  */
-@WebServlet("/ShowAllComputers")
+@WebServlet(Constants.SERVLET_SHOW_ALL_COMPUTER)
 public class ShowAllComputersServlet extends HttpServlet {
   private static final String           PARAM_ERROR      = "error";
   private static final String           PARAM_MESSAGE    = "message";
@@ -32,32 +33,26 @@ public class ShowAllComputersServlet extends HttpServlet {
                                                              .getLogger(ShowAllComputersServlet.class);
 
   /**
+   * Default constructor
    * @see HttpServlet#HttpServlet()
    */
   public ShowAllComputersServlet() {
     super();
   }
 
-  /**
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletRes!StringUtils.isNullOrEmpty(request.getParameter("company"))ponse response)
+  /* (non-Javadoc)
+   * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
    */
+  @Override
   protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
       throws ServletException, IOException {
-    doPost(request, response);
-  }
-
-  /**
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-   */
-  protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
-      throws ServletException, IOException {
     final RequestDispatcher requestDispatcher = request.getServletContext().getRequestDispatcher(
-        "/jsp/dashboard.jsp");
+        Constants.JSP_DASHBOARD);
     int offset = 0;
     try {
       offset = Integer.parseInt(request.getParameter("offset"));
     } catch (final NumberFormatException e) {
-      LOGGER.warn("Error, offset incorrect", e);
+      LOGGER.warn("Error :  offset incorrect : {}", e);
     }
     try {
       final List<ComputerDto> computerDtos;
@@ -79,4 +74,5 @@ public class ShowAllComputersServlet extends HttpServlet {
     requestDispatcher.forward(request, response);
 
   }
+
 }

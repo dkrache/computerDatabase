@@ -30,7 +30,7 @@ public final class ComputerMapper {
     computerDto.setComputerName(computer.getComputerName());
     computerDto.setDiscontinuedDate(DateUtils.createDateToString(computer.getDiscontinuedDate()));
     computerDto.setIntroducedDate(DateUtils.createDateToString(computer.getIntroducedDate()));
-    computerDto.setCompanyDto(ConvertCompanyDtoDo.createCompanyDto(computer.getCompany()));
+    computerDto.setCompanyDto(CompanyMapper.toDto(computer.getCompany()));
     return computerDto;
   }
 
@@ -41,7 +41,7 @@ public final class ComputerMapper {
    */
   public static Computer fromDto(final ComputerDto computerDto) throws ParseException {
     return Computer.builder(computerDto.getComputerName())
-        .company(ConvertCompanyDtoDo.createCompany(computerDto.getCompanyDto()))
+        .company(CompanyMapper.fromDto(computerDto.getCompanyDto()))
         .id(computerDto.getExternalId())
         .discontinuedDate(DateUtils.createStringToDate(computerDto.getDiscontinuedDate()))
         .introducedDate(DateUtils.createStringToDate(computerDto.getIntroducedDate())).build();

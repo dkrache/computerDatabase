@@ -70,6 +70,9 @@ public class ComputerDto extends BasicDto {
     this.companyDto = companyDto;
   }
 
+  /**
+   * @return
+   */
   public String getSupprimer() {
 
     return "<a href=\"DeleteComputer?codereq=" + externalId + "\">"
@@ -78,6 +81,9 @@ public class ComputerDto extends BasicDto {
 
   }
 
+  /**
+   * @return
+   */
   public String getModifier() {
 
     return "<a href=\"UpdateComputer?codereq=" + externalId + "\">"

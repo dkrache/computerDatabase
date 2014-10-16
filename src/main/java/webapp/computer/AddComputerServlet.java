@@ -17,6 +17,7 @@ import service.exception.ServiceException;
 import service.impl.ComputerService;
 import webapp.dto.CompanyDto;
 import webapp.dto.ComputerDto;
+import webapp.utils.Constants;
 import binding.ComputerMapper;
 
 /**
@@ -26,37 +27,40 @@ import binding.ComputerMapper;
  * @author excilys
  *
  */
-@WebServlet("/AddComputer")
+@WebServlet(Constants.SERVLET_ADD_COMPUTER)
 public class AddComputerServlet extends HttpServlet {
   private static final String           PARAM_COMPANY     = "company";
   private static final String           PARAM_MESSAGE     = "message";
   private static final long             serialVersionUID  = 1L;
   private static final IComputerService COMPUTER_SERVICE  = new ComputerService();
-
   public static final String            PARAM_ID_COMPUTER = "externalId";
 
   /**
+   * Default constructor
    * @see HttpServlet#HttpServlet()
    */
   public AddComputerServlet() {
     super();
   }
 
-  /**
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletRes!StringUtils.isNullOrEmpty(request.getParameter("company"))ponse response)
+  /* (non-Javadoc)
+   * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
    */
+  @Override
   protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
       throws ServletException, IOException {
-    doPost(request, response);
+    request.getServletContext().getRequestDispatcher(Constants.JSP_ADD_COMPUTER)
+        .forward(request, response);
   }
 
-  /**
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+  /* (non-Javadoc)
+   * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
    */
+  @Override
   protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
       throws ServletException, IOException {
     RequestDispatcher requestDispatcher = request.getServletContext().getRequestDispatcher(
-        "/jsp/addComputer.jsp");
+        Constants.JSP_ADD_COMPUTER);
 
     final ComputerDto computerDto = new ComputerDto();
     computerDto.setComputerName(request.getParameter("name"));

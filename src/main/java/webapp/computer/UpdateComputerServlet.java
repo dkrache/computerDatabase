@@ -10,44 +10,53 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import service.IComputerService;
 import service.exception.ServiceException;
 import service.impl.ComputerService;
 import webapp.dto.ComputerDto;
+import webapp.utils.Constants;
 import binding.ComputerMapper;
 
 /**
  * Servlet implementation class ComputerCrudServlet
  */
-@WebServlet("/UpdateComputer")
+@WebServlet(Constants.SERVLET_UPDATE_COMPUTER)
 public class UpdateComputerServlet extends HttpServlet {
   private static final long             serialVersionUID  = 1L;
   private static final IComputerService COMPUTER_SERVICE  = new ComputerService();
-  public static final String            PARAM_ID_COMPUTER = "codereq";
+  private static final String           PARAM_ID_COMPUTER = "codereq";
+  private static final Logger           LOGGER            = LoggerFactory
+                                                              .getLogger(UpdateComputerServlet.class);
 
   /**
-   * @see HttpServlet#HttpServlet()
+   * Default constructor.
    */
   public UpdateComputerServlet() {
     super();
   }
 
-  /**
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletRes!StringUtils.isNullOrEmpty(request.getParameter("company"))ponse response)
+  /* (non-Javadoc)
+   * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
    */
+  @Override
   protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
       throws ServletException, IOException {
-    doPost(request, response);
+    RequestDispatcher requestDispatcher = request.getServletContext().getRequestDispatcher(
+        Constants.JSP_ADD_COMPUTER);
+    requestDispatcher.forward(request, response);
   }
 
-  /**
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+  /* (non-Javadoc)
+   * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
    */
+  @Override
   protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
       throws ServletException, IOException {
     RequestDispatcher requestDispatcher = request.getServletContext().getRequestDispatcher(
-        "/Accueil");
+        Constants.SERVLET_ACCUEIL);
     try {
       if (request.getParameter(PARAM_ID_COMPUTER) != null
           && StringUtils.isNumeric(request.getParameter(PARAM_ID_COMPUTER))) {
@@ -55,12 +64,14 @@ public class UpdateComputerServlet extends HttpServlet {
             .parseInt((String) request.getParameter(PARAM_ID_COMPUTER))));
         if (computerDto != null) {
           request.setAttribute("computer", computerDto);
+          request.setAttribute("message", "You will modify the computer whose the name is : "
+              + computerDto.getComputerName());
           requestDispatcher = request.getServletContext().getRequestDispatcher(
-              "/jsp/addComputer.jsp");
+              Constants.JSP_ADD_COMPUTER);
         }
       }
     } catch (final NumberFormatException | ServiceException e) {
-      e.printStackTrace();
+      LOGGER.warn("Error : Impossible to answer to the update request : {}", e);
     }
     requestDispatcher.forward(request, response);
   }
