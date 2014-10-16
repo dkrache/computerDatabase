@@ -93,7 +93,6 @@ public class Computer extends Basic {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((company == null) ? 0 : company.hashCode());
     result = prime * result + ((computerName == null) ? 0 : computerName.hashCode());
     return result;
   }
