@@ -110,13 +110,7 @@ public class Computer extends Basic {
       return false;
     }
     final Computer other = (Computer) obj;
-    if (company == null) {
-      if (other.company != null) {
-        return false;
-      }
-    } else if (!company.equals(other.company)) {
-      return false;
-    }
+
     if (!StringUtils.equals(computerName, other.computerName)) {
       return false;
     }
