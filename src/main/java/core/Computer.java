@@ -9,7 +9,7 @@ public class Computer extends Basic {
   private String  computerName;
   private Date    introducedDate;
   private Date    discontinuedDate;
-  private Company company;         //J'aurais bien fait une énumération mais pour l'évolutivité, ce n'est pas le meilleur choix en cas de nouvelle company.
+  private Company company;
 
   /**
    * @return the computerName
@@ -95,8 +95,6 @@ public class Computer extends Basic {
     int result = 1;
     result = prime * result + ((company == null) ? 0 : company.hashCode());
     result = prime * result + ((computerName == null) ? 0 : computerName.hashCode());
-    result = prime * result + ((discontinuedDate == null) ? 0 : discontinuedDate.hashCode());
-    result = prime * result + ((introducedDate == null) ? 0 : introducedDate.hashCode());
     return result;
   }
 
@@ -122,18 +120,7 @@ public class Computer extends Basic {
     if (!StringUtils.equals(computerName, other.computerName)) {
       return false;
     }
-    if (discontinuedDate == null && other.discontinuedDate != null) {
-      return false;
 
-    } else if (!discontinuedDate.equals(other.discontinuedDate)) {
-      return false;
-    }
-    if (introducedDate == null && other.introducedDate != null) {
-      return false;
-
-    } else if (!introducedDate.equals(other.introducedDate)) {
-      return false;
-    }
-    return true;
+    return super.id == other.id;
   }
 }
