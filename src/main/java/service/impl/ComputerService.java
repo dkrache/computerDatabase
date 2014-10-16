@@ -1,6 +1,5 @@
 package service.impl;
 
-import java.text.ParseException;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -11,9 +10,6 @@ import persistance.exception.PersistenceException;
 import persistance.impl.ComputerDAO;
 import service.IComputerService;
 import service.exception.ServiceException;
-import webapp.dto.ComputerDto;
-import binding.ConvertComputerDtoDo;
-import binding.DateUtils;
 import core.Computer;
 
 /**
@@ -27,9 +23,9 @@ public class ComputerService implements IComputerService {
    * @see service.IComputerService#selectAll()
    */
   @Override
-  public List<ComputerDto> selectAll(final int offset) throws ServiceException {
+  public List<Computer> selectAll(final int offset) {
     try {
-      return ConvertComputerDtoDo.createComputerDtos(ComputerDAO.INSTANCE.selectAll(offset));
+      return ComputerDAO.INSTANCE.selectAll(offset);
     } catch (final PersistenceException e) {
       throw new ServiceException(e);
     }
@@ -39,11 +35,9 @@ public class ComputerService implements IComputerService {
    * @see service.IComputerService#selectAll()
    */
   @Override
-  public List<ComputerDto> search(final String name, final int offset) throws ServiceException {
+  public List<Computer> search(final String name, final int offset) {
     try {
-
-      return name == null ? null : ConvertComputerDtoDo.createComputerDtos(ComputerDAO.INSTANCE
-          .search(name, offset));
+      return name == null ? null : ComputerDAO.INSTANCE.search(name, offset);
     } catch (final PersistenceException e) {
       throw new ServiceException(e);
     }
@@ -53,14 +47,14 @@ public class ComputerService implements IComputerService {
    * @see service.IComputerService#select(long)
    */
   @Override
-  public ComputerDto select(final long externalIdComputer) throws ServiceException {
+  public Computer select(final long externalIdComputer) {
     Computer computer;
     try {
       computer = ComputerDAO.INSTANCE.select(externalIdComputer);
       if (computer != null) {
-        return ConvertComputerDtoDo.createComputerDto(computer);
+        return computer;
       } else {
-        LOGGER.warn("L'objet Computer n'a pu être trouvé en base de données.");
+        LOGGER.warn("Impossible to find the computer referenced by " + externalIdComputer);
         return null;
       }
     } catch (final PersistenceException e) {
@@ -69,37 +63,39 @@ public class ComputerService implements IComputerService {
   }
 
   /* (non-Javadoc)
-   * @see service.IComputerService#insert(webapp.dto.ComputerDto)
+   * @see service.IComputerService#insert(core.Computer)
    */
   @Override
-  public boolean insert(final ComputerDto computerDto) throws ServiceException {
+  public boolean insert(final Computer computer) {
 
     try {
-      if (validate(computerDto)) {
-        ComputerDAO.INSTANCE.insert(ConvertComputerDtoDo.createComputer(computerDto));
+      // we check if the computer is valid before inserting it in database
+      if (validate(computer)) {
+        ComputerDAO.INSTANCE.insert(computer);
         return true;
       }
-    } catch (final ParseException | PersistenceException e) {
+    } catch (final PersistenceException e) {
+      LOGGER.warn("Error while the insertion");
       throw new ServiceException(e);
     }
     return false;
   }
 
   /* (non-Javadoc)
-   * @see service.IComputerService#update(webapp.dto.ComputerDto)
+   * @see service.IComputerService#update(core.Computer)
    */
   @Override
-  public boolean update(final ComputerDto computerDto) throws ServiceException {
+  public boolean update(final Computer computer) {
 
     try {
-      //On vérifie simplement que l'objet existe en base. 
-      if (!validate(computerDto)
-          && ComputerDAO.INSTANCE.select(computerDto.getExternalId()) == null) {
-        LOGGER.warn("Tentative de MAJ d'un objet n'existe pas ou plus en base de données.");
+      //We check if c computer is a valid object before updating it in database.
+      if (!validate(computer)) {
+        LOGGER.warn("computer invalid for the update");
         return false;
       }
-      ComputerDAO.INSTANCE.update(ConvertComputerDtoDo.createComputer(computerDto));
-    } catch (final ParseException | PersistenceException e) {
+      ComputerDAO.INSTANCE.update(computer);
+    } catch (final PersistenceException e) {
+      LOGGER.warn("Error while the update");
       throw new ServiceException(e);
     }
 
@@ -110,7 +106,7 @@ public class ComputerService implements IComputerService {
    * @see service.IComputerService#delete(long)
    */
   @Override
-  public void delete(final long externalIdComputer) throws ServiceException {
+  public void delete(final long externalIdComputer) {
     // Cas concret :  vérifier que l'utilisateur a les droits de supprimer l'objet. Il n y a pas encore d'utilisateur ici...
     try {
       ComputerDAO.INSTANCE.delete(externalIdComputer);
@@ -119,18 +115,12 @@ public class ComputerService implements IComputerService {
     }
   }
 
-  public boolean validate(final ComputerDto computerDto) {
-    if (StringUtils.isEmpty(computerDto.getComputerName())
-        || computerDto.getComputerName().length() < 4) {
-      LOGGER.warn("La taille du nom de l'ordinateur n'a pas été respecté");
+  public boolean validate(final Computer computer) {
+    if (StringUtils.isEmpty(computer.getComputerName()) || computer.getComputerName().length() < 4) {
+      LOGGER.warn("Name size incorrect");
       return false;
     }
-    try {
-      DateUtils.createStringToCalendar(computerDto.getDiscontinuedDate());
-      DateUtils.createStringToCalendar(computerDto.getIntroducedDate());
-    } catch (final ParseException e) {
-      return false;
-    }
+
     return true;
   }
 }

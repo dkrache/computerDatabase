@@ -33,7 +33,7 @@ public final class LoadServlet extends HttpServlet {
     try {
       this.getServletContext().setAttribute("companys", COMPANY_SERVICE.selectAll());
     } catch (final ServiceException e) {
-      LOGGER.error("erreur lors de l'extraction des données", e);
+      LOGGER.error("Error while getting companys", e);
     }
   }
 

@@ -19,6 +19,8 @@
 		<p style="color: green">${message}</p>
 	</c:if>
 	${computers}
+	
+	<!-- <ex:Hello /> -->
 </section>
 
 <jsp:include page="../include/footer.jsp" />

@@ -1,6 +1,7 @@
 package webapp.computer;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import service.exception.ServiceException;
 import service.impl.ComputerService;
 import webapp.dto.CompanyDto;
 import webapp.dto.ComputerDto;
+import binding.ComputerMapper;
 
 /**
  * Servlet implementation class ComputerCrudServlet
@@ -70,16 +72,16 @@ public class AddComputerServlet extends HttpServlet {
       if (request.getParameter(PARAM_ID_COMPUTER) != null
           && StringUtils.isNumeric(request.getParameter(PARAM_ID_COMPUTER))) {
         computerDto.setExternalId(Long.parseLong(request.getParameter(PARAM_ID_COMPUTER)));
-        COMPUTER_SERVICE.update(computerDto);
+        COMPUTER_SERVICE.update(ComputerMapper.fromDto(computerDto));
         requestDispatcher = request.getServletContext().getRequestDispatcher("/Accueil");
-        request.setAttribute(PARAM_MESSAGE, "Ordinateur mis à jour avec succès");
+        request.setAttribute(PARAM_MESSAGE, "Computer updated");
       } else {
-        if (COMPUTER_SERVICE.insert(computerDto)) {
-          request.setAttribute(PARAM_MESSAGE, "Ordinateur ajouté avec succès");
+        if (COMPUTER_SERVICE.insert(ComputerMapper.fromDto(computerDto))) {
+          request.setAttribute(PARAM_MESSAGE, "Computer Added");
         }
       }
 
-    } catch (final ServiceException e) {
+    } catch (final ParseException | ServiceException e) {
       request.setAttribute("error", true);
       request.setAttribute(PARAM_MESSAGE, e.getMessage());
 

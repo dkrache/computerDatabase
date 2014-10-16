@@ -15,6 +15,7 @@ import service.IComputerService;
 import service.exception.ServiceException;
 import service.impl.ComputerService;
 import webapp.dto.ComputerDto;
+import binding.ComputerMapper;
 
 /**
  * Servlet implementation class ComputerCrudServlet
@@ -50,8 +51,8 @@ public class UpdateComputerServlet extends HttpServlet {
     try {
       if (request.getParameter(PARAM_ID_COMPUTER) != null
           && StringUtils.isNumeric(request.getParameter(PARAM_ID_COMPUTER))) {
-        final ComputerDto computerDto = COMPUTER_SERVICE.select(Integer.parseInt((String) request
-            .getParameter(PARAM_ID_COMPUTER)));
+        final ComputerDto computerDto = ComputerMapper.toDto(COMPUTER_SERVICE.select(Integer
+            .parseInt((String) request.getParameter(PARAM_ID_COMPUTER))));
         if (computerDto != null) {
           request.setAttribute("computer", computerDto);
           requestDispatcher = request.getServletContext().getRequestDispatcher(

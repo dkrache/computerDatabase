@@ -11,12 +11,12 @@ import core.Computer;
  * @author excilys
  *
  */
-public final class ConvertComputerDtoDo {
+public final class ComputerMapper {
 
   /**
    * Classe utilitaire
    */
-  private ConvertComputerDtoDo() {
+  private ComputerMapper() {
     super();
   }
 
@@ -24,7 +24,7 @@ public final class ConvertComputerDtoDo {
    * @param computer
    * @return
    */
-  public static ComputerDto createComputerDto(final Computer computer) {
+  public static ComputerDto toDto(final Computer computer) {
     final ComputerDto computerDto = new ComputerDto();
     computerDto.setExternalId(computer.getId());
     computerDto.setComputerName(computer.getComputerName());
@@ -39,7 +39,7 @@ public final class ConvertComputerDtoDo {
    * @return
    * @throws ParseException 
    */
-  public static Computer createComputer(final ComputerDto computerDto) throws ParseException {
+  public static Computer fromDto(final ComputerDto computerDto) throws ParseException {
     return Computer.builder(computerDto.getComputerName())
         .company(ConvertCompanyDtoDo.createCompany(computerDto.getCompanyDto()))
         .id(computerDto.getExternalId())
@@ -48,10 +48,10 @@ public final class ConvertComputerDtoDo {
 
   }
 
-  public static List<ComputerDto> createComputerDtos(final List<Computer> computers) {
+  public static List<ComputerDto> toDto(final List<Computer> computers) {
     final List<ComputerDto> computerDtos = new ArrayList<>();
     for (final Computer computer : computers) {
-      computerDtos.add(createComputerDto(computer));
+      computerDtos.add(toDto(computer));
     }
     return computerDtos;
   }

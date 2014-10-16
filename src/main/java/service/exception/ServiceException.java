@@ -4,13 +4,13 @@ package service.exception;
  * @author excilys
  *
  */
-public class ServiceException extends Exception {
+public class ServiceException extends RuntimeException {
 
   /**
    * 
    */
-  private static final long   serialVersionUID = 4675926754664457970L;
-  private static final String DEFAULT_MESSAGE  = "hum, c'est embarrassant. Nos services rencontre des difficultés à répondre à votre requête";
+  private static final long serialVersionUID = 4675926754664457970L;
+  private static final String DEFAULT_MESSAGE  = "Impossible to evaluate your request. Please try later. ";
 
   /**
    * 

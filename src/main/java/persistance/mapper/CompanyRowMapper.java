@@ -11,13 +11,15 @@ import core.Company;
  * @author excilys
  *
  */
-public class CompanyRowMapper implements RowMapper<Company> {
+public class CompanyRowMapper {
 
-  /* (non-Javadoc)
-   * @see persistance.mapper.RowMapper#convertResultSet(java.sql.ResultSet)
+  /**
+   * Get List of COmpanys from resultSet
+   * @param resultSet
+   * @return
+   * @throws SQLException
    */
-  @Override
-  public List<Company> convertResultSet(final ResultSet resultSet) throws SQLException {
+  public static List<Company> convertResultSet(final ResultSet resultSet) throws SQLException {
     final List<Company> companys = new ArrayList<>();
     while (resultSet.next()) {
       companys.add(Company.builder(resultSet.getString("name")).id(resultSet.getInt("id")).build());

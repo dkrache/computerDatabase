@@ -3,7 +3,7 @@ package service;
 import java.util.List;
 
 import service.exception.ServiceException;
-import webapp.dto.ComputerDto;
+import core.Computer;
 
 /**
  * @author excilys
@@ -11,48 +11,48 @@ import webapp.dto.ComputerDto;
  */
 public interface IComputerService {
   /**
-   * Extraction de tous les computers.
+   * Extract a List of computers.
    * @return
    * @throws ServiceException
    */
-  List<ComputerDto> selectAll(final int offset) throws ServiceException;
+  List<Computer> selectAll(final int offset);
 
   /**
-   * Extraction d'un Computer référencé par externalIdComputer
+   * Extract the computer referenced by externalIdComputer
    * @param externalIdComputer
    * @return
    * @throws ServiceException
    */
-  ComputerDto select(final long externalIdComputer) throws ServiceException;
+  Computer select(final long externalIdComputer);
 
   /**
-   * Insertion d'un nouvel objet computer
-   * @param computerDto
+   * Insertion a new computer.
+   * @param computer
    * @return
    * @throws ServiceException
    */
-  boolean insert(final ComputerDto computerDto) throws ServiceException;
+  boolean insert(final Computer computer) throws ServiceException;
 
   /**
-   * MAJ d'un objet computer.
-   * @param computerDto
+   * Update the computer
+   * @param computer
    * @return
    * @throws ServiceException)
    */
-  boolean update(final ComputerDto computerDto) throws ServiceException;
+  boolean update(final Computer computer) throws ServiceException;
 
   /**
-   * Suppression d'un objet computer
+   * Delete the object referenced by externalIdComputer
    * @param externalIdComputer
    * @throws ServiceException
    */
   void delete(final long externalIdComputer) throws ServiceException;
 
   /**
-   * Retourne la liste des ordinateurs dont le nom correspond à 'name'
+   * Get computers whose name is name.
    * @param name
    * @return
    * @throws ServiceException
    */
-  List<ComputerDto> search(final String name, final int offset) throws ServiceException;
+  List<Computer> search(final String name, final int offset) throws ServiceException;
 }

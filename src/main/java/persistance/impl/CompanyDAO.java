@@ -5,10 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-import persistance.ConnectionDAO;
 import persistance.exception.PersistenceException;
 import persistance.mapper.CompanyRowMapper;
-import persistance.mapper.RowMapper;
+import persistence.ConnectionDAO;
 import core.Company;
 
 /**
@@ -17,12 +16,11 @@ import core.Company;
  */
 public enum CompanyDAO {
   INSTANCE;
-  private static final RowMapper<Company> MAPPER     = new CompanyRowMapper();
-  private static final String             SELECT_ALL = "select id, name from company";
-  private static final String             SELECT     = "select id, name from company where id=?";
-  private static final String             INSERT     = "insert into company (name) values (?)";
-  private static final String             UPDATE     = "update company set name=? where id=?";
-  private static final String             DELETE     = "delete from company where id=?";
+  private static final String SELECT_ALL = "select id, name from company";
+  private static final String SELECT     = "select id, name from company where id=?";
+  private static final String INSERT     = "insert into company (name) values (?)";
+  private static final String UPDATE     = "update company set name=? where id=?";
+  private static final String DELETE     = "delete from company where id=?";
 
   /**
    * 
@@ -37,7 +35,8 @@ public enum CompanyDAO {
     final Connection connection = ConnectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
-      final List<Company> companys = MAPPER.convertResultSet(preparedStatement.executeQuery());
+      final List<Company> companys = CompanyRowMapper.convertResultSet(preparedStatement
+          .executeQuery());
       return companys;
     } catch (final SQLException e) {
       throw new PersistenceException(e);
@@ -56,7 +55,8 @@ public enum CompanyDAO {
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT);
       preparedStatement.setInt(1, idCompany);
-      final List<Company> companys = MAPPER.convertResultSet(preparedStatement.executeQuery());
+      final List<Company> companys = CompanyRowMapper.convertResultSet(preparedStatement
+          .executeQuery());
       if (companys.size() > 0) {
         return companys.get(0);
       }
@@ -96,7 +96,7 @@ public enum CompanyDAO {
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(UPDATE);
       preparedStatement.setString(1, company.getName());
-      preparedStatement.setLong(5, company.getId());
+      preparedStatement.setLong(2, company.getId());
       preparedStatement.execute();
     } catch (final SQLException e) {
       throw new PersistenceException(e);

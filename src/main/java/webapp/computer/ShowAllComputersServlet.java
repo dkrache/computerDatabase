@@ -17,6 +17,7 @@ import service.IComputerService;
 import service.exception.ServiceException;
 import service.impl.ComputerService;
 import webapp.dto.ComputerDto;
+import binding.ComputerMapper;
 
 /**
  * Servlet implementation class ComputerCrudServlet
@@ -56,18 +57,19 @@ public class ShowAllComputersServlet extends HttpServlet {
     try {
       offset = Integer.parseInt(request.getParameter("offset"));
     } catch (final NumberFormatException e) {
-      LOGGER.warn("erreur, le offset entré en paramètre n'est pas correct", e);
+      LOGGER.warn("Error, offset incorrect", e);
     }
     try {
       final List<ComputerDto> computerDtos;
       if (request.getParameter("search") != null) {
-        computerDtos = COMPUTER_SERVICE.search((String) request.getParameter("search"), offset);
+        computerDtos = ComputerMapper.toDto(COMPUTER_SERVICE.search(
+            (String) request.getParameter("search"), offset));
       } else {
-        computerDtos = COMPUTER_SERVICE.selectAll(offset);
+        computerDtos = ComputerMapper.toDto(COMPUTER_SERVICE.selectAll(offset));
       }
       if (computerDtos == null || computerDtos.size() == 0) {
         request.setAttribute(PARAM_ERROR, true);
-        request.setAttribute(PARAM_MESSAGE, "Aucun élément n'a été trouvé");
+        request.setAttribute(PARAM_MESSAGE, "Any element was found.");
       }
       request.setAttribute("computers", computerDtos);
     } catch (final ServiceException e) {

@@ -9,8 +9,7 @@ import persistance.exception.PersistenceException;
 import persistance.impl.CompanyDAO;
 import service.ICompanyService;
 import service.exception.ServiceException;
-import webapp.dto.CompanyDto;
-import binding.ConvertCompanyDtoDo;
+import core.Company;
 
 /**
  * @author excilys
@@ -23,9 +22,9 @@ public class CompanyService implements ICompanyService {
    * @see service.ICompanyService#selectAll()
    */
   @Override
-  public List<CompanyDto> selectAll() throws ServiceException {
+  public List<Company> selectAll() throws ServiceException {
     try {
-      return ConvertCompanyDtoDo.createCompanyDtos(CompanyDAO.INSTANCE.selectAll());
+      return CompanyDAO.INSTANCE.selectAll();
     } catch (final PersistenceException e) {
       LOGGER.warn("Les objets n'ont pas pu être initialisés.");
       throw new ServiceException(e);

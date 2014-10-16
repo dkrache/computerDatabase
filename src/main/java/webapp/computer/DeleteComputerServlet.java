@@ -52,7 +52,7 @@ public class DeleteComputerServlet extends HttpServlet {
       if (request.getParameter(PARAM_ID_COMPUTER) != null
           && StringUtils.isNumeric(request.getParameter(PARAM_ID_COMPUTER))) {
         COMPUTER_SERVICE.delete(Integer.parseInt((String) request.getParameter(PARAM_ID_COMPUTER)));
-        request.setAttribute(PARAM_MESSAGE, "Ordinateur supprimé avec succès");
+        request.setAttribute(PARAM_MESSAGE, "Computer deleted");
       }
     } catch (final NumberFormatException | ServiceException e) {
       e.printStackTrace();

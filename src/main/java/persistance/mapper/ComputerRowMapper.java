@@ -14,13 +14,17 @@ import core.Computer;
  * @author excilys
  *
  */
-public class ComputerRowMapper implements RowMapper<Computer> {
+public class ComputerRowMapper  {
 
-  /* (non-Javadoc)
-   * @see persistance.mapper.RowMapper#convertResultSet(java.sql.ResultSet)
+  
+  /**
+   * Get List of computers from resultSet
+   * @param resultSet
+   * @return
+   * @throws SQLException
+   * @throws PersistenceException
    */
-  @Override
-  public List<Computer> convertResultSet(final ResultSet resultSet) throws SQLException,
+  public static List<Computer> convertResultSet(final ResultSet resultSet) throws SQLException,
       PersistenceException {
     final List<Computer> computers = new ArrayList<>();
 

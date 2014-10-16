@@ -3,7 +3,7 @@ package service;
 import java.util.List;
 
 import service.exception.ServiceException;
-import webapp.dto.CompanyDto;
+import core.Company;
 
 /**
  * @author excilys
@@ -11,10 +11,11 @@ import webapp.dto.CompanyDto;
  */
 public interface ICompanyService {
   /**
-   * @return la totalité des companys présente en base de données.
+   * Get the list of all companys
+   * @return .
    * @throws ServiceException
    */
-  List<CompanyDto> selectAll() throws ServiceException;
+  List<Company> selectAll();
   //
   //  CompanyDto select(final long externalIdCompany) throws ServiceException;
   //
