@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import service.IComputerService;
 import service.exception.ServiceException;
@@ -32,6 +34,8 @@ public class AddComputerServlet extends HttpServlet {
   private static final String           PARAM_COMPANY     = "company";
   private static final String           PARAM_MESSAGE     = "message";
   private static final long             serialVersionUID  = 1L;
+  private static final Logger           LOGGER            = LoggerFactory
+                                                              .getLogger(AddComputerServlet.class);
   private static final IComputerService COMPUTER_SERVICE  = new ComputerService();
   public static final String            PARAM_ID_COMPUTER = "externalId";
 
@@ -86,6 +90,7 @@ public class AddComputerServlet extends HttpServlet {
       }
 
     } catch (final ParseException | ServiceException e) {
+      LOGGER.warn("Error : Impossible to add computer : {}", e);
       request.setAttribute("error", true);
       request.setAttribute(PARAM_MESSAGE, e.getMessage());
 

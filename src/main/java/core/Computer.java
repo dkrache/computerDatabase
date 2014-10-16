@@ -2,6 +2,8 @@ package core;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class Computer extends Basic {
 
   private String  computerName;
@@ -106,10 +108,7 @@ public class Computer extends Basic {
     if (this == obj) {
       return true;
     }
-    if (obj == null) {
-      return false;
-    }
-    if (!(obj instanceof Computer)) {
+    if (obj == null || !(obj instanceof Computer)) {
       return false;
     }
     final Computer other = (Computer) obj;
@@ -120,28 +119,21 @@ public class Computer extends Basic {
     } else if (!company.equals(other.company)) {
       return false;
     }
-    if (computerName == null) {
-      if (other.computerName != null) {
-        return false;
-      }
-    } else if (!computerName.equals(other.computerName)) {
+    if (!StringUtils.equals(computerName, other.computerName)) {
       return false;
     }
-    if (discontinuedDate == null) {
-      if (other.discontinuedDate != null) {
-        return false;
-      }
+    if (discontinuedDate == null && other.discontinuedDate != null) {
+      return false;
+
     } else if (!discontinuedDate.equals(other.discontinuedDate)) {
       return false;
     }
-    if (introducedDate == null) {
-      if (other.introducedDate != null) {
-        return false;
-      }
+    if (introducedDate == null && other.introducedDate != null) {
+      return false;
+
     } else if (!introducedDate.equals(other.introducedDate)) {
       return false;
     }
     return true;
   }
-
 }

@@ -7,7 +7,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DateUtils {
+public final class DateUtils {
+
+  private DateUtils() {
+
+  }
+
   public static Calendar createStringToCalendar(final String date) throws ParseException {
     final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     final Calendar cal = GregorianCalendar.getInstance();

@@ -1,5 +1,7 @@
 package core;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * 
  * @author excilys
@@ -65,18 +67,11 @@ public class Company extends Basic {
     if (this == obj) {
       return true;
     }
-    if (obj == null) {
-      return false;
-    }
-    if (!(obj instanceof Company)) {
+    if (obj == null || !(obj instanceof Company)) {
       return false;
     }
     final Company other = (Company) obj;
-    if (name == null) {
-      if (other.name != null) {
-        return false;
-      }
-    } else if (!name.equals(other.name)) {
+    if (!StringUtils.equals(name, other.name)) {
       return false;
     }
     return true;

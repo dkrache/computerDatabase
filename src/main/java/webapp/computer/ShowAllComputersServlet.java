@@ -62,17 +62,17 @@ public class ShowAllComputersServlet extends HttpServlet {
       } else {
         computerDtos = ComputerMapper.toDto(COMPUTER_SERVICE.selectAll(offset));
       }
-      if (computerDtos == null || computerDtos.size() == 0) {
+      if (computerDtos == null || computerDtos.isEmpty()) {
         request.setAttribute(PARAM_ERROR, true);
         request.setAttribute(PARAM_MESSAGE, "Any element was found.");
       }
       request.setAttribute("computers", computerDtos);
     } catch (final ServiceException e) {
+      LOGGER.warn("Error : Impossible to print computers : {}", e);
       request.setAttribute(PARAM_ERROR, true);
       request.setAttribute(PARAM_MESSAGE, e.getMessage());
     }
     requestDispatcher.forward(request, response);
 
   }
-
 }

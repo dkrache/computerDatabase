@@ -25,7 +25,7 @@ public enum CompanyDAO {
   /**
    * 
    */
-  private CompanyDAO() {}
+  private CompanyDAO() { }
 
   /**
    * @return
@@ -57,7 +57,7 @@ public enum CompanyDAO {
       preparedStatement.setInt(1, idCompany);
       final List<Company> companys = CompanyRowMapper.convertResultSet(preparedStatement
           .executeQuery());
-      if (companys.size() > 0) {
+      if (!companys.isEmpty()) {
         return companys.get(0);
       }
     } catch (final SQLException e) {

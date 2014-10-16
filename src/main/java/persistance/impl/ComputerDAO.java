@@ -15,6 +15,7 @@ import core.Computer;
 
 public enum ComputerDAO {
   INSTANCE;
+
   private static final String LIMIT_AND_OFFSET = "limit 10 offset ?";
   private static final String SELECT_ALL       = "select id, name, introduced, discontinued, company_id from computer ";
   private static final String SEARCH           = SELECT_ALL
@@ -57,8 +58,9 @@ public enum ComputerDAO {
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT);
       preparedStatement.setLong(1, idComputer);
-      final List<Computer> computers = ComputerRowMapper.convertResultSet(preparedStatement.executeQuery());
-      if (computers.size() > 0) {
+      final List<Computer> computers = ComputerRowMapper.convertResultSet(preparedStatement
+          .executeQuery());
+      if (!computers.isEmpty()) {
         return computers.get(0);
       }
     } catch (final SQLException e) {
@@ -150,7 +152,8 @@ public enum ComputerDAO {
       preparedStatement.setString(1, wildcard + name + wildcard);
       preparedStatement.setString(2, wildcard + name + wildcard);
       preparedStatement.setInt(3, offset);
-      final List<Computer> computers = ComputerRowMapper.convertResultSet(preparedStatement.executeQuery());
+      final List<Computer> computers = ComputerRowMapper.convertResultSet(preparedStatement
+          .executeQuery());
       return computers;
     } catch (final SQLException e) {
       throw new PersistenceException(e);

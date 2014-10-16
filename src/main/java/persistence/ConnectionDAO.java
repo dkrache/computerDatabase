@@ -13,14 +13,19 @@ import org.slf4j.LoggerFactory;
  * @author excilys
  *
  */
-public class ConnectionDAO {
+public final class ConnectionDAO {
   private static final Properties PROPERTIES = new Properties();
   private static final String     JDBC_DRIVER;
   private static final String     DB_URL;
   private static final String     USER;
   private static final String     PASS;
   private static final Logger     LOGGER     = LoggerFactory.getLogger(ConnectionDAO.class);
+
   //  Database credentials
+
+  private ConnectionDAO() {
+    super();
+  }
 
   static {
     // Initialization when JVM start.

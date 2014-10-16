@@ -11,7 +11,11 @@ import core.Company;
  * @author excilys
  *
  */
-public class CompanyRowMapper {
+public final class CompanyRowMapper {
+
+  private CompanyRowMapper() {
+
+  }
 
   /**
    * Get List of COmpanys from resultSet

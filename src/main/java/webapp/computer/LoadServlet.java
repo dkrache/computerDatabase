@@ -47,22 +47,4 @@ public final class LoadServlet extends HttpServlet {
     }
   }
 
-  /* (non-Javadoc)
-   * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-   */
-  @Override
-  protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
-      throws ServletException, IOException {
-
-  }
-
-  /* (non-Javadoc)
-   * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-   */
-  @Override
-  protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
-      throws ServletException, IOException {
-    doGet(request, response);
-  }
-
 }

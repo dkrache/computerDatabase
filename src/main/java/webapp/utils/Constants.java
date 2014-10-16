@@ -4,7 +4,11 @@ package webapp.utils;
  * @author excilys
  *
  */
-public class Constants {
+public final class Constants {
+  private Constants() {
+
+  }
+
   // Link for the CRUD of Computer.
   public static final String SERVLET_ACCUEIL           = "/Accueil";
   public static final String SERVLET_ADD_COMPUTER      = "/AddComputer";
