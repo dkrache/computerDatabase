@@ -8,7 +8,7 @@ public class ComputerDto extends BasicDto {
   private String     computerName;
   private String     introducedDate;
   private String     discontinuedDate;
-  private CompanyDto companyDto;      //J'aurais bien fait une énumération mais pour l'évolutivité, ce n'est pas le meilleur choix en cas de nouvelle company.
+  private CompanyDto companyDto;
 
   public ComputerDto() {
     super();

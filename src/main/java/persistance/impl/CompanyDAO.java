@@ -25,7 +25,9 @@ public enum CompanyDAO {
   /**
    * 
    */
-  private CompanyDAO() { }
+  private CompanyDAO() {
+    //do Nothing
+  }
 
   /**
    * @return

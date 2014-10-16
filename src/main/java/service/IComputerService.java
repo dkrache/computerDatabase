@@ -31,7 +31,7 @@ public interface IComputerService {
    * @return
    * @throws ServiceException
    */
-  boolean insert(final Computer computer) throws ServiceException;
+  boolean insert(final Computer computer);
 
   /**
    * Update the computer
@@ -39,14 +39,14 @@ public interface IComputerService {
    * @return
    * @throws ServiceException)
    */
-  boolean update(final Computer computer) throws ServiceException;
+  boolean update(final Computer computer);
 
   /**
    * Delete the object referenced by externalIdComputer
    * @param externalIdComputer
    * @throws ServiceException
    */
-  void delete(final long externalIdComputer) throws ServiceException;
+  void delete(final long externalIdComputer);
 
   /**
    * Get computers whose name is name.
@@ -54,5 +54,5 @@ public interface IComputerService {
    * @return
    * @throws ServiceException
    */
-  List<Computer> search(final String name, final int offset) throws ServiceException;
+  List<Computer> search(final String name, final int offset);
 }

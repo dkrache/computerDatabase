@@ -5,9 +5,6 @@ package webapp.utils;
  *
  */
 public final class Constants {
-  private Constants() {
-
-  }
 
   // Link for the CRUD of Computer.
   public static final String SERVLET_ACCUEIL           = "/Accueil";
@@ -19,4 +16,7 @@ public final class Constants {
   public static final String JSP_ADD_COMPUTER          = "/jsp/addComputer.jsp";
   public static final String JSP_DASHBOARD             = "/jsp/dashboard.jsp";
 
+  private Constants() {
+
+  }
 }

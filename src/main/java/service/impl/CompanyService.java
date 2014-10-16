@@ -22,7 +22,7 @@ public class CompanyService implements ICompanyService {
    * @see service.ICompanyService#selectAll()
    */
   @Override
-  public List<Company> selectAll() throws ServiceException {
+  public List<Company> selectAll() {
     try {
       return CompanyDAO.INSTANCE.selectAll();
     } catch (final PersistenceException e) {

@@ -9,25 +9,27 @@ import java.util.GregorianCalendar;
 
 public final class DateUtils {
 
+  private static final String FORMAT_DD_MM_YYYY = "dd/MM/yyyy";
+
   private DateUtils() {
 
   }
 
   public static Calendar createStringToCalendar(final String date) throws ParseException {
-    final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    final SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT_DD_MM_YYYY);
     final Calendar cal = GregorianCalendar.getInstance();
     cal.setTime(dateFormat.parse(date));
     return cal;
   }
 
   public static String createCalendarToString(final Calendar calendar) throws ParseException {
-    final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    final SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT_DD_MM_YYYY);
     dateFormat.setCalendar(calendar);
     return dateFormat.format(calendar.getTime());
   }
 
   public static Date createStringToDate(final String date) throws ParseException {
-    final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    final SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT_DD_MM_YYYY);
     final Calendar cal = GregorianCalendar.getInstance();
     cal.setTime(dateFormat.parse(date));
     return cal.getTime();
@@ -37,7 +39,7 @@ public final class DateUtils {
     if (date == null) {
       return null;
     }
-    final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    final SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT_DD_MM_YYYY);
     return dateFormat.format(date);
 
   }

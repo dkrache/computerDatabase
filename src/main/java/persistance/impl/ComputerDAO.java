@@ -25,7 +25,9 @@ public enum ComputerDAO {
   private static final String UPDATE           = "update computer set name=?, introduced=?, discontinued=?, company_id=? where id=?";
   private static final String DELETE           = "delete from computer where id=?";
 
-  private ComputerDAO() {}
+  private ComputerDAO() {
+    //
+  }
 
   /**
    * @param offset
@@ -38,9 +40,7 @@ public enum ComputerDAO {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL
           + LIMIT_AND_OFFSET);
       preparedStatement.setInt(1, offset);
-      final List<Computer> computers = ComputerRowMapper.convertResultSet(preparedStatement
-          .executeQuery());
-      return computers;
+      return ComputerRowMapper.convertResultSet(preparedStatement.executeQuery());
     } catch (final SQLException e) {
       throw new PersistenceException(e);
     } finally {
@@ -152,9 +152,7 @@ public enum ComputerDAO {
       preparedStatement.setString(1, wildcard + name + wildcard);
       preparedStatement.setString(2, wildcard + name + wildcard);
       preparedStatement.setInt(3, offset);
-      final List<Computer> computers = ComputerRowMapper.convertResultSet(preparedStatement
-          .executeQuery());
-      return computers;
+      return ComputerRowMapper.convertResultSet(preparedStatement.executeQuery());
     } catch (final SQLException e) {
       throw new PersistenceException(e);
     } finally {
