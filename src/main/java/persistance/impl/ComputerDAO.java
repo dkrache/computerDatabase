@@ -96,8 +96,11 @@ public enum ComputerDAO {
       preparedStatement.setString(1, computer.getComputerName());
       preparedStatement.setDate(2, new Date(computer.getIntroducedDate().getTime()));
       preparedStatement.setDate(3, new Date(computer.getDiscontinuedDate().getTime()));
-      preparedStatement.setLong(4, computer.getCompany() != null ? computer.getCompany().getId()
-          : null);
+      if (computer.getCompany() == null) {
+        preparedStatement.setLong(4, 0);
+      } else {
+        preparedStatement.setLong(4, computer.getCompany().getId());
+      }
       preparedStatement.execute();
       final ResultSet resultSet = preparedStatement.getGeneratedKeys();
       if (resultSet.next()) {
@@ -122,8 +125,11 @@ public enum ComputerDAO {
       preparedStatement.setString(1, computer.getComputerName());
       preparedStatement.setDate(2, new Date(computer.getIntroducedDate().getTime()));
       preparedStatement.setDate(3, new Date(computer.getDiscontinuedDate().getTime()));
-      preparedStatement.setLong(4, computer.getCompany() != null ? computer.getCompany().getId()
-          : null);
+      if (computer.getCompany() == null) {
+        preparedStatement.setLong(4, 0);
+      } else {
+        preparedStatement.setLong(4, computer.getCompany().getId());
+      }
       preparedStatement.setLong(5, computer.getId());
       preparedStatement.execute();
     } catch (final SQLException e) {

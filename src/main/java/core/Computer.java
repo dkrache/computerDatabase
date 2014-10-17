@@ -22,14 +22,14 @@ public class Computer extends Basic {
    * @return the introducedDate
    */
   public Date getIntroducedDate() {
-    return introducedDate;
+    return new Date(introducedDate.getTime());
   }
 
   /**
    * @return the discontinuedDate
    */
   public Date getDiscontinuedDate() {
-    return discontinuedDate;
+    return new Date(discontinuedDate.getTime());
   }
 
   /**
