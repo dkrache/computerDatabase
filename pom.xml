@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.excilys.formation</groupId>
 	<artifactId>computer-database</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0.RELEASE</version>
 	<packaging>war</packaging>
 	<properties>
 		<sonar.jdbc.url>jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8</sonar.jdbc.url>
@@ -21,6 +21,11 @@
 
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>com.jolbox</groupId>
+			<artifactId>bonecp</artifactId>
+			<version>0.8.0.RELEASE</version>
+		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
