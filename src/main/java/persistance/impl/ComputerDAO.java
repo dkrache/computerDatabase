@@ -17,24 +17,28 @@ import core.Page;
 public enum ComputerDAO {
   INSTANCE;
 
-  private static final String LIMIT_AND_OFFSET = "limit ? offset ?";
+  private static final String LEFT_JOIN_COMPANY = " left join company on company.id=computer.company_id ";
+  private static final String LIMIT_AND_OFFSET  = " limit ? offset ? ";
+  private static final String ORDER_BY_ASC      = " order by ? ";
+  private static final String ORDER_BY_DESC     = " order by ? DESC ";
 
-  private static final String SELECT_ALL       = "select id, name, introduced, discontinued, company_id from computer ";
-  private static final String WHERE_CLAUSE     = " where name like ? or company_id in (select id from company where name like ?) ";
-  private static final String SEARCH           = SELECT_ALL + WHERE_CLAUSE;
-  private static final String SELECT_COUNT     = "select count(*) from computer " + WHERE_CLAUSE;
+  private static final String SELECT_ALL        = "select computer.id, computer.name, introduced, discontinued, company_id from computer ";
+  private static final String WHERE_JOIN_CLAUSE = " where name like ? or company_id in (select id from company where name like ?) ";
+  private static final String WHERE_CLAUSE      = " where computer.name like ? or company.name like ? ";
+  private static final String SELECT_COUNT      = "select count(*) from computer "
+                                                    + WHERE_JOIN_CLAUSE;
 
-  private static final String SELECT           = "select id, name, introduced, discontinued, company_id from computer where id=?";
-  private static final String INSERT           = "insert into computer (name,introduced,discontinued,company_id) values (?,?,?,?)";
-  private static final String UPDATE           = "update computer set name=?, introduced=?, discontinued=?, company_id=? where id=?";
-  private static final String DELETE           = "delete from computer where id=?";
+  private static final String SELECT            = "select id, name, introduced, discontinued, company_id from computer where id=?";
+  private static final String INSERT            = "insert into computer (name,introduced,discontinued,company_id) values (?,?,?,?)";
+  private static final String UPDATE            = "update computer set name=?, introduced=?, discontinued=?, company_id=? where id=?";
+  private static final String DELETE            = "delete from computer where id=?";
 
   private ComputerDAO() {
     //
   }
 
   /**
-   * @param offset
+   * @param page
    * @return
    * @throws PersistenceException
    */
@@ -46,6 +50,7 @@ public enum ComputerDAO {
       preparedStatement.setInt(1, page.getCurrentPage());
       preparedStatement.setInt(2, page.getOffset());
       page.setTotalCount(count(page));
+
       return ComputerRowMapper.convertResultSet(preparedStatement.executeQuery());
     } catch (final SQLException e) {
       throw new PersistenceException(e);
@@ -66,12 +71,14 @@ public enum ComputerDAO {
       preparedStatement.setLong(1, idComputer);
       final List<Computer> computers = ComputerRowMapper.convertResultSet(preparedStatement
           .executeQuery());
+
       if (!computers.isEmpty()) {
         return computers.get(0);
       }
     } catch (final SQLException e) {
       throw new PersistenceException(e);
     } finally {
+
       ConnectionDAO.closeConnection(connection);
     }
     return null;
@@ -136,6 +143,7 @@ public enum ComputerDAO {
       final PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
       preparedStatement.setLong(1, idComputer);
       preparedStatement.execute();
+
     } catch (final SQLException e) {
       throw new PersistenceException(e);
     } finally {
@@ -144,22 +152,22 @@ public enum ComputerDAO {
   }
 
   /**
-   * Retourne tous les computers dont le nom de l'ordinateur ou de la compagnie ressemble.
-   * @param name
-   * @return
+   * @param page
+   * @return List of computers whose refered to the arguments of page
    * @throws PersistenceException
    */
   public List<Computer> search(final Page page) throws PersistenceException {
     final Connection connection = ConnectionDAO.getConnection();
     final char wildcard = '%';
     try {
-      final PreparedStatement preparedStatement = connection.prepareStatement(SEARCH
-          + LIMIT_AND_OFFSET);
+      final PreparedStatement preparedStatement;
+      preparedStatement = connection.prepareStatement(searchWithOrderBy(page));
       preparedStatement.setString(1, wildcard + page.getSearchString() + wildcard);
       preparedStatement.setString(2, wildcard + page.getSearchString() + wildcard);
       preparedStatement.setInt(3, page.getLimit());
       preparedStatement.setInt(4, page.getOffset());
       page.setTotalCount(count(page));
+
       return ComputerRowMapper.convertResultSet(preparedStatement.executeQuery());
     } catch (final SQLException e) {
       throw new PersistenceException(e);
@@ -169,16 +177,17 @@ public enum ComputerDAO {
   }
 
   /**
-   * Retourne tous les computers dont le nom de l'ordinateur ou de la compagnie ressemble.
-   * @param name
-   * @return
+   * @param page
+   * @returnpage
    * @throws PersistenceException
    */
-  public int count(final Page page) throws PersistenceException {
+  private int count(final Page page) throws PersistenceException {
     final Connection connection = ConnectionDAO.getConnection();
     final char wildcard = '%';
+
     try {
-      final PreparedStatement preparedStatement = connection.prepareStatement(SELECT_COUNT);
+      final PreparedStatement preparedStatement;
+      preparedStatement = connection.prepareStatement(SELECT_COUNT);
       preparedStatement.setString(1, wildcard + page.getSearchString() + wildcard);
       preparedStatement.setString(2, wildcard + page.getSearchString() + wildcard);
       final ResultSet rs = preparedStatement.executeQuery();
@@ -192,5 +201,48 @@ public enum ComputerDAO {
     } finally {
       ConnectionDAO.closeConnection(connection);
     }
+  }
+
+  /**
+   * @param page
+   * @return
+   */
+  private String searchWithOrderBy(final Page page) {
+    if (page == null) {
+      return "";
+    }
+    final StringBuilder SEARCH = new StringBuilder(SELECT_ALL);
+    SEARCH.append(LEFT_JOIN_COMPANY);
+    SEARCH.append(WHERE_CLAUSE);
+
+    switch (page.getOrder()) {
+      case "name":
+        SEARCH.append(" order by computer.name ");
+        break;
+      case "idate":
+        SEARCH.append(" order by introduced ");
+        break;
+      case "ddate":
+        SEARCH.append(" order by discontinued ");
+        break;
+      case "comp":
+        SEARCH.append(" order by company.name ");
+        break;
+      default:
+        SEARCH.append(" order by computer.id ");
+    }
+    SEARCH.append(getAscendancy(page));
+    SEARCH.append(LIMIT_AND_OFFSET);
+
+    return SEARCH.toString();
+
+  }
+
+  /**
+   * @param page
+   * @return
+   */
+  private String getAscendancy(final Page page) {
+    return Page.UP.equals(page.getAscendancy()) ? "asc" : "desc";
   }
 }

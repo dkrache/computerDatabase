@@ -25,7 +25,9 @@ public final class PageUtils {
   public static Page createPage(final HttpServletRequest request) {
     int currentPage = 0;
     int limit = 10;
-    String searchString = "";
+    final String searchString = request.getParameter("searchString");
+    final String order = request.getParameter("order");
+    final String ascendancy = request.getParameter("ascendancy");
     try {
       currentPage = Integer.parseInt(request.getParameter("currentPage"));
     } catch (final NumberFormatException e) {
@@ -36,9 +38,9 @@ public final class PageUtils {
     } catch (final NumberFormatException e) {
       LOGGER.debug("limit not parsed but optional. it may be absent.");
     }
-    searchString = request.getParameter("searchString");
-    final Page page = Page.builder().searchString(searchString).limit(limit)
-        .currentPage(currentPage).build();
+
+    final Page page = Page.builder().searchString(searchString).order(order).limit(limit)
+        .currentPage(currentPage).ascendancy(ascendancy).build();
     request.setAttribute("page", page);
     return page;
   }

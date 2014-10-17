@@ -58,6 +58,7 @@ public class ShowAllComputersServlet extends HttpServlet {
         request.setAttribute(PARAM_MESSAGE, "Any element was found.");
       }
       request.setAttribute("computers", computerDtos);
+      request.setAttribute("page", page);
     } catch (final ServiceException e) {
       LOGGER.warn("Error : Impossible to print computers : {}", e);
       request.setAttribute(PARAM_ERROR, true);

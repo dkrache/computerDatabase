@@ -31,6 +31,7 @@ public class AccueilServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
       throws ServletException, IOException {
+    
     request.getServletContext().getRequestDispatcher(Constants.SERVLET_SHOW_ALL_COMPUTER)
         .forward(request, response);
 

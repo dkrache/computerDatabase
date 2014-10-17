@@ -1,7 +1,7 @@
 <jsp:include page="../include/header.jsp" />
 <section id="main">
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+	<%@ taglib tagdir="/WEB-INF/tags" prefix="pagination"%>
 	<h1 id="homeTitle">456 Computers found</h1>
 	<div id="actions">
 		<form action="" method="GET">
@@ -30,10 +30,10 @@
 	<table>
 		<thead>
 			<tr>
-				<th>Nom</th>
-				<th>IntroducedDate</th>
-				<th>DiscontinuedDate</th>
-				<th>Company</th>
+			<pagination:thSort page="${page}" fieldName="Name" var="name"  url="${pageContext.request.contextPath}"/>
+			<pagination:thSort page="${page}" fieldName="Introduced Date" var="idate" url="${pageContext.request.contextPath}"/>
+			<pagination:thSort page="${page}" fieldName="Discontinued Date" var="ddate" url="${pageContext.request.contextPath}"/>
+			<pagination:thSort page="${page}" fieldName="Company" var="comp" url="${pageContext.request.contextPath}"/>
 			</tr>
 		</thead>
 		<tbody>
@@ -52,7 +52,10 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<!-- <ex:Hello /> -->
+
+	<div id="pagination" class="pagination">
+		<pagination:pagination page="${page}" />
+	</div>
 </section>
 
 <jsp:include page="../include/footer.jsp" />

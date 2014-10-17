@@ -37,7 +37,10 @@ public enum CompanyDAO {
     final Connection connection = ConnectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
-      return CompanyRowMapper.convertResultSet(preparedStatement.executeQuery());
+      final List<Company> companys = CompanyRowMapper.convertResultSet(preparedStatement
+          .executeQuery());
+      return companys;
+
     } catch (final SQLException e) {
       throw new PersistenceException(e);
     } finally {
@@ -77,7 +80,6 @@ public enum CompanyDAO {
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(INSERT);
       preparedStatement.setString(1, company.getName());
-
       preparedStatement.execute();
     } catch (final SQLException e) {
       throw new PersistenceException(e);

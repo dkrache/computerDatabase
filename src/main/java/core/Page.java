@@ -1,33 +1,39 @@
 package core;
 
+import core.Page.Builder;
+
 public class Page {
-  private int    limit;
-  private int    currentPage;
-  private int    totalCount;
-  private String searchString;
+  public static final String UP   = "up";
+  public static final String DOWN = "down";
+  private int                 limit;
+  private int                 currentPage;
+  private int                 totalCount;
+  private String              searchString;
+  private String              order;
+  private String              ascendancy;
 
   /**
-   * @param nbPages
-   * @param pageSize
+   * @param limit
    * @param currentPage
    * @param totalCount
    * @param searchString
-   * @param computers
    */
   protected Page(final int limit, final int currentPage, final int totalCount,
-      final String searchString) {
+      final String searchString, final String order) {
     super();
     this.limit = limit;
     this.currentPage = currentPage;
     this.totalCount = totalCount;
     this.searchString = searchString;
+    this.order = order;
+
   }
 
   /**
    * Default constructor
    */
   public Page() {
-    this(10, 0, 0, "");
+    this(10, 0, 0, "", "");
   }
 
   /**
@@ -39,7 +45,8 @@ public class Page {
   }
 
   /**
-   * @return the pageSize
+   * @return the pageSize  private static final String UP = "up";
+  private static final String DOWN = "down";
    */
   public int getLimit() {
     return limit;
@@ -57,6 +64,13 @@ public class Page {
    */
   public int getTotalCount() {
     return totalCount;
+  }
+
+  /**
+   * @return the order
+   */
+  public String getOrder() {
+    return order;
   }
 
   /**
@@ -82,6 +96,39 @@ public class Page {
 
   public static Builder builder() {
     return new Builder();
+  }
+
+  public String getBackLink() {
+    return new StringBuilder().append("limit=").append(limit).append("&currentPage=")
+        .append(currentPage - 1).append("&").append("&searchString=").append(searchString)
+        .toString();
+
+  }
+
+  public String getnextLink() {
+    return new StringBuilder().append("limit=").append(limit).append("&currentPage=")
+        .append(currentPage + 1).append("&searchString=").append(searchString)
+        .toString();
+  }
+
+  public String getCurrentLink() {
+    return new StringBuilder().append("limit=").append(limit).append("&currentPage=")
+        .append(currentPage).append("&").append("&searchString=").append(searchString)
+        .append("&ascendancy=").append(getNextAscendancy()).toString();
+  }
+
+  /**
+   * @return
+   */
+  public String getAscendancy() {
+    return ascendancy;
+  }
+
+  /**
+   * @return
+   */
+  public String getNextAscendancy() {
+    return DOWN.equals(ascendancy) ? UP : DOWN;
   }
 
   //BUILDER
@@ -112,8 +159,20 @@ public class Page {
       return this;
     }
 
+    public Builder order(final String order) {
+      page.order = order != null ? order : "id";
+      return this;
+    }
+
+    public Builder ascendancy(final String ascendancy) {
+      page.ascendancy = ascendancy != null ? ascendancy : "";
+      return this;
+    }
+
     public Page build() {
       return page;
     }
+
   }
+
 }
