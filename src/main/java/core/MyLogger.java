@@ -2,14 +2,14 @@ package core;
 
 import java.util.Date;
 
-public final class Logger extends Basic {
+public final class MyLogger extends Basic {
   private String    log;
 
   private Date      time;
 
   private Exception exception;
 
-  private Logger() {
+  private MyLogger() {
 
   }
 
@@ -39,35 +39,35 @@ public final class Logger extends Basic {
   }
 
   public static final class Builder {
-    private Logger myLogger;
+    private MyLogger logger;
 
     private Builder() {
-      myLogger = new Logger();
-      myLogger.time = new Date(System.currentTimeMillis());
+      logger = new MyLogger();
+      logger.time = new Date(System.currentTimeMillis());
     }
 
     public Builder id(final int id) {
-      myLogger.id = id;
+      logger.id = id;
       return this;
     }
 
     public Builder log(final String log) {
-      myLogger.log = log;
+      logger.log = log;
       return this;
     }
 
     public Builder time(final Date time) {
-      myLogger.time = time;
+      logger.time = time;
       return this;
     }
 
     public Builder exception(final Exception exception) {
-      myLogger.exception = exception;
+      logger.exception = exception;
       return this;
     }
 
-    public Logger build() {
-      return myLogger;
+    public MyLogger build() {
+      return logger;
     }
   }
 

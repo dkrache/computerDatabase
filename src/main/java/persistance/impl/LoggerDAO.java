@@ -9,7 +9,7 @@ import java.util.List;
 import persistance.exception.PersistenceException;
 import persistance.mapper.LoggerRowMapper;
 import persistence.ConnectionDAO;
-import core.Logger;
+import core.MyLogger;
 
 /**
  * @author excilys
@@ -34,7 +34,7 @@ public enum LoggerDAO {
    * @return
    * @throws PersistenceException
    */
-  public List<Logger> selectAll() throws PersistenceException {
+  public List<MyLogger> selectAll() throws PersistenceException {
     final Connection connection = ConnectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
@@ -50,12 +50,12 @@ public enum LoggerDAO {
    * @return
    * @throws PersistenceException
    */
-  public Logger select(final int idLogger) throws PersistenceException {
+  public MyLogger select(final int idLogger) throws PersistenceException {
     final Connection connection = ConnectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT);
       preparedStatement.setInt(1, idLogger);
-      final List<Logger> loggers = LoggerRowMapper.convertResultSet(preparedStatement
+      final List<MyLogger> loggers = LoggerRowMapper.convertResultSet(preparedStatement
           .executeQuery());
       if (!loggers.isEmpty()) {
         return loggers.get(0);
@@ -70,7 +70,7 @@ public enum LoggerDAO {
    * @param myLogger
    * @throws PersistenceException
    */
-  public void insert(final Logger myLogger) throws PersistenceException {
+  public void insert(final MyLogger myLogger) throws PersistenceException {
     final Connection connection = ConnectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(INSERT);
@@ -90,7 +90,7 @@ public enum LoggerDAO {
    * @param myLogger
    * @throws PersistenceException
    */
-  public void update(final Logger myLogger) throws PersistenceException {
+  public void update(final MyLogger myLogger) throws PersistenceException {
     final Connection connection = ConnectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(UPDATE);

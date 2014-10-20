@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import core.Logger;
+import core.MyLogger;
 
 /**
  * @author excilys
@@ -23,10 +23,10 @@ public final class LoggerRowMapper {
    * @return
    * @throws SQLException
    */
-  public static List<Logger> convertResultSet(final ResultSet resultSet) throws SQLException {
-    final List<Logger> loggers = new ArrayList<>();
+  public static List<MyLogger> convertResultSet(final ResultSet resultSet) throws SQLException {
+    final List<MyLogger> loggers = new ArrayList<>();
     while (resultSet.next()) {
-      loggers.add(Logger.builder().log(resultSet.getString("log")).id(resultSet.getInt("id"))
+      loggers.add(MyLogger.builder().log(resultSet.getString("log")).id(resultSet.getInt("id"))
           .time(resultSet.getDate("time"))
           .exception(new Exception(resultSet.getString("exception"))).build());
     }
