@@ -3,7 +3,6 @@ package webapp.computer;
 import java.io.IOException;
 import java.text.ParseException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,13 +29,14 @@ import binding.ComputerMapper;
  */
 @WebServlet(Constants.SERVLET_ADD_COMPUTER)
 public class AddComputerServlet extends SpringHttpServlet {
-  private static final String PARAM_COMPANY     = "company";
-  private static final String PARAM_MESSAGE     = "message";
-  private static final long   serialVersionUID  = 1L;
-  private static final Logger LOGGER            = LoggerFactory.getLogger(AddComputerServlet.class);
+  private static final String        PARAM_COMPANY     = "company";
+  private static final String        PARAM_MESSAGE     = "message";
+  private static final long          serialVersionUID  = 1L;
+  private static final Logger        LOGGER            = LoggerFactory
+                                                           .getLogger(AddComputerServlet.class);
   @Autowired
-  private IComputerService    computerService;
-  public static final String  PARAM_ID_COMPUTER = "externalId";
+  private transient IComputerService computerService;
+  public static final String         PARAM_ID_COMPUTER = "externalId";
 
   /**
    * Default constructor

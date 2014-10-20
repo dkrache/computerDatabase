@@ -17,7 +17,6 @@ public interface IComputerService {
   /**
    * Extract a List of computers.
    * @return
-   * @throws ServiceException
    */
   List<Computer> selectAll(final Page page);
 
@@ -25,7 +24,6 @@ public interface IComputerService {
    * Get computers whose name is name.
    * @param name
    * @return
-   * @throws ServiceException
    */
   List<Computer> search(final Page page);
 
@@ -33,7 +31,6 @@ public interface IComputerService {
    * Extract the computer referenced by externalIdComputer
    * @param externalIdComputer
    * @return
-   * @throws ServiceException
    */
   Computer select(final long externalIdComputer);
 
@@ -41,7 +38,6 @@ public interface IComputerService {
    * Insertion a new computer.
    * @param computer
    * @return
-   * @throws ServiceException
    */
   boolean insert(final Computer computer);
 
@@ -49,14 +45,12 @@ public interface IComputerService {
    * Update the computer
    * @param computer
    * @return
-   * @throws ServiceException)
    */
   boolean update(final Computer computer);
 
   /**
    * Delete the object referenced by externalIdComputer
    * @param externalIdComputer
-   * @throws ServiceException
    */
   void delete(final long externalIdComputer);
 

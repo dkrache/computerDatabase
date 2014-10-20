@@ -14,6 +14,7 @@ import webapp.utils.Constants;
  */
 @WebServlet(Constants.SERVLET_ACCUEIL)
 public class AccueilServlet extends SpringHttpServlet {
+
   private static final long serialVersionUID = 1L;
 
   /**

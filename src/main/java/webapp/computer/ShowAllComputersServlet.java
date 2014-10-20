@@ -26,13 +26,13 @@ import core.Page;
  */
 @WebServlet(Constants.SERVLET_SHOW_ALL_COMPUTER)
 public class ShowAllComputersServlet extends SpringHttpServlet {
-  private static final String PARAM_ERROR      = "error";
-  private static final String PARAM_MESSAGE    = "message";
-  private static final long   serialVersionUID = 1L;
+  private static final String        PARAM_ERROR      = "error";
+  private static final String        PARAM_MESSAGE    = "message";
+  private static final long          serialVersionUID = 1L;
   @Autowired
-  private IComputerService    computerService;
-  private static final Logger LOGGER           = LoggerFactory
-                                                   .getLogger(ShowAllComputersServlet.class);
+  private transient IComputerService computerService;
+  private static final Logger        LOGGER           = LoggerFactory
+                                                          .getLogger(ShowAllComputersServlet.class);
 
   /* (non-Javadoc)
    * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)

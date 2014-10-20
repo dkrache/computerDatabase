@@ -24,12 +24,12 @@ import binding.ComputerMapper;
  */
 @WebServlet(Constants.SERVLET_UPDATE_COMPUTER)
 public class UpdateComputerServlet extends SpringHttpServlet {
-  private static final long   serialVersionUID  = 1L;
+  private static final long          serialVersionUID  = 1L;
   @Autowired
-  private IComputerService    computerService;
-  private static final String PARAM_ID_COMPUTER = "codereq";
-  private static final Logger LOGGER            = LoggerFactory
-                                                    .getLogger(UpdateComputerServlet.class);
+  private transient IComputerService computerService;
+  private static final String        PARAM_ID_COMPUTER = "codereq";
+  private static final Logger        LOGGER            = LoggerFactory
+                                                           .getLogger(UpdateComputerServlet.class);
 
   /**
    * Default constructor.

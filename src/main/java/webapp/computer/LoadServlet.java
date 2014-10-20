@@ -16,10 +16,10 @@ import binding.CompanyMapper;
  */
 @Component
 public final class LoadServlet extends SpringHttpServlet {
-  private static final long   serialVersionUID = 1L;
+  private static final long         serialVersionUID = 1L;
   @Autowired
-  private ICompanyService     companyService   = new CompanyService();
-  private static final Logger LOGGER           = LoggerFactory.getLogger(LoadServlet.class);
+  private transient ICompanyService companyService   = new CompanyService();
+  private static final Logger       LOGGER           = LoggerFactory.getLogger(LoadServlet.class);
 
   /**
    * Default Constructor 
