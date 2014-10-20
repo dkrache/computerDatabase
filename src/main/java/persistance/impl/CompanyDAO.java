@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import persistance.ConnectionDAO;
 import persistance.exception.PersistenceException;
 import persistance.mapper.CompanyRowMapper;
-import persistence.ConnectionDAO;
 import core.Company;
 
 /**
@@ -43,8 +43,6 @@ public enum CompanyDAO {
 
     } catch (final SQLException e) {
       throw new PersistenceException(e);
-    } finally {
-      ConnectionDAO.closeConnection(connection);
     }
   }
 
@@ -65,8 +63,6 @@ public enum CompanyDAO {
       }
     } catch (final SQLException e) {
       throw new PersistenceException(e);
-    } finally {
-      ConnectionDAO.closeConnection(connection);
     }
     return null;
   }
@@ -83,8 +79,6 @@ public enum CompanyDAO {
       preparedStatement.execute();
     } catch (final SQLException e) {
       throw new PersistenceException(e);
-    } finally {
-      ConnectionDAO.closeConnection(connection);
     }
 
   }
@@ -102,8 +96,6 @@ public enum CompanyDAO {
       preparedStatement.execute();
     } catch (final SQLException e) {
       throw new PersistenceException(e);
-    } finally {
-      ConnectionDAO.closeConnection(connection);
     }
   }
 
@@ -119,8 +111,6 @@ public enum CompanyDAO {
       preparedStatement.execute();
     } catch (final SQLException e) {
       throw new PersistenceException(e);
-    } finally {
-      ConnectionDAO.closeConnection(connection);
     }
   }
 

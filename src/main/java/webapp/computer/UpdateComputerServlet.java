@@ -39,21 +39,10 @@ public class UpdateComputerServlet extends HttpServlet {
   }
 
   /* (non-Javadoc)
-   * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-   */
-  @Override
-  protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
-      throws ServletException, IOException {
-    RequestDispatcher requestDispatcher = request.getServletContext().getRequestDispatcher(
-        Constants.JSP_ADD_COMPUTER);
-    requestDispatcher.forward(request, response);
-  }
-
-  /* (non-Javadoc)
    * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
    */
   @Override
-  protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
+  protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
       throws ServletException, IOException {
     RequestDispatcher requestDispatcher = request.getServletContext().getRequestDispatcher(
         Constants.SERVLET_ACCUEIL);

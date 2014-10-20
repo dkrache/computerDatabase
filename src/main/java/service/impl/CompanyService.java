@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import persistance.ConnectionDAO;
 import persistance.exception.PersistenceException;
 import persistance.impl.CompanyDAO;
 import service.ICompanyService;
@@ -27,7 +28,10 @@ public class CompanyService implements ICompanyService {
       return CompanyDAO.INSTANCE.selectAll();
     } catch (final PersistenceException e) {
       LOGGER.warn("Les objets n'ont pas pu être initialisés.");
+      ConnectionDAO.rollbackAndCloseConnection();
       throw new ServiceException(e);
+    } finally {
+      ConnectionDAO.commitAndCloseConnection();
     }
   }
 

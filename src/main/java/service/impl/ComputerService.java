@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import persistance.ConnectionDAO;
 import persistance.exception.PersistenceException;
 import persistance.impl.ComputerDAO;
 import service.IComputerService;
@@ -26,8 +27,11 @@ public class ComputerService implements IComputerService {
   @Override
   public List<Computer> selectAll(final Page page) {
     try {
-      return ComputerDAO.INSTANCE.selectAll(page);
+      final List<Computer> computers = ComputerDAO.INSTANCE.selectAll(page);
+      ConnectionDAO.commitAndCloseConnection();
+      return computers;
     } catch (final PersistenceException e) {
+      ConnectionDAO.rollbackAndCloseConnection();
       throw new ServiceException(e);
     }
   }
@@ -38,8 +42,11 @@ public class ComputerService implements IComputerService {
   @Override
   public List<Computer> search(final Page page) {
     try {
-      return ComputerDAO.INSTANCE.search(page);
+      final List<Computer> computers = ComputerDAO.INSTANCE.search(page);
+      ConnectionDAO.commitAndCloseConnection();
+      return computers;
     } catch (final PersistenceException e) {
+      ConnectionDAO.rollbackAndCloseConnection();
       throw new ServiceException(e);
     }
   }
@@ -52,6 +59,7 @@ public class ComputerService implements IComputerService {
     Computer computer;
     try {
       computer = ComputerDAO.INSTANCE.select(externalIdComputer);
+      ConnectionDAO.commitAndCloseConnection();
       if (computer != null) {
         return computer;
       } else {
@@ -59,6 +67,7 @@ public class ComputerService implements IComputerService {
         return null;
       }
     } catch (final PersistenceException e) {
+      ConnectionDAO.rollbackAndCloseConnection();
       throw new ServiceException(e);
     }
   }
@@ -73,10 +82,12 @@ public class ComputerService implements IComputerService {
       // we check if the computer is valid before inserting it in database
       if (validate(computer)) {
         ComputerDAO.INSTANCE.insert(computer);
+        ConnectionDAO.commitAndCloseConnection();
         return true;
       }
     } catch (final PersistenceException e) {
       LOGGER.warn("Error while the insertion");
+      ConnectionDAO.rollbackAndCloseConnection();
       throw new ServiceException(e);
     }
     return false;
@@ -95,8 +106,10 @@ public class ComputerService implements IComputerService {
         return false;
       }
       ComputerDAO.INSTANCE.update(computer);
+      ConnectionDAO.commitAndCloseConnection();
     } catch (final PersistenceException e) {
       LOGGER.warn("Error while the update");
+      ConnectionDAO.rollbackAndCloseConnection();
       throw new ServiceException(e);
     }
 
@@ -111,7 +124,9 @@ public class ComputerService implements IComputerService {
     // Cas concret :  vérifier que l'utilisateur a les droits de supprimer l'objet. Il n y a pas encore d'utilisateur ici...
     try {
       ComputerDAO.INSTANCE.delete(externalIdComputer);
+      ConnectionDAO.commitAndCloseConnection();
     } catch (final PersistenceException e) {
+      ConnectionDAO.rollbackAndCloseConnection();
       throw new ServiceException(e);
     }
   }

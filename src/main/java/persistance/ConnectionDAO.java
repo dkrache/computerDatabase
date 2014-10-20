@@ -1,8 +1,7 @@
-package persistence;
+package persistance;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -17,13 +16,15 @@ import com.jolbox.bonecp.BoneCPConfig;
  *
  */
 public final class ConnectionDAO {
-  private static final Properties PROPERTIES = new Properties();
-  private static final String     JDBC_DRIVER;
-  private static final String     DB_URL;
-  private static final String     USER;
-  private static final String     PASS;
-  private static final Logger     LOGGER     = LoggerFactory.getLogger(ConnectionDAO.class);
-  private static final BoneCP     connectionPool;
+  private static final Properties              PROPERTIES        = new Properties();
+  private static final String                  JDBC_DRIVER;
+  private static final String                  DB_URL;
+  private static final String                  USER;
+  private static final String                  PASS;
+  private static final Logger                  LOGGER            = LoggerFactory
+                                                                     .getLogger(ConnectionDAO.class);
+  private static final BoneCP                  CONNECTION_POOL;
+  private static final ThreadLocal<Connection> THREAD_CONNECTION = new ThreadLocal<>();
 
   //  Database credentials
 
@@ -57,14 +58,14 @@ public final class ConnectionDAO {
     try {
       /*
        * Création d'une configuration de pool de connexions via l'objet
-       * BoneCPConfig et les différents setters associés.
+       * BoneCPConfig et les différents setter>s associés.
        */
       final BoneCPConfig configuration = new BoneCPConfig();
       /* Mise en place de l'URL, du nom et du mot de passe */
       configuration.setJdbcUrl(DB_URL);
       configuration.setUsername(USER);
       configuration.setPassword(PASS);
-      /* Paramétrage de la taille du pool */
+      /* Paramétrage de la taillethreadLocalConn du pool */
       configuration.setMinConnectionsPerPartition(Integer.parseInt(PROPERTIES
           .getProperty("jdbc.MinConnectionsPerPartition")));
       configuration.setMaxConnectionsPerPartition(Integer.parseInt(PROPERTIES
@@ -72,7 +73,7 @@ public final class ConnectionDAO {
       configuration.setPartitionCount(Integer.parseInt(PROPERTIES
           .getProperty("jdbc.PartitionCount")));
       /* Création du pool à partir de la configuration, via l'objet BoneCP */
-      connectionPool = new BoneCP(configuration);
+      CONNECTION_POOL = new BoneCP(configuration);
     } catch (final SQLException e) {
       LOGGER.warn("Error with the configuration of the connection pool : {}", e);
       throw new RuntimeException(e);
@@ -81,12 +82,16 @@ public final class ConnectionDAO {
 
   /**
    * Create a new connection
-   * @return
-   * @throws ClassNotFoundException
+   * @return connection
    */
   public static Connection getConnection() {
     try {
-      return connectionPool.getConnection();
+      if (THREAD_CONNECTION.get() == null) {
+        final Connection connection = CONNECTION_POOL.getConnection();
+        connection.setAutoCommit(false);
+        THREAD_CONNECTION.set(connection);
+      }
+      return THREAD_CONNECTION.get();
     } catch (final SQLException e) {
       LOGGER.warn("Error while getting connection: {}", e);
       throw new RuntimeException(e);
@@ -95,12 +100,26 @@ public final class ConnectionDAO {
 
   /**
    * Close the connection
-   * @param connection
+   * @param 
    */
-  public static void closeConnection(final Connection connection) {
+  public static void commitAndCloseConnection() {
     try {
-      if (connection != null) {
-        connection.close();
+      if (THREAD_CONNECTION.get() != null) {
+        THREAD_CONNECTION.get().commit();
+        THREAD_CONNECTION.get().close();
+        THREAD_CONNECTION.remove();
+      }
+    } catch (final SQLException e) {
+      LOGGER.warn("Error while closing connection: {}", e);
+      throw new RuntimeException(e);
+    }
+  }
+
+  public static void rollbackAndCloseConnection() {
+    try {
+      if (THREAD_CONNECTION.get() != null) {
+        THREAD_CONNECTION.get().close();
+        THREAD_CONNECTION.remove();
       }
     } catch (final SQLException e) {
       LOGGER.warn("Error while closing connection: {}", e);

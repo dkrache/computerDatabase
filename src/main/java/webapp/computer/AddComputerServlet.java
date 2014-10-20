@@ -63,8 +63,8 @@ public class AddComputerServlet extends HttpServlet {
   @Override
   protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
       throws ServletException, IOException {
-    RequestDispatcher requestDispatcher = request.getServletContext().getRequestDispatcher(
-        Constants.JSP_ADD_COMPUTER);
+    final RequestDispatcher requestDispatcher = request.getServletContext().getRequestDispatcher(
+        Constants.JSP_DASHBOARD);
 
     final ComputerDto computerDto = new ComputerDto();
     computerDto.setComputerName(request.getParameter("name"));
@@ -81,7 +81,6 @@ public class AddComputerServlet extends HttpServlet {
           && StringUtils.isNumeric(request.getParameter(PARAM_ID_COMPUTER))) {
         computerDto.setExternalId(Long.parseLong(request.getParameter(PARAM_ID_COMPUTER)));
         COMPUTER_SERVICE.update(ComputerMapper.fromDto(computerDto));
-        requestDispatcher = request.getServletContext().getRequestDispatcher("/Accueil");
         request.setAttribute(PARAM_MESSAGE, "Computer updated");
       } else {
         if (COMPUTER_SERVICE.insert(ComputerMapper.fromDto(computerDto))) {
