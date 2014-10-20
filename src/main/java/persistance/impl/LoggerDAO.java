@@ -38,9 +38,7 @@ public enum LoggerDAO {
     final Connection connection = ConnectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
-      final List<Logger> loggers = LoggerRowMapper.convertResultSet(preparedStatement
-          .executeQuery());
-      return loggers;
+      return LoggerRowMapper.convertResultSet(preparedStatement.executeQuery());
 
     } catch (final SQLException e) {
       throw new PersistenceException(e);
@@ -69,16 +67,16 @@ public enum LoggerDAO {
   }
 
   /**
-   * @param logger
+   * @param myLogger
    * @throws PersistenceException
    */
-  public void insert(final Logger logger) throws PersistenceException {
+  public void insert(final Logger myLogger) throws PersistenceException {
     final Connection connection = ConnectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(INSERT);
-      preparedStatement.setString(1, logger.getLog());
-      preparedStatement.setDate(2, new Date(logger.getTime().getTime()));
-      preparedStatement.setString(3, logger.getException() != null ? logger.getException()
+      preparedStatement.setString(1, myLogger.getLog());
+      preparedStatement.setDate(2, new Date(myLogger.getTime().getTime()));
+      preparedStatement.setString(3, myLogger.getException() != null ? myLogger.getException()
           .getMessage() : null);
       preparedStatement.execute();
 
@@ -89,17 +87,17 @@ public enum LoggerDAO {
   }
 
   /**
-   * @param logger
+   * @param myLogger
    * @throws PersistenceException
    */
-  public void update(final Logger logger) throws PersistenceException {
+  public void update(final Logger myLogger) throws PersistenceException {
     final Connection connection = ConnectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(UPDATE);
-      preparedStatement.setString(1, logger.getLog());
-      preparedStatement.setDate(2, new Date(logger.getTime().getTime()));
-      if (logger.getException() != null) {
-        preparedStatement.setString(3, logger.getException().getMessage());
+      preparedStatement.setString(1, myLogger.getLog());
+      preparedStatement.setDate(2, new Date(myLogger.getTime().getTime()));
+      if (myLogger.getException() != null) {
+        preparedStatement.setString(3, myLogger.getException().getMessage());
       }
       preparedStatement.execute();
     } catch (final SQLException e) {

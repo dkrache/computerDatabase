@@ -39,35 +39,35 @@ public final class Logger extends Basic {
   }
 
   public static final class Builder {
-    private Logger logger;
+    private Logger myLogger;
 
     private Builder() {
-      logger = new Logger();
-      logger.time = new Date(System.currentTimeMillis());
+      myLogger = new Logger();
+      myLogger.time = new Date(System.currentTimeMillis());
     }
 
     public Builder id(final int id) {
-      logger.id = id;
+      myLogger.id = id;
       return this;
     }
 
     public Builder log(final String log) {
-      logger.log = log;
+      myLogger.log = log;
       return this;
     }
 
     public Builder time(final Date time) {
-      logger.time = time;
+      myLogger.time = time;
       return this;
     }
 
     public Builder exception(final Exception exception) {
-      logger.exception = exception;
+      myLogger.exception = exception;
       return this;
     }
 
     public Logger build() {
-      return logger;
+      return myLogger;
     }
   }
 
