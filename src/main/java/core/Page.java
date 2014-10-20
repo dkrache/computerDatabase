@@ -3,8 +3,11 @@ package core;
 import core.Page.Builder;
 
 public class Page {
-  public static final String UP   = "up";
-  public static final String DOWN = "down";
+  private static final String PARAM_LIMIT         = "limit=";
+  private static final String PARAM_CURRENT_PAGE  = "&currentPage=";
+  private static final String PARAM_SEARCH_STRING = "&searchString=";
+  public static final String  UP                  = "up";
+  public static final String  DOWN                = "down";
   private int                 limit;
   private int                 currentPage;
   private int                 totalCount;
@@ -99,21 +102,20 @@ public class Page {
   }
 
   public String getBackLink() {
-    return new StringBuilder().append("limit=").append(limit).append("&currentPage=")
-        .append(currentPage - 1).append("&").append("&searchString=").append(searchString)
+    return new StringBuilder().append(PARAM_LIMIT).append(limit).append(PARAM_CURRENT_PAGE)
+        .append(currentPage - 1).append("&").append(PARAM_SEARCH_STRING).append(searchString)
         .toString();
 
   }
 
   public String getnextLink() {
-    return new StringBuilder().append("limit=").append(limit).append("&currentPage=")
-        .append(currentPage + 1).append("&searchString=").append(searchString)
-        .toString();
+    return new StringBuilder().append(PARAM_LIMIT).append(limit).append(PARAM_CURRENT_PAGE)
+        .append(currentPage + 1).append(PARAM_SEARCH_STRING).append(searchString).toString();
   }
 
   public String getCurrentLink() {
-    return new StringBuilder().append("limit=").append(limit).append("&currentPage=")
-        .append(currentPage).append("&").append("&searchString=").append(searchString)
+    return new StringBuilder().append(PARAM_LIMIT).append(limit).append(PARAM_CURRENT_PAGE)
+        .append(currentPage).append("&").append(PARAM_SEARCH_STRING).append(searchString)
         .append("&ascendancy=").append(getNextAscendancy()).toString();
   }
 
