@@ -1,9 +1,9 @@
 package webapp.computer;
 
-import javax.servlet.http.HttpServlet;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import service.ICompanyService;
 import service.exception.ServiceException;
@@ -14,11 +14,12 @@ import binding.CompanyMapper;
  * @author excilys
  *
  */
-public final class LoadServlet extends HttpServlet {
-  private static final long            serialVersionUID = 1L;
-  private static final ICompanyService COMPANY_SERVICE  = new CompanyService();
-  private static final Logger          LOGGER           = LoggerFactory
-                                                            .getLogger(LoadServlet.class);
+@Component
+public final class LoadServlet extends SpringHttpServlet {
+  private static final long   serialVersionUID = 1L;
+  @Autowired
+  private ICompanyService     companyService   = new CompanyService();
+  private static final Logger LOGGER           = LoggerFactory.getLogger(LoadServlet.class);
 
   /**
    * Default Constructor 
@@ -36,10 +37,17 @@ public final class LoadServlet extends HttpServlet {
   public void init() {
     try {
       this.getServletContext().setAttribute("companys",
-          CompanyMapper.toDto(COMPANY_SERVICE.selectAll()));
+          CompanyMapper.toDto(companyService.selectAll()));
     } catch (final ServiceException e) {
       LOGGER.error("Error while getting companys", e);
     }
+  }
+
+  /**
+   * @param companyService the companyService to set
+   */
+  public void setCompanyService(final ICompanyService companyService) {
+    this.companyService = companyService;
   }
 
 }

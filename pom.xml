@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.excilys.formation</groupId>
 	<artifactId>computer-database</artifactId>
-	<version>1.2.0.RELEASE</version>
+	<version>2.0.0.RELEASE</version>
 	<packaging>war</packaging>
 	<properties>
 		<sonar.jdbc.url>jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8</sonar.jdbc.url>
@@ -12,71 +12,108 @@
 		<sonar.jdbc.password>sonar</sonar.jdbc.password>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
 		<mysql.version>5.1.6</mysql.version>
+		<bonecp.version>0.8.0.RELEASE</bonecp.version>
 		<javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
 		<org.apache.commons.version>3.3.2</org.apache.commons.version>
 		<taglibs.version>1.1.2</taglibs.version>
 		<javax.servlet-api.version>3.0.1</javax.servlet-api.version>
 		<org.slf4j.version>1.7.6</org.slf4j.version>
-		<spring.version>3.2.1.RELEASE</spring.version>
-
+		<spring.version>3.2.3.RELEASE</spring.version>
+		<javax.servlet.jsp.version>2.2</javax.servlet.jsp.version>
+		<javax.servlet.version>3.0.1</javax.servlet.version>
 	</properties>
 	<dependencies>
+
+		<!-- BoneCP is using for the the management of the pool connection -->
 		<dependency>
 			<groupId>com.jolbox</groupId>
 			<artifactId>bonecp</artifactId>
-			<version>0.8.0.RELEASE</version>
+			<version>${bonecp.version}</version>
 		</dependency>
+		<!-- The bridge JDBC in order to communicate with the databases -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
 		</dependency>
-		<!-- JSTL -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${javax.servlet.jstl.version}</version>
-		</dependency>
-
+		<!-- For StringUtils, totally useful! -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${org.apache.commons.version}</version>
+		</dependency>
+		<!-- Presentation : Servlet, JSP, tag, JSTL...etc -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax.servlet.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>${javax.servlet.jsp.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>${taglibs.version}</version>
 		</dependency>
-		<!-- for compile only, your container should have this -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
+			<artifactId>jstl</artifactId>
+			<version>${javax.servlet.jstl.version}</version>
 		</dependency>
-
+		<!-- Logger -->
 		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>2.2</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${org.slf4j.version}</version>
 		</dependency>
-
-
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${org.slf4j.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -90,6 +127,23 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>enforce-versions</id>
+
+						<configuration>
+							<rules>
+								<requireJavaVersion>
+									<version>1.7</version>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>

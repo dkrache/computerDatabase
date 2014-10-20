@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,12 +13,11 @@ import webapp.utils.Constants;
  * Servlet implementation class ComputerCrudServlet
  */
 @WebServlet(Constants.SERVLET_ACCUEIL)
-public class AccueilServlet extends HttpServlet {
+public class AccueilServlet extends SpringHttpServlet {
   private static final long serialVersionUID = 1L;
 
   /**
    * Default constructor
-   * @see HttpServlet#HttpServlet()
    */
   public AccueilServlet() {
     super();
@@ -31,7 +29,7 @@ public class AccueilServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
       throws ServletException, IOException {
-    
+
     request.getServletContext().getRequestDispatcher(Constants.SERVLET_SHOW_ALL_COMPUTER)
         .forward(request, response);
 

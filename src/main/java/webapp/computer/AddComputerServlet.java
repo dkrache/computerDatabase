@@ -6,17 +6,16 @@ import java.text.ParseException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import service.IComputerService;
 import service.exception.ServiceException;
-import service.impl.ComputerService;
 import webapp.dto.CompanyDto;
 import webapp.dto.ComputerDto;
 import webapp.utils.Constants;
@@ -30,18 +29,17 @@ import binding.ComputerMapper;
  *
  */
 @WebServlet(Constants.SERVLET_ADD_COMPUTER)
-public class AddComputerServlet extends HttpServlet {
-  private static final String           PARAM_COMPANY     = "company";
-  private static final String           PARAM_MESSAGE     = "message";
-  private static final long             serialVersionUID  = 1L;
-  private static final Logger           LOGGER            = LoggerFactory
-                                                              .getLogger(AddComputerServlet.class);
-  private static final IComputerService COMPUTER_SERVICE  = new ComputerService();
-  public static final String            PARAM_ID_COMPUTER = "externalId";
+public class AddComputerServlet extends SpringHttpServlet {
+  private static final String PARAM_COMPANY     = "company";
+  private static final String PARAM_MESSAGE     = "message";
+  private static final long   serialVersionUID  = 1L;
+  private static final Logger LOGGER            = LoggerFactory.getLogger(AddComputerServlet.class);
+  @Autowired
+  private IComputerService    computerService;
+  public static final String  PARAM_ID_COMPUTER = "externalId";
 
   /**
    * Default constructor
-   * @see HttpServlet#HttpServlet()
    */
   public AddComputerServlet() {
     super();
@@ -63,8 +61,6 @@ public class AddComputerServlet extends HttpServlet {
   @Override
   protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
       throws ServletException, IOException {
-    final RequestDispatcher requestDispatcher = request.getServletContext().getRequestDispatcher(
-        Constants.JSP_DASHBOARD);
 
     final ComputerDto computerDto = new ComputerDto();
     computerDto.setComputerName(request.getParameter("name"));
@@ -80,10 +76,10 @@ public class AddComputerServlet extends HttpServlet {
       if (request.getParameter(PARAM_ID_COMPUTER) != null
           && StringUtils.isNumeric(request.getParameter(PARAM_ID_COMPUTER))) {
         computerDto.setExternalId(Long.parseLong(request.getParameter(PARAM_ID_COMPUTER)));
-        COMPUTER_SERVICE.update(ComputerMapper.fromDto(computerDto));
+        computerService.update(ComputerMapper.fromDto(computerDto));
         request.setAttribute(PARAM_MESSAGE, "Computer updated");
       } else {
-        if (COMPUTER_SERVICE.insert(ComputerMapper.fromDto(computerDto))) {
+        if (computerService.insert(ComputerMapper.fromDto(computerDto))) {
           request.setAttribute(PARAM_MESSAGE, "Computer Added");
         }
       }
@@ -94,7 +90,14 @@ public class AddComputerServlet extends HttpServlet {
       request.setAttribute(PARAM_MESSAGE, e.getMessage());
 
     }
-    requestDispatcher.forward(request, response);
+    response.sendRedirect(response.encodeRedirectURL("/computer-database/Accueil"));
 
+  }
+
+  /**
+   * @param computerService the computerService to set
+   */
+  public void setComputerService(final IComputerService computerService) {
+    this.computerService = computerService;
   }
 }

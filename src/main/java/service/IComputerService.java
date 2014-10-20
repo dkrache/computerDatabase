@@ -2,6 +2,8 @@ package service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import service.exception.ServiceException;
 import core.Computer;
 import core.Page;
@@ -10,6 +12,7 @@ import core.Page;
  * @author excilys
  *
  */
+@Service
 public interface IComputerService {
   /**
    * Extract a List of computers.
