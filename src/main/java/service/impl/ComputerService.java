@@ -6,9 +6,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import persistance.ConnectionDAO;
 import persistance.exception.PersistenceException;
 import persistance.impl.ComputerDAO;
+import persistence.ConnectionDAO;
 import service.IComputerService;
 import service.exception.ServiceException;
 import core.Computer;

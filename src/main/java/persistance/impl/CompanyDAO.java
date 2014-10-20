@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-import persistance.ConnectionDAO;
 import persistance.exception.PersistenceException;
 import persistance.mapper.CompanyRowMapper;
+import persistence.ConnectionDAO;
 import core.Company;
 
 /**

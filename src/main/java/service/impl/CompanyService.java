@@ -5,9 +5,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import persistance.ConnectionDAO;
 import persistance.exception.PersistenceException;
 import persistance.impl.CompanyDAO;
+import persistence.ConnectionDAO;
 import service.ICompanyService;
 import service.exception.ServiceException;
 import core.Company;

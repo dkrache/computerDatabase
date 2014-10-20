@@ -12,9 +12,9 @@ import java.util.TimerTask;
 
 import org.slf4j.LoggerFactory;
 
-import persistance.ConnectionDAO;
 import persistance.exception.PersistenceException;
 import persistance.mapper.ComputerRowMapper;
+import persistence.ConnectionDAO;
 import core.Computer;
 import core.Logger;
 import core.Page;
