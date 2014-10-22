@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import service.IComputerService;
 import service.exception.ServiceException;
@@ -31,17 +32,17 @@ public class UpdateComputerController {
    */
   @RequestMapping(method = RequestMethod.GET)
   protected String doGet(@RequestParam(required = false, defaultValue = "-1")
-  final int codereq, final ModelMap model) {
+  final int codereq, final ModelMap model, final RedirectAttributes redirectAttrs) {
     try {
       final ComputerDto computerDto = ComputerMapper.toDto(computerService.select(codereq));
       if (computerDto != null) {
         model.addAttribute("computerDto", computerDto);
-        model.addAttribute(Constants.PARAM_MESSAGE, "You will update this computer");
+        model.addAttribute(Constants.PARAM_MESSAGE, "back.message.computer.updating");
       } else {
-        model.addAttribute(Constants.PARAM_ERROR, "The computer wasn't found.");
+        redirectAttrs.addFlashAttribute(Constants.PARAM_ERROR, true);
+        redirectAttrs.addFlashAttribute(Constants.PARAM_MESSAGE, "back.message.error.computer.notFound");
         return Constants.REDIRECT + Constants.VUE_DASHBOARD;
       }
-
     } catch (final NumberFormatException | ServiceException e) {
       LOGGER.warn("Error : Impossible to answer to the update request : {}", e);
     }

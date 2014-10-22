@@ -26,6 +26,9 @@ public final class ComputerMapper {
    */
   public static ComputerDto toDto(final Computer computer) {
     final ComputerDto computerDto = new ComputerDto();
+    if (computer == null) {
+      return null;
+    }
     computerDto.setExternalId(computer.getId());
     computerDto.setComputerName(computer.getComputerName());
     computerDto.setDiscontinuedDate(DateUtils.createDateToString(computer.getDiscontinuedDate()));

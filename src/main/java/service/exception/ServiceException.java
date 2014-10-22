@@ -10,7 +10,7 @@ public class ServiceException extends RuntimeException {
    * 
    */
   private static final long serialVersionUID = 4675926754664457970L;
-  private static final String DEFAULT_MESSAGE  = "Impossible to evaluate your request. Please try later. ";
+  private static final String DEFAULT_MESSAGE  = "back.message.error";
 
   /**
    * 

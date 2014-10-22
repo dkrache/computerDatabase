@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <!DOCTYPE html>
 <html>
@@ -19,8 +19,13 @@
 <link href="css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
+
 	<header class="topbar">
 		<h1 class="fill">
-			<a href="dashboard"> Application - Computer Database </a>
+			<a href="dashboard"><spring:message code="front.header.title" /></a>
 		</h1>
+		<span style="float: right"> <a href="dashboard?lang=en"><img alt="en" src="img/en.png"/></a> | <a
+			href="dashboard?lang=fr"><img alt="fr" src="img/fr.png"/></a>
+		</span>
 	</header>
+	

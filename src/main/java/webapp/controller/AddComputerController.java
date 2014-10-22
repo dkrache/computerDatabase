@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import service.IComputerService;
 import service.exception.ServiceException;
@@ -39,16 +40,18 @@ public class AddComputerController {
 
   @RequestMapping(method = RequestMethod.POST)
   protected String doPost(@Valid
-  final ComputerDto computerDto, final BindingResult result) {
+  final ComputerDto computerDto, final BindingResult result,
+      final RedirectAttributes redirectAttrs) {
     if (result.hasErrors()) {
       return Constants.VUE_ADD_COMPUTER;
     }
     try {
-      if (computerDto != null && computerDto.getCompanyDto() != null
-          && computerDto.getCompanyDto().getExternalId() > 0) {
+      if (computerDto != null && computerDto.getExternalId() > 0) {
         computerService.update(ComputerMapper.fromDto(computerDto));
+        redirectAttrs.addFlashAttribute(Constants.PARAM_MESSAGE, "back.message.computer.updated");
       } else {
         computerService.insert(ComputerMapper.fromDto(computerDto));
+        redirectAttrs.addFlashAttribute(Constants.PARAM_MESSAGE, "back.message.computer.added");
       }
 
     } catch (final ParseException | ServiceException e) {

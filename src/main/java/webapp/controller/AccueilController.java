@@ -24,11 +24,10 @@ import core.Page;
 @Controller
 @RequestMapping(Constants.VUE_DASHBOARD)
 public class AccueilController {
-  private static final String PARAM_ERROR   = "error";
-  private static final String PARAM_MESSAGE = "message";
+
   @Autowired
   private IComputerService    computerService;
-  private static final Logger LOGGER        = LoggerFactory.getLogger(AccueilController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AccueilController.class);
 
   @RequestMapping(method = RequestMethod.GET)
   //currentPage=0&&searchString=&ascendancy=down&order=ddate
@@ -43,16 +42,12 @@ public class AccueilController {
       final Page page = Page.builder().limit(limit).searchString(searchString).order(order)
           .currentPage(currentPage).ascendancy(ascendancy).build();
       final List<ComputerDto> computerDtos = ComputerMapper.toDto(computerService.search(page));
-      if (computerDtos == null || computerDtos.isEmpty()) {
-        model.addAttribute(PARAM_ERROR, true);
-        model.addAttribute(PARAM_MESSAGE, "Any element was found.");
-      }
       model.addAttribute("computers", computerDtos);
       model.addAttribute("page", page);
     } catch (final ServiceException e) {
       LOGGER.warn("Error : Impossible to print computers : {}", e);
-      model.addAttribute(PARAM_ERROR, true);
-      model.addAttribute(PARAM_MESSAGE, e.getMessage());
+      model.addAttribute(Constants.PARAM_ERROR, true);
+      model.addAttribute(Constants.PARAM_MESSAGE, e.getMessage());
     }
     return Constants.VUE_DASHBOARD;
 

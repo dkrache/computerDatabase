@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import service.IComputerService;
 import service.exception.ServiceException;
@@ -21,19 +22,17 @@ import webapp.utils.Constants;
 public class DeleteComputerController {
   @Autowired
   private IComputerService    computerService;
-  private static final String PARAM_MESSAGE = "message";
-  private static final Logger LOGGER        = LoggerFactory
-                                                .getLogger(DeleteComputerController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DeleteComputerController.class);
 
   /* (non-Javadoc)
    * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
    */
   @RequestMapping(method = RequestMethod.GET)
   protected String doGet(@RequestParam
-  final int codereq, final ModelMap model) {
+  final int codereq, final ModelMap model, final RedirectAttributes redirectAttrs) {
     try {
       computerService.delete(codereq);
-      model.addAttribute(PARAM_MESSAGE, "Computer deleted");
+      redirectAttrs.addFlashAttribute(Constants.PARAM_MESSAGE, "back.message.computer.deleted");
     } catch (final ServiceException e) {
       LOGGER.warn("Error: impossible to delete the object Computer", e);
     }

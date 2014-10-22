@@ -5,5 +5,6 @@
 <%@ attribute name="var" required="true" type="java.lang.String"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-<th><a href="${url}/dashboard?${page.currentLink}&order=${var}">${fieldName}</a></th>
+<th><a href="${url}/dashboard?${page.currentLink}&order=${var}"><spring:message code="${fieldName}"/></a></th>
