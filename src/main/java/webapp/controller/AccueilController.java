@@ -2,8 +2,6 @@ package webapp.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import service.IComputerService;
 import service.exception.ServiceException;
 import webapp.dto.ComputerDto;
 import webapp.utils.Constants;
-import webapp.utils.PageUtils;
 import binding.ComputerMapper;
 import core.Page;
 

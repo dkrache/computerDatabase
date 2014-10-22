@@ -1,25 +1,20 @@
 package webapp.controller;
 
-import java.beans.PropertyEditorSupport;
 import java.text.ParseException;
 
 import javax.validation.Valid;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import service.IComputerService;
 import service.exception.ServiceException;
-import webapp.dto.CompanyDto;
 import webapp.dto.ComputerDto;
 import webapp.utils.Constants;
 import binding.ComputerMapper;
