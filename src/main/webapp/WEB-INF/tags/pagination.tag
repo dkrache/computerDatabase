@@ -7,7 +7,7 @@
 		<li class="prev disabled"><a>&larr; Précédent</a></li>
 	</c:if>
 	<c:if test="${ page.currentPage >= 1 }">
-		<li class="prev "><a href="Accueil?${page.backLink}">&larr;
+		<li class="prev "><a href="dashboard?${page.backLink}">&larr;
 				Précédent </a></li>
 	</c:if>
 
@@ -17,7 +17,7 @@
 		<li class="next disabled"><a> Suivant &rarr; </a></li>
 	</c:if>
 	<c:if test="${ page.currentPage < page.nbPages }">
-		<li class="next "><a href="Accueil?${page.nextLink}"> Suivant
+		<li class="next "><a href="dashboard?${page.nextLink}"> Suivant
 				&rarr; </a></li>
 	</c:if>
 </ul>

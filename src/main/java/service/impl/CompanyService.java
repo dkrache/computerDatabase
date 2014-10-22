@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import persistance.exception.PersistenceException;
 import persistance.impl.CompanyDAO;
@@ -16,6 +17,7 @@ import core.Company;
  * @author excilys
  *
  */
+@Service
 public class CompanyService implements ICompanyService {
   private static final Logger LOGGER = LoggerFactory.getLogger(CompanyService.class);
 

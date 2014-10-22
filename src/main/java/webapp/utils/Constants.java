@@ -7,16 +7,15 @@ package webapp.utils;
 public final class Constants {
 
   // Link for the CRUD of Computer.
-  public static final String SERVLET_ACCUEIL           = "/Accueil";
-  public static final String SERVLET_ADD_COMPUTER      = "/AddComputer";
-  public static final String SERVLET_DELETE_COMPUTER   = "/DeleteComputer";
-  public static final String SERVLET_SHOW_ALL_COMPUTER = "/ShowAllComputers";
-  public static final String SERVLET_UPDATE_COMPUTER   = "/UpdateComputer";
-  // Link for relative JSP
-  public static final String JSP_ADD_COMPUTER          = "/jsp/addComputer.jsp";
-  public static final String JSP_DASHBOARD             = "/jsp/dashboard.jsp";
+  public static final String VUE_ADD_COMPUTER    = "addComputer";
+  public static final String VUE_UPDATE_COMPUTER = "updateComputer";
+  public static final String VUE_DELETE_COMPUTER = "deleteComputer";
+  public static final String VUE_DASHBOARD       = "dashboard";
+  public static final String REDIRECT            = "redirect:";
+  public static final String PARAM_MESSAGE       = "message";
+  public static final String PARAM_ERROR         = "error";
 
   private Constants() {
-
+    //
   }
 }

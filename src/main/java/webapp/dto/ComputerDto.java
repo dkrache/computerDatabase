@@ -1,12 +1,23 @@
 package webapp.dto;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+import webapp.utils.Constants;
+
 /**
  * @author excilys
  *
  */
 public class ComputerDto extends BasicDto {
+  @NotBlank(message = "Please enter the name")
+  @Size(min = 3, message = "the length must be 3 at least")
   private String     computerName;
+  @Pattern(regexp = "(\\d\\d/){2}(\\d){4}")
   private String     introducedDate;
+  @Pattern(regexp = "(\\d\\d/){2}(\\d){4}")
   private String     discontinuedDate;
   private CompanyDto companyDto;
 
@@ -75,7 +86,7 @@ public class ComputerDto extends BasicDto {
    */
   public String getSupprimer() {
 
-    return "<a href=\"DeleteComputer?codereq=" + externalId + "\">"
+    return "<a href=\"" + Constants.VUE_DELETE_COMPUTER + "?codereq=" + externalId + "\">"
         + "<img src=\"img/trash_icon.png\" width=32 height=32 border=\"0\" alt=\"Supprimer "
         + computerName + " \">" + "</a>";
 
@@ -86,7 +97,7 @@ public class ComputerDto extends BasicDto {
    */
   public String getModifier() {
 
-    return "<a href=\"UpdateComputer?codereq=" + externalId + "\">"
+    return "<a href=\"" + Constants.VUE_UPDATE_COMPUTER + "?codereq=" + externalId + "\">"
         + "<img src=\"img/update_icon.jpeg\" width=32 height=32 border=\"0\" alt=\"Supprimer "
         + computerName + " \">" + "</a>";
 

@@ -21,6 +21,8 @@
 		<spring.version>3.2.3.RELEASE</spring.version>
 		<javax.servlet.jsp.version>2.2</javax.servlet.jsp.version>
 		<javax.servlet.version>3.0.1</javax.servlet.version>
+		<hibernate.version>5.1.2.Final</hibernate.version>
+		<javax.validation.version>1.1.0.Final</javax.validation.version>
 	</properties>
 	<dependencies>
 
@@ -115,6 +117,18 @@
 			<artifactId>spring-web</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<!-- The JSR-303 Bean Validation API library. -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>${javax.validation.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

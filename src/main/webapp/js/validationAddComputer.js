@@ -29,18 +29,18 @@ $(document)
 										// Specify the validation error messages
 										messages : {
 											name : {
-												required : "Veuillez entrer le nom de l'ordinateur",
-												minlength : "Le nom doit avoir au moins 3 caractères"
+												required : "Please type the name",
+												minlength : "The name contains at least 3 characters"
 											},
 											introducedDate : {
-												required : "Veuillez entrer la date où le produit a été introduit",
-												date : "Veuillez entrer la date au format JJ/MM/AAAA",
-												dpCompareDate : "Veuillez entrer une date postérieur à 1970"
+												required : "Please type the date",
+												date : "The format is JJ/MM/AAAA",
+												dpCompareDate : "Please type a date after 01/01/1970"
 											},
 											discontinuedDate : {
-												required : "Veuillez entrer la date d'abandon",
-												date : "Veuillez entrer la date au format JJ/MM/AAAA",
-												dpCompareDate : "Veuillez entrer une date postérieur à 1970"
+												required : "Please type the date",
+												date : "The format is JJ/MM/AAAA",
+												dpCompareDate : "Please type a date after 01/01/1970"
 											}
 										},
 

@@ -1,8 +1,8 @@
 package core;
 
-import core.Page.Builder;
-
 public class Page {
+  private static final String PARAM_ORDER         = "&order=";
+  private static final String PARAM_ASCENDANCY    = "&ascendancy=";
   private static final String PARAM_LIMIT         = "limit=";
   private static final String PARAM_CURRENT_PAGE  = "&currentPage=";
   private static final String PARAM_SEARCH_STRING = "&searchString=";
@@ -102,21 +102,31 @@ public class Page {
   }
 
   public String getBackLink() {
-    return new StringBuilder().append(PARAM_LIMIT).append(limit).append(PARAM_CURRENT_PAGE)
-        .append(currentPage - 1).append("&").append(PARAM_SEARCH_STRING).append(searchString)
+    return new StringBuilder().append(PARAM_LIMIT).append(limit)
+        .append(PARAM_CURRENT_PAGE).append(currentPage - 1)
+        .append(PARAM_SEARCH_STRING).append(searchString)
+        .append(PARAM_ORDER).append(order)
+        .append(PARAM_ASCENDANCY).append(ascendancy)
         .toString();
 
   }
 
   public String getnextLink() {
-    return new StringBuilder().append(PARAM_LIMIT).append(limit).append(PARAM_CURRENT_PAGE)
-        .append(currentPage + 1).append(PARAM_SEARCH_STRING).append(searchString).toString();
+    return new StringBuilder().append(PARAM_LIMIT).append(limit)
+        .append(PARAM_CURRENT_PAGE).append(currentPage + 1)
+        .append(PARAM_SEARCH_STRING).append(searchString)
+        .append(PARAM_ORDER).append(order)
+        .append(PARAM_ASCENDANCY).append(ascendancy)
+        .toString();
   }
 
   public String getCurrentLink() {
-    return new StringBuilder().append(PARAM_LIMIT).append(limit).append(PARAM_CURRENT_PAGE)
-        .append(currentPage).append("&").append(PARAM_SEARCH_STRING).append(searchString)
-        .append("&ascendancy=").append(getNextAscendancy()).toString();
+    return new StringBuilder()
+    .append(PARAM_LIMIT).append(limit)
+    .append(PARAM_CURRENT_PAGE).append(currentPage)
+    .append(PARAM_SEARCH_STRING).append(searchString)
+    .append(PARAM_ASCENDANCY).append(getNextAscendancy())
+        .toString();
   }
 
   /**
@@ -141,8 +151,8 @@ public class Page {
       page = new Page();
     }
 
-    public Builder limit(final int limit) {
-      page.limit = limit != 0 ? limit : 10;
+    public Builder limit(final Integer limit) {
+      page.limit = limit != null && limit != 0 ? limit : 10;
       return this;
     }
 

@@ -1,4 +1,4 @@
-<jsp:include page="../include/header.jsp" />
+<jsp:include page="/include/header.jsp" />
 <section id="main">
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib tagdir="/WEB-INF/tags" prefix="pagination"%>
@@ -18,7 +18,7 @@
 			$('#limit').children('option[value=${page.limit}]').attr(
 					'selected', 'selected')
 		</script>
-		<a class="btn success" id="add" href="AddComputer">Add Computer</a>
+		<a class="btn success" id="add" href="addComputer">Add Computer</a>
 	</div>
 
 	<c:if test="${not empty message and error }">
@@ -38,6 +38,8 @@
 					var="ddate" url="${pageContext.request.contextPath}" />
 				<pagination:thSort page="${page}" fieldName="Company" var="comp"
 					url="${pageContext.request.contextPath}" />
+				<th>Update</th>
+				<th>Delete</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -62,4 +64,4 @@
 	</div>
 </section>
 
-<jsp:include page="../include/footer.jsp" />
+<jsp:include page="/include/footer.jsp" />
