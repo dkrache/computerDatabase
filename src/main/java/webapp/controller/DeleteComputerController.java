@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +28,7 @@ public class DeleteComputerController {
    */
   @RequestMapping(method = RequestMethod.GET)
   protected String doGet(@RequestParam
-  final int codereq, final ModelMap model, final RedirectAttributes redirectAttrs) {
+  final int codereq, final RedirectAttributes redirectAttrs) {
     try {
       computerService.delete(codereq);
       redirectAttrs.addFlashAttribute(Constants.PARAM_MESSAGE, "back.message.computer.deleted");
