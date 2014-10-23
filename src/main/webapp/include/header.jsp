@@ -15,17 +15,17 @@
 	src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 <!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="css/main.css" rel="stylesheet" media="screen">
+<link href="/computer-database/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="/computer-database/css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
 
 	<header class="topbar">
 		<h1 class="fill">
-			<a href="dashboard"><spring:message code="front.header.title" /></a>
+			<a href="/computer-database/dashboard"><spring:message code="front.header.title" /></a>
 		</h1>
-		<span style="float: right"> <a href="dashboard?lang=en"><img alt="en" src="img/en.png"/></a> | <a
-			href="dashboard?lang=fr"><img alt="fr" src="img/fr.png"/></a>
+		<span style="float: right"> <a href="/computer-database/dashboard?lang=en"><img alt="en" src="img/en.png"/></a> | <a
+			href="/computer-database/dashboard?lang=fr"><img alt="fr" src="img/fr.png"/></a>
 		</span>
 	</header>
 	

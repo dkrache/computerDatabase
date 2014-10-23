@@ -86,9 +86,11 @@ public class ComputerDto extends BasicDto {
    */
   public String getSupprimer() {
 
-    return "<a href=\"" + Constants.VUE_DELETE_COMPUTER + "?codereq=" + externalId + "\">"
-        + "<img src=\"img/trash_icon.png\" width=32 height=32 border=\"0\" alt=\"Supprimer "
-        + computerName + " \">" + "</a>";
+    return new StringBuilder().append("<a href=\"/computer-database/")
+        .append(Constants.VUE_DASHBOARD).append(Constants.VUE_DELETE).append("?codereq=")
+        .append(externalId).append("\"> <img src=\"/computer-database/img/trash_icon.png\"")
+        .append(" width=32 height=32 border=\"0\" alt=\"Supprimer ")
+        .append(computerName + " \">" + "</a>").toString();
 
   }
 
@@ -97,9 +99,15 @@ public class ComputerDto extends BasicDto {
    */
   public String getModifier() {
 
-    return "<a href=\"" + Constants.VUE_UPDATE_COMPUTER + "?codereq=" + externalId + "\">"
-        + "<img src=\"img/update_icon.jpeg\" width=32 height=32 border=\"0\" alt=\"Supprimer "
-        + computerName + " \">" + "</a>";
+    return new StringBuilder()
+        .append("<a href=\"/computer-database/")
+        .append(Constants.VUE_DASHBOARD)
+        .append(Constants.VUE_UPDATE)
+        .append("?codereq=")
+        .append(externalId)
+        .append(
+            "\"> <img src=\"/computer-database/img/update_icon.jpeg\" width=32 height=32 border=\"0\" alt=\"Supprimer ")
+        .append(computerName + " \">" + "</a>").toString();
 
   }
 }

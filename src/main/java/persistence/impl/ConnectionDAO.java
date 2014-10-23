@@ -35,7 +35,6 @@ public class ConnectionDAO implements IConnectionDAO {
     try {
       if (THREAD_CONNECTION.get() == null) {
         final Connection connection = dataSource.getConnection();
-        connection.setAutoCommit(false);
         THREAD_CONNECTION.set(connection);
       }
       return THREAD_CONNECTION.get();
@@ -61,5 +60,4 @@ public class ConnectionDAO implements IConnectionDAO {
     }
   }
 
- 
 }

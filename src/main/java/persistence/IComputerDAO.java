@@ -16,20 +16,20 @@ public interface IComputerDAO {
    * @return
    * @throws PersistenceException
    */
-  List<Computer> selectAll(final Page page) throws PersistenceException;
+  List<Computer> readAll(final Page page) throws PersistenceException;
 
   /**
    * @param idComputer
    * @return
    * @throws PersistenceException
    */
-  Computer select(final long idComputer) throws PersistenceException;
+  Computer read(final long idComputer) throws PersistenceException;
 
   /**
    * @param computer
    * @throws PersistenceException
    */
-  void insert(final Computer computer) throws PersistenceException;
+  void create(final Computer computer) throws PersistenceException;
 
   /**
    * @param computer

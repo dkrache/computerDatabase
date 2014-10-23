@@ -14,7 +14,7 @@ public interface IComputerService {
    * Extract a List of computers.
    * @return
    */
-  List<Computer> selectAll(final Page page);
+  List<Computer> readAll(final Page page);
 
   /**
    * Get computers whose name is name.
@@ -28,14 +28,14 @@ public interface IComputerService {
    * @param externalIdComputer
    * @return
    */
-  Computer select(final long externalIdComputer);
+  Computer read(final long externalIdComputer);
 
   /**
    * Insertion a new computer.
    * @param computer
    * @return
    */
-  boolean insert(final Computer computer);
+  boolean create(final Computer computer);
 
   /**
    * Update the computer

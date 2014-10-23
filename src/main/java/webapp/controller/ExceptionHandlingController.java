@@ -25,7 +25,7 @@ public class ExceptionHandlingController {
     return new ModelAndView("error/404");
   }
 
-  @ExceptionHandler({ Exception.class, RuntimeException.class, ServiceException.class })
+  @ExceptionHandler(ServiceException.class)
   public String internalError() {
     return "error/500";
   }

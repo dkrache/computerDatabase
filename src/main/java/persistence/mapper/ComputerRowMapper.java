@@ -39,7 +39,7 @@ public class ComputerRowMapper {
     try {
       while (resultSet.next()) {
         computers.add(Computer.builder(resultSet.getString("name"))
-            .company(companyDAO.select(resultSet.getInt("company_id")))
+            .company(companyDAO.read(resultSet.getInt("company_id")))
             .discontinuedDate(DateUtils.getDate(resultSet.getTimestamp("discontinued")))
             .introducedDate(DateUtils.getDate(resultSet.getTimestamp("introduced")))
             .id(resultSet.getInt("id")).build());

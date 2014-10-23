@@ -39,7 +39,7 @@ public class ComputerDAO implements IComputerDAO {
                                                               + WHERE_JOIN_CLAUSE;
 
   private static final String           SELECT            = "select id, name, introduced, discontinued, company_id from computer where id=?";
-  private static final String           INSERT            = "insert into computer (name,introduced,discontinued,company_id) values (?,?,?,?)";
+  private static final String           INSERT            = "insert into computer (name, introduced,discontinued,company_id) values (?,?,?,?)";
   private static final String           UPDATE            = "update computer set name=?, introduced=?, discontinued=?, company_id=? where id=?";
   private static final String           DELETE            = "delete from computer where id=?";
 
@@ -60,7 +60,7 @@ public class ComputerDAO implements IComputerDAO {
    * @return
    * @throws PersistenceException
    */
-  public List<Computer> selectAll(final Page page) throws PersistenceException {
+  public List<Computer> readAll(final Page page) throws PersistenceException {
     final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL
@@ -87,7 +87,7 @@ public class ComputerDAO implements IComputerDAO {
    * @return
    * @throws PersistenceException
    */
-  public Computer select(final long idComputer) throws PersistenceException {
+  public Computer read(final long idComputer) throws PersistenceException {
     final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT);
@@ -111,7 +111,7 @@ public class ComputerDAO implements IComputerDAO {
    * @param computer
    * @throws PersistenceException
    */
-  public void insert(final Computer computer) throws PersistenceException {
+  public void create(final Computer computer) throws PersistenceException {
     final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(INSERT,
@@ -128,7 +128,6 @@ public class ComputerDAO implements IComputerDAO {
       final ResultSet resultSet = preparedStatement.getGeneratedKeys();
       if (resultSet.next()) {
         computer.setId(resultSet.getLong(1));
-        connection.commit();
       }
       loggerDAO.insert(MyLogger.builder().log("Insertion of computer").build());
     } catch (final SQLException e) {
@@ -159,7 +158,6 @@ public class ComputerDAO implements IComputerDAO {
       preparedStatement.setLong(5, computer.getId());
       preparedStatement.execute();
       loggerDAO.insert(MyLogger.builder().log("MAJ computer " + computer.getId()).build());
-      connection.commit();
     } catch (final SQLException e) {
       loggerDAO.insert(MyLogger.builder().log("Error while updating computers").exception(e)
           .build());
@@ -177,7 +175,6 @@ public class ComputerDAO implements IComputerDAO {
       final PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
       preparedStatement.setLong(1, idComputer);
       preparedStatement.execute();
-      connection.commit();
       loggerDAO.insert(MyLogger.builder()
           .log("Delete of the computer referenced by the id=" + idComputer).build());
     } catch (final SQLException e) {
@@ -187,12 +184,7 @@ public class ComputerDAO implements IComputerDAO {
     }
   }
 
-  /**
-   * @param connectionDAO the connectionDAO to set
-   */
-  public void setConnectionDAO(final ConnectionDAO connectionDAO) {
-    this.connectionDAO = connectionDAO;
-  }
+ 
 
   /**
    * @param page
@@ -300,8 +292,7 @@ public class ComputerDAO implements IComputerDAO {
           try {
             loggerDAO.insert(MyLogger.builder()
                 .log(nombreDeSelect + " select those last " + SECONDE + " seconds").build());
-            connectionDAO.getConnection().commit();
-          } catch (final PersistenceException | SQLException e) {
+          } catch (final PersistenceException e) {
             LOGGER.warn("error while inserting logger with the timer", e);
           }
           nombreDeSelect = 0;

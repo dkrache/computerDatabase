@@ -14,20 +14,20 @@ public interface ICompanyDAO {
    * @return
    * @throws PersistenceException
    */
-  List<Company> selectAll() throws PersistenceException;
+  List<Company> readAll() throws PersistenceException;
 
   /**
    * @param idCompany
    * @return
    * @throws PersistenceException
    */
-  Company select(final int idCompany) throws PersistenceException;
+  Company read(final int idCompany) throws PersistenceException;
 
   /**
    * @param company
    * @throws PersistenceException
    */
-  void insert(final Company company) throws PersistenceException;
+  void create(final Company company) throws PersistenceException;
 
   /**
    * @param company

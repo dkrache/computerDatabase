@@ -33,9 +33,10 @@ public class CompanyService implements ICompanyService {
    * @see service.ICompanyService#selectAll()
    */
   @Override
-  public List<Company> selectAll() {
+  @Transactional(readOnly = true)
+  public List<Company> readAll() {
     try {
-      return companyDAO.selectAll();
+      return companyDAO.readAll();
     } catch (final PersistenceException e) {
       LOGGER.warn("Les objets n'ont pas pu être initialisés.");
       throw new ServiceException(e);

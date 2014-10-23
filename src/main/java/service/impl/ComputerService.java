@@ -38,9 +38,10 @@ public class ComputerService implements IComputerService {
    * @see service.IComputerService#selectAll()
    */
   @Override
-  public List<Computer> selectAll(final Page page) {
+  @Transactional(readOnly = true)
+  public List<Computer> readAll(final Page page) {
     try {
-      return computerDAO.selectAll(page);
+      return computerDAO.readAll(page);
     } catch (final PersistenceException e) {
       throw new ServiceException(e);
     } finally {
@@ -52,6 +53,7 @@ public class ComputerService implements IComputerService {
    * @see service.IComputerService#selectAll()
    */
   @Override
+  @Transactional(readOnly = true)
   public List<Computer> search(final Page page) {
     try {
       return computerDAO.search(page);
@@ -66,10 +68,11 @@ public class ComputerService implements IComputerService {
    * @see service.IComputerService#select(long)
    */
   @Override
-  public Computer select(final long externalIdComputer) {
+  @Transactional(readOnly = true)
+  public Computer read(final long externalIdComputer) {
     Computer computer;
     try {
-      computer = computerDAO.select(externalIdComputer);
+      computer = computerDAO.read(externalIdComputer);
       if (computer != null) {
         return computer;
       } else {
@@ -87,12 +90,12 @@ public class ComputerService implements IComputerService {
    * @see service.IComputerService#insert(core.Computer)
    */
   @Override
-  public boolean insert(final Computer computer) {
+  public boolean create(final Computer computer) {
 
     try {
       // we check if the computer is valid before inserting it in database
       if (validate(computer)) {
-        computerDAO.insert(computer);
+        computerDAO.create(computer);
         return true;
       }
     } catch (final PersistenceException e) {

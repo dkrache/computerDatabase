@@ -34,7 +34,7 @@ public class CompanyDAO implements ICompanyDAO {
    * @return
    * @throws PersistenceException
    */
-  public List<Company> selectAll() throws PersistenceException {
+  public List<Company> readAll() throws PersistenceException {
     final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
@@ -50,7 +50,7 @@ public class CompanyDAO implements ICompanyDAO {
    * @return
    * @throws PersistenceException
    */
-  public Company select(final int idCompany) throws PersistenceException {
+  public Company read(final int idCompany) throws PersistenceException {
     final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT);
@@ -70,7 +70,7 @@ public class CompanyDAO implements ICompanyDAO {
    * @param company
    * @throws PersistenceException
    */
-  public void insert(final Company company) throws PersistenceException {
+  public void create(final Company company) throws PersistenceException {
     final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(INSERT);
@@ -112,6 +112,5 @@ public class CompanyDAO implements ICompanyDAO {
       throw new PersistenceException(e);
     }
   }
-
 
 }

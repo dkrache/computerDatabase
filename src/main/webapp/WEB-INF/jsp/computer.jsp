@@ -15,7 +15,7 @@
 		<p style="color: green"><spring:message code="${message}"/></p> 
 	</c:if>
 	<form:form id="formAddComputer" commandName="computerDto"
-		action="addComputer" method="POST">
+		action="/computer-database/computer/add" method="POST">
 
 		<c:if test="${not empty computerDto}">
 			<div class="input">
@@ -63,7 +63,7 @@
 		</fieldset>
 		<div class="actions">
 			<input type="submit" value="<spring:message code="front.computer.form.add"/>" class="btn primary">  <a
-				href="addComputer" class="btn"><spring:message code="front.computer.form.button.cancel"/></a>
+				href="/computer-database/computer/add" class="btn"><spring:message code="front.computer.form.button.cancel"/></a>
 		</div>
 
 

@@ -41,7 +41,7 @@ public final class LoadServlet extends HttpServlet {
         config.getServletContext());
     try {
       this.getServletContext().setAttribute("companys",
-          CompanyMapper.toDto(companyService.selectAll()));
+          CompanyMapper.toDto(companyService.readAll()));
     } catch (final ServiceException e) {
       LOGGER.error("Error while getting companys", e);
     }

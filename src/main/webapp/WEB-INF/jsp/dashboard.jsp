@@ -37,7 +37,7 @@
 			$('#limit').children('option[value=${page.limit}]').attr(
 					'selected', 'selected')
 		</script>
-		<a class="btn success" id="add" href="addComputer"><spring:message code="front.dashboard.computer.button.addComputer"/></a>
+		<a class="btn success" id="add" href="/computer-database/computer/add"><spring:message code="front.dashboard.computer.button.addComputer"/></a>
 	</div>
 
 	<table>

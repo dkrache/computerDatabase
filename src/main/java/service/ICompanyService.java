@@ -14,6 +14,6 @@ public interface ICompanyService {
    * Get all the Companys
    * @return
    */
-  List<Company> selectAll();
+  List<Company> readAll();
 
 }
