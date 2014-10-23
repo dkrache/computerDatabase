@@ -21,11 +21,8 @@ public class ExceptionHandlingController {
   }
 
   @ExceptionHandler(value = ResourceNotFoundException.class)
-  public ModelAndView resourceNotFoundError(final ResourceNotFoundException ex) {
-
-    final ModelAndView model = new ModelAndView("error/404");
-
-    return model;
+  public ModelAndView resourceNotFoundError() {
+    return new ModelAndView("error/404");
   }
 
   @ExceptionHandler({ Exception.class, RuntimeException.class, ServiceException.class })

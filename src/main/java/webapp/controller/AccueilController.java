@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import service.IComputerService;
 import service.exception.ServiceException;
 import webapp.dto.ComputerDto;
-import webapp.exception.ResourceNotFoundException;
 import webapp.utils.Constants;
 import binding.ComputerMapper;
 import core.Page;

@@ -25,12 +25,12 @@ import core.Page;
 @Service("computerService")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ComputerService implements IComputerService {
-  
+
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerService.class);
-  
+
   @Autowired
   private IConnectionDAO      connectionDAO;
-  
+
   @Autowired
   private IComputerDAO        computerDAO;
 
@@ -40,8 +40,7 @@ public class ComputerService implements IComputerService {
   @Override
   public List<Computer> selectAll(final Page page) {
     try {
-      final List<Computer> computers = computerDAO.selectAll(page);
-      return computers;
+      return computerDAO.selectAll(page);
     } catch (final PersistenceException e) {
       throw new ServiceException(e);
     } finally {
@@ -55,8 +54,7 @@ public class ComputerService implements IComputerService {
   @Override
   public List<Computer> search(final Page page) {
     try {
-      final List<Computer> computers = computerDAO.search(page);
-      return computers;
+      return computerDAO.search(page);
     } catch (final PersistenceException e) {
       throw new ServiceException(e);
     } finally {
@@ -152,6 +150,5 @@ public class ComputerService implements IComputerService {
 
     return true;
   }
-
 
 }
