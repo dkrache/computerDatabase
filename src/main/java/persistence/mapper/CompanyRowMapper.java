@@ -1,4 +1,4 @@
-package persistance.mapper;
+package persistence.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

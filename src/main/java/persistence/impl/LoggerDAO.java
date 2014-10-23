@@ -1,4 +1,4 @@
-package persistance.impl;
+package persistence.impl;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -6,36 +6,34 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-import persistance.exception.PersistenceException;
-import persistance.mapper.LoggerRowMapper;
-import persistence.ConnectionDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import persistence.ILoggerDAO;
+import persistence.exception.PersistenceException;
+import persistence.mapper.LoggerRowMapper;
 import core.MyLogger;
 
 /**
  * @author excilys
  *
  */
-public enum LoggerDAO {
-  INSTANCE;
+@Repository
+public class LoggerDAO implements ILoggerDAO {
   private static final String SELECT_ALL = "select id, log, time, exception from logger";
   private static final String SELECT     = "select id, log, time, exception from logger where id=?";
   private static final String INSERT     = "insert into logger (log, time, exception) values (?,?,?)";
   private static final String UPDATE     = "update logger set log=? and time=? exception=? where id=?";
   private static final String DELETE     = "delete from logger where id=?";
-
-  /**
-   * 
-   */
-  private LoggerDAO() {
-    //do Nothing
-  }
+  @Autowired
+  private ConnectionDAO       connectionDAO;
 
   /**
    * @return
    * @throws PersistenceException
    */
   public List<MyLogger> selectAll() throws PersistenceException {
-    final Connection connection = ConnectionDAO.getConnection();
+    final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
       return LoggerRowMapper.convertResultSet(preparedStatement.executeQuery());
@@ -51,7 +49,7 @@ public enum LoggerDAO {
    * @throws PersistenceException
    */
   public MyLogger select(final int idLogger) throws PersistenceException {
-    final Connection connection = ConnectionDAO.getConnection();
+    final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT);
       preparedStatement.setInt(1, idLogger);
@@ -71,7 +69,7 @@ public enum LoggerDAO {
    * @throws PersistenceException
    */
   public void insert(final MyLogger myLogger) throws PersistenceException {
-    final Connection connection = ConnectionDAO.getConnection();
+    final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(INSERT);
       preparedStatement.setString(1, myLogger.getLog());
@@ -91,7 +89,7 @@ public enum LoggerDAO {
    * @throws PersistenceException
    */
   public void update(final MyLogger myLogger) throws PersistenceException {
-    final Connection connection = ConnectionDAO.getConnection();
+    final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(UPDATE);
       preparedStatement.setString(1, myLogger.getLog());
@@ -110,7 +108,7 @@ public enum LoggerDAO {
    * @throws PersistenceException
    */
   public void delete(final int idLogger) throws PersistenceException {
-    final Connection connection = ConnectionDAO.getConnection();
+    final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
       preparedStatement.setInt(1, idLogger);
@@ -118,6 +116,13 @@ public enum LoggerDAO {
     } catch (final SQLException e) {
       throw new PersistenceException(e);
     }
+  }
+
+  /**
+   * @param connectionDAO the connectionDAO to set
+   */
+  public void setConnectionDAO(final ConnectionDAO connectionDAO) {
+    this.connectionDAO = connectionDAO;
   }
 
 }

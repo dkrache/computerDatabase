@@ -12,15 +12,30 @@
 	<!-- Scan packages -->
 	<context:component-scan base-package="service.impl" />
 	<context:component-scan base-package="service" />
+	<context:component-scan base-package="persistence" />
+	<context:component-scan base-package="persistence.impl" />
+	<context:component-scan base-package="persistence.mapper" />
 	<context:component-scan base-package="webapp.controller" />
 	<context:component-scan base-package="webapp.binding" />
-
+	<context:component-scan base-package="webapp.computer" />
 	<!-- to make Spring MVC supports JSR303 validator via @Valid -->
 	<mvc:annotation-driven validator="validator"
 		conversion-service="conversionService" />
 
-	<bean id="computerService" class="service.impl.ComputerService" />
-	<bean id="companyService" class="service.impl.CompanyService" />
+
+	<bean id="companyDAO" class="persistence.impl.CompanyDAO" />
+	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource"
+		destroy-method="close">
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="driverClass" value="${jdbc.driverClassName}" />
+		<property name="minConnectionsPerPartition" value="${jdbc.MinConnectionsPerPartition}" />
+		<property name="maxConnectionsPerPartition" value="${jdbc.MaxConnectionsPerPartition}" />
+		<property name="partitionCount" value="${jdbc.PartitionCount}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+	</bean>
+
+	<context:property-placeholder location="classpath:jdbc.properties" />
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

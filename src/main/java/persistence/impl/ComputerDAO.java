@@ -1,4 +1,4 @@
-package persistance.impl;
+package persistence.impl;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -11,16 +11,18 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import persistance.exception.PersistenceException;
-import persistance.mapper.ComputerRowMapper;
-import persistence.ConnectionDAO;
+import persistence.IComputerDAO;
+import persistence.exception.PersistenceException;
+import persistence.mapper.ComputerRowMapper;
 import core.Computer;
 import core.MyLogger;
 import core.Page;
 
-public enum ComputerDAO {
-  INSTANCE;
+@Repository
+public class ComputerDAO implements IComputerDAO {
   private int                           nombreDeSelect    = 0;
   private static final org.slf4j.Logger LOGGER            = LoggerFactory
                                                               .getLogger(ComputerDAO.class);
@@ -39,23 +41,15 @@ public enum ComputerDAO {
   private static final String           DELETE            = "delete from computer where id=?";
 
   private static final int              SECONDE           = 60;
+  @Autowired
+  private LoggerDAO                     loggerDAO;
+  @Autowired
+  private ConnectionDAO                 connectionDAO;
+  @Autowired
+  private ComputerRowMapper             computerRowMapper;
 
-  private ComputerDAO() {
-    final Timer timer = new Timer();
-    timer.scheduleAtFixedRate(new TimerTask() {
-      @Override
-      public void run() {
-        try {
-          LoggerDAO.INSTANCE.insert(MyLogger.builder()
-              .log(nombreDeSelect + " select those last " + SECONDE + " seconds").build());
-          ConnectionDAO.getConnection().commit();
-        } catch (final PersistenceException | SQLException e) {
-          LOGGER.warn("error while inserting logger with the timer", e);
-        }
-        nombreDeSelect = 0;
+  public ComputerDAO() {
 
-      }
-    }, new Date(System.currentTimeMillis()), 1000 * SECONDE);
   }
 
   /**
@@ -64,7 +58,7 @@ public enum ComputerDAO {
    * @throws PersistenceException
    */
   public List<Computer> selectAll(final Page page) throws PersistenceException {
-    final Connection connection = ConnectionDAO.getConnection();
+    final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL
           + LIMIT_AND_OFFSET);
@@ -76,11 +70,11 @@ public enum ComputerDAO {
       // pour les logs
       nombreDeSelect++;
 
-      return ComputerRowMapper.convertResultSet(preparedStatement.executeQuery());
+      return computerRowMapper.convertResultSet(preparedStatement.executeQuery());
 
     } catch (final SQLException e) {
-      LoggerDAO.INSTANCE.insert(MyLogger.builder().log("Error while getting computers").exception(e)
-          .build());
+      loggerDAO
+          .insert(MyLogger.builder().log("Error while getting computers").exception(e).build());
       throw new PersistenceException(e);
     }
   }
@@ -91,18 +85,18 @@ public enum ComputerDAO {
    * @throws PersistenceException
    */
   public Computer select(final long idComputer) throws PersistenceException {
-    final Connection connection = ConnectionDAO.getConnection();
+    final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(SELECT);
       preparedStatement.setLong(1, idComputer);
-      final List<Computer> computers = ComputerRowMapper.convertResultSet(preparedStatement
+      final List<Computer> computers = computerRowMapper.convertResultSet(preparedStatement
           .executeQuery());
       nombreDeSelect++;
       if (!computers.isEmpty()) {
         return computers.get(0);
       }
     } catch (final SQLException e) {
-      LoggerDAO.INSTANCE.insert(MyLogger.builder()
+      loggerDAO.insert(MyLogger.builder()
           .log("Error while getting the computer where id is " + idComputer).exception(e).build());
 
       throw new PersistenceException(e);
@@ -115,13 +109,13 @@ public enum ComputerDAO {
    * @throws PersistenceException
    */
   public void insert(final Computer computer) throws PersistenceException {
-    final Connection connection = ConnectionDAO.getConnection();
+    final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(INSERT,
           Statement.RETURN_GENERATED_KEYS);
       preparedStatement.setString(1, computer.getComputerName());
-      preparedStatement.setDate(2, new Date(computer.getIntroducedDate().getTime()));
-      preparedStatement.setDate(3, new Date(computer.getDiscontinuedDate().getTime()));
+      preparedStatement.setDate(2, new Date(computer.getIntroducedDate().getMillis()));
+      preparedStatement.setDate(3, new Date(computer.getDiscontinuedDate().getMillis()));
       if (computer.getCompany() == null) {
         preparedStatement.setLong(4, 0);
       } else {
@@ -133,10 +127,10 @@ public enum ComputerDAO {
         computer.setId(resultSet.getLong(1));
         connection.commit();
       }
-      LoggerDAO.INSTANCE.insert(MyLogger.builder().log("Insertion of computer").build());
+      loggerDAO.insert(MyLogger.builder().log("Insertion of computer").build());
     } catch (final SQLException e) {
-      LoggerDAO.INSTANCE.insert(MyLogger.builder().log("Error while inserting a computer")
-          .exception(e).build());
+      loggerDAO.insert(MyLogger.builder().log("Error while inserting a computer").exception(e)
+          .build());
 
       throw new PersistenceException(e);
     }
@@ -148,12 +142,12 @@ public enum ComputerDAO {
    * @throws PersistenceException
    */
   public void update(final Computer computer) throws PersistenceException {
-    final Connection connection = ConnectionDAO.getConnection();
+    final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(UPDATE);
       preparedStatement.setString(1, computer.getComputerName());
-      preparedStatement.setDate(2, new Date(computer.getIntroducedDate().getTime()));
-      preparedStatement.setDate(3, new Date(computer.getDiscontinuedDate().getTime()));
+      preparedStatement.setDate(2, new Date(computer.getIntroducedDate().getMillis()));
+      preparedStatement.setDate(3, new Date(computer.getDiscontinuedDate().getMillis()));
       if (computer.getCompany() == null) {
         preparedStatement.setLong(4, 0);
       } else {
@@ -161,10 +155,10 @@ public enum ComputerDAO {
       }
       preparedStatement.setLong(5, computer.getId());
       preparedStatement.execute();
-      LoggerDAO.INSTANCE.insert(MyLogger.builder().log("MAJ computer " + computer.getId()).build());
+      loggerDAO.insert(MyLogger.builder().log("MAJ computer " + computer.getId()).build());
       connection.commit();
     } catch (final SQLException e) {
-      LoggerDAO.INSTANCE.insert(MyLogger.builder().log("Error while updating computers").exception(e)
+      loggerDAO.insert(MyLogger.builder().log("Error while updating computers").exception(e)
           .build());
       throw new PersistenceException(e);
     }
@@ -175,16 +169,16 @@ public enum ComputerDAO {
    * @throws PersistenceException
    */
   public void delete(final long idComputer) throws PersistenceException {
-    final Connection connection = ConnectionDAO.getConnection();
+    final Connection connection = connectionDAO.getConnection();
     try {
       final PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
       preparedStatement.setLong(1, idComputer);
       preparedStatement.execute();
       connection.commit();
-      LoggerDAO.INSTANCE.insert(MyLogger.builder()
+      loggerDAO.insert(MyLogger.builder()
           .log("Delete of the computer referenced by the id=" + idComputer).build());
     } catch (final SQLException e) {
-      LoggerDAO.INSTANCE.insert(MyLogger.builder()
+      loggerDAO.insert(MyLogger.builder()
           .log("Error while deleting computer where his id=" + idComputer).exception(e).build());
       throw new PersistenceException(e);
     }
@@ -196,7 +190,7 @@ public enum ComputerDAO {
    * @throws PersistenceException
    */
   public List<Computer> search(final Page page) throws PersistenceException {
-    final Connection connection = ConnectionDAO.getConnection();
+    final Connection connection = connectionDAO.getConnection();
     final char wildcard = '%';
     try {
       final PreparedStatement preparedStatement;
@@ -207,10 +201,10 @@ public enum ComputerDAO {
       preparedStatement.setInt(4, page.getOffset());
       page.setTotalCount(count(page));
       nombreDeSelect++;
-      return ComputerRowMapper.convertResultSet(preparedStatement.executeQuery());
+      return computerRowMapper.convertResultSet(preparedStatement.executeQuery());
     } catch (final SQLException e) {
-      LoggerDAO.INSTANCE.insert(MyLogger.builder().log("Error while searching computers")
-          .exception(e).build());
+      loggerDAO.insert(MyLogger.builder().log("Error while searching computers").exception(e)
+          .build());
       throw new PersistenceException(e);
     }
   }
@@ -221,7 +215,7 @@ public enum ComputerDAO {
    * @throws PersistenceException
    */
   private int count(final Page page) throws PersistenceException {
-    final Connection connection = ConnectionDAO.getConnection();
+    final Connection connection = connectionDAO.getConnection();
     final char wildcard = '%';
 
     try {
@@ -281,5 +275,43 @@ public enum ComputerDAO {
    */
   private String getAscendancy(final Page page) {
     return Page.UP.equals(page.getAscendancy()) ? "asc" : "desc";
+  }
+
+  /**
+   * @param connectionDAO the connectionDAO to set
+   */
+  public void setConnectionDAO(final ConnectionDAO connectionDAO) {
+    this.connectionDAO = connectionDAO;
+  }
+
+  /**
+   * @param loggerDAO the loggerDAO to set
+   */
+  public void setLoggerDAO(final LoggerDAO loggerDAO) {
+    if (this.loggerDAO == null) {
+      this.loggerDAO = loggerDAO;
+      final Timer timer = new Timer();
+      timer.scheduleAtFixedRate(new TimerTask() {
+        @Override
+        public void run() {
+          try {
+            loggerDAO.insert(MyLogger.builder()
+                .log(nombreDeSelect + " select those last " + SECONDE + " seconds").build());
+            connectionDAO.getConnection().commit();
+          } catch (final PersistenceException | SQLException e) {
+            LOGGER.warn("error while inserting logger with the timer", e);
+          }
+          nombreDeSelect = 0;
+
+        }
+      }, new Date(System.currentTimeMillis()), 1000 * SECONDE);
+    }
+  }
+
+  /**
+   * @param computerRowMapper the computerRowMapper to set
+   */
+  public void setComputerRowMapper(final ComputerRowMapper computerRowMapper) {
+    this.computerRowMapper = computerRowMapper;
   }
 }

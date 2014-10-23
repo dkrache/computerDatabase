@@ -4,8 +4,11 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public final class DateUtils {
 
@@ -28,34 +31,29 @@ public final class DateUtils {
     return dateFormat.format(calendar.getTime());
   }
 
-  public static Date createStringToDate(final String date) throws ParseException {
-    final SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT_DD_MM_YYYY);
-    final Calendar cal = GregorianCalendar.getInstance();
-    cal.setTime(dateFormat.parse(date));
-    return cal.getTime();
+  public static DateTime createStringToDate(final String date) throws ParseException {
+    final DateTimeFormatter formatter = DateTimeFormat.forPattern(FORMAT_DD_MM_YYYY);
+    return formatter.parseDateTime(date);
   }
 
-  public static String createDateToString(final Date date) {
-    if (date == null) {
-      return null;
+  /**
+   * @param dateTime
+   * @return
+   */
+  public static String createDateToString(final DateTime dateTime) {
+    if (dateTime == null) {
+      return "";
     }
-    final SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT_DD_MM_YYYY);
-    return dateFormat.format(date);
+    return dateTime.toString(FORMAT_DD_MM_YYYY);
 
   }
 
-  public static Date getDate(final Timestamp timestamp) {
+  public static DateTime getDate(final Timestamp timestamp) {
     if (timestamp == null) {
       return null;
     }
-    return new Date(timestamp.getTime());
-  }
-
-  public static Date getDate(final long timeInMillis) {
-    if (timeInMillis <= 0) {
-      return null;
-    }
-    return new Date(timeInMillis);
+    // Turn it into a Joda DateTime with time zone.
+    return new DateTime(timestamp);
   }
 
 }

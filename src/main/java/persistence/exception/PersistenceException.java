@@ -1,4 +1,4 @@
-package persistance.exception;
+package persistence.exception;
 
 public class PersistenceException extends Exception {
   /**

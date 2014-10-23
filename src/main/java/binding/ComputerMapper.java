@@ -31,6 +31,7 @@ public final class ComputerMapper {
     }
     computerDto.setExternalId(computer.getId());
     computerDto.setComputerName(computer.getComputerName());
+
     computerDto.setDiscontinuedDate(DateUtils.createDateToString(computer.getDiscontinuedDate()));
     computerDto.setIntroducedDate(DateUtils.createDateToString(computer.getIntroducedDate()));
     computerDto.setCompanyDto(CompanyMapper.toDto(computer.getCompany()));

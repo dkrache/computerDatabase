@@ -1,15 +1,14 @@
 package core;
 
-import java.util.Date;
-
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 
 public class Computer extends Basic {
 
-  private String  computerName;
-  private Date    introducedDate;
-  private Date    discontinuedDate;
-  private Company company;
+  private String   computerName;
+  private DateTime introducedDate;
+  private DateTime discontinuedDate;
+  private Company  company;
 
   /**
    * @return the computerName
@@ -19,24 +18,24 @@ public class Computer extends Basic {
   }
 
   /**
+   * @return the companyName
+   */
+  public Company getCompany() {
+    return company;
+  }
+
+  /**
    * @return the introducedDate
    */
-  public Date getIntroducedDate() {
-    return introducedDate == null ? null : new Date(introducedDate.getTime());
+  public DateTime getIntroducedDate() {
+    return introducedDate;
   }
 
   /**
    * @return the discontinuedDate
    */
-  public Date getDiscontinuedDate() {
-    return discontinuedDate == null ? null : new Date(discontinuedDate.getTime());
-  }
-
-  /**
-   * @return the companyName
-   */
-  public Company getCompany() {
-    return company;
+  public DateTime getDiscontinuedDate() {
+    return discontinuedDate;
   }
 
   public static Builder builder(final String name) {
@@ -62,12 +61,12 @@ public class Computer extends Basic {
       return this;
     }
 
-    public Builder introducedDate(final Date date) {
+    public Builder introducedDate(final DateTime date) {
       c.introducedDate = date;
       return this;
     }
 
-    public Builder discontinuedDate(final Date date) {
+    public Builder discontinuedDate(final DateTime date) {
       c.discontinuedDate = date;
       return this;
     }

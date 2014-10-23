@@ -23,8 +23,21 @@
 		<javax.servlet.version>3.0.1</javax.servlet.version>
 		<hibernate.version>5.1.2.Final</hibernate.version>
 		<javax.validation.version>1.1.0.Final</javax.validation.version>
+		<joda.time.version>2.5</joda.time.version>
+		<joda.time.tag.version>1.1.1</joda.time.tag.version>
 	</properties>
 	<dependencies>
+		<!-- JodaTime pour remplace java.util.Date -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${joda.time.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time-jsptags</artifactId>
+			<version>${joda.time.tag.version}</version>
+		</dependency>
 
 		<!-- BoneCP is using for the the management of the pool connection -->
 		<dependency>

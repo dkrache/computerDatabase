@@ -1,12 +1,15 @@
-package persistance.mapper;
+package persistence.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import persistance.exception.PersistenceException;
-import persistance.impl.CompanyDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import persistence.exception.PersistenceException;
+import persistence.impl.CompanyDAO;
 import binding.DateUtils;
 import core.Computer;
 
@@ -14,9 +17,12 @@ import core.Computer;
  * @author excilys
  *
  */
-public final class ComputerRowMapper {
+@Component
+public class ComputerRowMapper {
+  @Autowired
+  private CompanyDAO companyDAO;
 
-  private ComputerRowMapper() {
+  public ComputerRowMapper() {
 
   }
 
@@ -27,14 +33,13 @@ public final class ComputerRowMapper {
    * @throws SQLException
    * @throws PersistenceException
    */
-  public static List<Computer> convertResultSet(final ResultSet resultSet)
-      throws PersistenceException {
+  public List<Computer> convertResultSet(final ResultSet resultSet) throws PersistenceException {
     final List<Computer> computers = new ArrayList<>();
 
     try {
       while (resultSet.next()) {
         computers.add(Computer.builder(resultSet.getString("name"))
-            .company(CompanyDAO.INSTANCE.select(resultSet.getInt("company_id")))
+            .company(companyDAO.select(resultSet.getInt("company_id")))
             .discontinuedDate(DateUtils.getDate(resultSet.getTimestamp("discontinued")))
             .introducedDate(DateUtils.getDate(resultSet.getTimestamp("introduced")))
             .id(resultSet.getInt("id")).build());
@@ -43,5 +48,12 @@ public final class ComputerRowMapper {
       throw new PersistenceException(e);
     }
     return computers;
+  }
+
+  /**
+   * @param companyDAO the companyDAO to set
+   */
+  public void setCompanyDAO(final CompanyDAO companyDAO) {
+    this.companyDAO = companyDAO;
   }
 }

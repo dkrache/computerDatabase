@@ -40,7 +40,8 @@ public class UpdateComputerController {
         model.addAttribute(Constants.PARAM_MESSAGE, "back.message.computer.updating");
       } else {
         redirectAttrs.addFlashAttribute(Constants.PARAM_ERROR, true);
-        redirectAttrs.addFlashAttribute(Constants.PARAM_MESSAGE, "back.message.error.computer.notFound");
+        redirectAttrs.addFlashAttribute(Constants.PARAM_MESSAGE,
+            "back.message.error.computer.notFound");
         return Constants.REDIRECT + Constants.VUE_DASHBOARD;
       }
     } catch (final NumberFormatException | ServiceException e) {
