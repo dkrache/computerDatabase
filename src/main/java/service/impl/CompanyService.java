@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import persistence.ICompanyDAO;
 import persistence.IConnectionDAO;
@@ -19,6 +21,7 @@ import core.Company;
  *
  */
 @Service
+@Transactional(propagation = Propagation.REQUIRED)
 public class CompanyService implements ICompanyService {
   private static final Logger LOGGER = LoggerFactory.getLogger(CompanyService.class);
   @Autowired
@@ -35,25 +38,10 @@ public class CompanyService implements ICompanyService {
       return companyDAO.selectAll();
     } catch (final PersistenceException e) {
       LOGGER.warn("Les objets n'ont pas pu être initialisés.");
-      connectionDAO.rollbackAndCloseConnection();
       throw new ServiceException(e);
     } finally {
-      connectionDAO.commitAndCloseConnection();
+      connectionDAO.closeConnection();
     }
-  }
-
-  /**
-   * @param companyDAO the companyDAO to set
-   */
-  public void setCompanyDAO(final ICompanyDAO companyDAO) {
-    this.companyDAO = companyDAO;
-  }
-
-  /**
-   * @param connectionDAO the connectionDAO to set
-   */
-  public void setConnectionDAO(final IConnectionDAO connectionDAO) {
-    this.connectionDAO = connectionDAO;
   }
 
 }

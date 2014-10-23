@@ -17,12 +17,8 @@ public interface IConnectionDAO {
   Connection getConnection();
 
   /**
-   * Commit and close the connection
+   * close the connection
    */
-  void commitAndCloseConnection();
+  void closeConnection();
 
-  /**
-   * RollBack and close the connection
-   */
-  void rollbackAndCloseConnection();
 }

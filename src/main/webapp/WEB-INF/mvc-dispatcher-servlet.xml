@@ -10,18 +10,18 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<!-- Scan packages -->
-	<context:component-scan base-package="service.impl" />
 	<context:component-scan base-package="service" />
 	<context:component-scan base-package="persistence" />
-	<context:component-scan base-package="persistence.impl" />
-	<context:component-scan base-package="persistence.mapper" />
-	<context:component-scan base-package="webapp.controller" />
-	<context:component-scan base-package="webapp.binding" />
-	<context:component-scan base-package="webapp.computer" />
+	<context:component-scan base-package="binding" />
+	<context:component-scan base-package="webapp" />
+	
 	<!-- to make Spring MVC supports JSR303 validator via @Valid -->
 	<mvc:annotation-driven validator="validator"
 		conversion-service="conversionService" />
-
+		
+   <bean id="simpleMappingExceptionResolver"
+          class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"/>
+   
 
 	<bean id="companyDAO" class="persistence.impl.CompanyDAO" />
 	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource"
@@ -46,9 +46,11 @@
 			<value>.jsp</value>
 		</property>
 	</bean>
+	
 	<bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 	</bean>
+	
 	<bean id="conversionService"
 		class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">

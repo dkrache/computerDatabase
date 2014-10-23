@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import persistence.IConnectionDAO;
 
@@ -17,6 +19,7 @@ import persistence.IConnectionDAO;
  *
  */
 @Repository
+@Transactional(propagation = Propagation.MANDATORY)
 public class ConnectionDAO implements IConnectionDAO {
   private static final Logger                  LOGGER            = LoggerFactory
                                                                      .getLogger(ConnectionDAO.class);
@@ -46,21 +49,7 @@ public class ConnectionDAO implements IConnectionDAO {
    * @see persistance.IConnectionDAO#commitAndCloseConnection()
    */
   @Override
-  public void commitAndCloseConnection() {
-    try {
-      if (THREAD_CONNECTION.get() != null) {
-        THREAD_CONNECTION.get().commit();
-        THREAD_CONNECTION.get().close();
-        THREAD_CONNECTION.remove();
-      }
-    } catch (final SQLException e) {
-      LOGGER.warn("Error while closing connection: {}", e);
-      throw new RuntimeException(e);
-    }
-  }
-
-  @Override
-  public void rollbackAndCloseConnection() {
+  public void closeConnection() {
     try {
       if (THREAD_CONNECTION.get() != null) {
         THREAD_CONNECTION.get().close();
@@ -72,11 +61,5 @@ public class ConnectionDAO implements IConnectionDAO {
     }
   }
 
-  /**
-   * @param dataSource the dataSource to set
-   */
-  public void setDataSource(final DataSource dataSource) {
-    this.dataSource = dataSource;
-  }
-
+ 
 }

@@ -8,6 +8,7 @@
     </web-resource-collection>
     <auth-constraint/>
   </security-constraint>
+  
   	<servlet>
 		<servlet-name>mvc-dispatcher</servlet-name>
 		<servlet-class>
@@ -15,6 +16,7 @@
                 </servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
  <!-- On load, we put the company data in the applicationContext -->
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>

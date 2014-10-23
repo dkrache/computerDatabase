@@ -13,6 +13,8 @@ import java.util.TimerTask;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import persistence.IComputerDAO;
 import persistence.exception.PersistenceException;
@@ -22,6 +24,7 @@ import core.MyLogger;
 import core.Page;
 
 @Repository
+@Transactional(propagation = Propagation.MANDATORY)
 public class ComputerDAO implements IComputerDAO {
   private int                           nombreDeSelect    = 0;
   private static final org.slf4j.Logger LOGGER            = LoggerFactory
@@ -185,6 +188,13 @@ public class ComputerDAO implements IComputerDAO {
   }
 
   /**
+   * @param connectionDAO the connectionDAO to set
+   */
+  public void setConnectionDAO(final ConnectionDAO connectionDAO) {
+    this.connectionDAO = connectionDAO;
+  }
+
+  /**
    * @param page
    * @return List of computers whose refered to the arguments of page
    * @throws PersistenceException
@@ -278,13 +288,6 @@ public class ComputerDAO implements IComputerDAO {
   }
 
   /**
-   * @param connectionDAO the connectionDAO to set
-   */
-  public void setConnectionDAO(final ConnectionDAO connectionDAO) {
-    this.connectionDAO = connectionDAO;
-  }
-
-  /**
    * @param loggerDAO the loggerDAO to set
    */
   public void setLoggerDAO(final LoggerDAO loggerDAO) {
@@ -308,10 +311,4 @@ public class ComputerDAO implements IComputerDAO {
     }
   }
 
-  /**
-   * @param computerRowMapper the computerRowMapper to set
-   */
-  public void setComputerRowMapper(final ComputerRowMapper computerRowMapper) {
-    this.computerRowMapper = computerRowMapper;
-  }
 }

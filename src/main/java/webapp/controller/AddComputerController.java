@@ -28,6 +28,7 @@ import binding.ComputerMapper;
 public class AddComputerController {
   @Autowired
   private IComputerService    computerService;
+  
   private static final Logger LOGGER = LoggerFactory.getLogger(AddComputerController.class);
 
   @RequestMapping(method = RequestMethod.GET)
@@ -39,9 +40,8 @@ public class AddComputerController {
   }
 
   @RequestMapping(method = RequestMethod.POST)
-  protected String doPost(@Valid
-  final ComputerDto computerDto, final BindingResult result,
-      final RedirectAttributes redirectAttrs) {
+  protected String addComputer(@Valid
+  final ComputerDto computerDto, final BindingResult result, final RedirectAttributes redirectAttrs) {
     if (result.hasErrors()) {
       return Constants.VUE_ADD_COMPUTER;
     }
@@ -61,11 +61,6 @@ public class AddComputerController {
 
   }
 
-  /**
-   * @param computerService the computerService to set
-   */
-  public void setComputerService(final IComputerService computerService) {
-    this.computerService = computerService;
-  }
+
 
 }

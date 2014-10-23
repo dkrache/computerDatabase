@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import service.IComputerService;
 import service.exception.ServiceException;
 import webapp.dto.ComputerDto;
+import webapp.exception.ResourceNotFoundException;
 import webapp.utils.Constants;
 import binding.ComputerMapper;
 import core.Page;
@@ -29,15 +30,22 @@ public class AccueilController {
   private IComputerService    computerService;
   private static final Logger LOGGER = LoggerFactory.getLogger(AccueilController.class);
 
+  /**
+   * @param limit
+   * @param searchString
+   * @param currentPage
+   * @param ascendancy
+   * @param order
+   * @param model
+   * @return
+   */
   @RequestMapping(method = RequestMethod.GET)
-  //currentPage=0&&searchString=&ascendancy=down&order=ddate
   protected String doGet(@RequestParam(required = false, defaultValue = "10")
   final int limit, @RequestParam(required = false, defaultValue = "")
   final String searchString, @RequestParam(required = false, defaultValue = "0")
   final int currentPage, @RequestParam(required = false, defaultValue = "asc")
   final String ascendancy, @RequestParam(required = false, defaultValue = "name")
   final String order, final ModelMap model) {
-
     try {
       final Page page = Page.builder().limit(limit).searchString(searchString).order(order)
           .currentPage(currentPage).ascendancy(ascendancy).build();

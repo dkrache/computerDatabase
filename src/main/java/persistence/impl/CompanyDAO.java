@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import persistence.ICompanyDAO;
 import persistence.exception.PersistenceException;
@@ -18,6 +20,7 @@ import core.Company;
  *
  */
 @Repository
+@Transactional(propagation = Propagation.MANDATORY)
 public class CompanyDAO implements ICompanyDAO {
   private static final String SELECT_ALL = "select id, name from company";
   private static final String SELECT     = "select id, name from company where id=?";
@@ -110,11 +113,5 @@ public class CompanyDAO implements ICompanyDAO {
     }
   }
 
-  /**
-   * @param connectionDAO the connectionDAO to set
-   */
-  public void setConnectionDAO(final ConnectionDAO connectionDAO) {
-    this.connectionDAO = connectionDAO;
-  }
 
 }

@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import persistence.ILoggerDAO;
 import persistence.exception.PersistenceException;
@@ -19,6 +21,7 @@ import core.MyLogger;
  *
  */
 @Repository
+@Transactional(propagation = Propagation.MANDATORY)
 public class LoggerDAO implements ILoggerDAO {
   private static final String SELECT_ALL = "select id, log, time, exception from logger";
   private static final String SELECT     = "select id, log, time, exception from logger where id=?";
@@ -118,11 +121,6 @@ public class LoggerDAO implements ILoggerDAO {
     }
   }
 
-  /**
-   * @param connectionDAO the connectionDAO to set
-   */
-  public void setConnectionDAO(final ConnectionDAO connectionDAO) {
-    this.connectionDAO = connectionDAO;
-  }
+ 
 
 }
