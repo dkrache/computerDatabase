@@ -3,8 +3,17 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.excilys.formation</groupId>
 	<artifactId>computer-database</artifactId>
-	<version>2.1.0.RELEASE</version>
-	<packaging>war</packaging>
+	<version>2.2.0.RELEASE</version>
+	<packaging>pom</packaging>
+	
+	<modules>
+		<module>binding</module>
+		<module>code</module>
+		<module>persistence</module>
+		<module>service</module>
+		<module>webapp</module>
+	</modules>
+	
 	<properties>
 		<sonar.jdbc.url>jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8</sonar.jdbc.url>
 		<sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>

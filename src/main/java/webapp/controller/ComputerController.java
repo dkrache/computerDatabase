@@ -49,10 +49,8 @@ public class ComputerController {
   final String searchString, @RequestParam(required = false, defaultValue = "0")
   final int currentPage, @RequestParam(required = false, defaultValue = "asc")
   final String ascendancy, @RequestParam(required = false, defaultValue = "name")
-  final String order, @RequestParam(required = false)
-  final String message, final ModelMap model) {
+  final String order, final ModelMap model) {
     try {
-
       final Page page = Page.builder().limit(limit).searchString(searchString).order(order)
           .currentPage(currentPage).ascendancy(ascendancy).build();
       final List<ComputerDto> computerDtos = ComputerMapper.toDto(computerService.search(page));

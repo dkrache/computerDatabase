@@ -2,6 +2,8 @@ package webapp.controller;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import service.exception.ServiceException;
@@ -13,7 +15,18 @@ import webapp.exception.ResourceNotFoundException;
  *
  */
 @ControllerAdvice
+@RequestMapping("/**")
 public class ExceptionHandlingController {
+
+  @RequestMapping(method = RequestMethod.GET)
+  protected String resourceNotFoundGet() {
+    throw new ResourceNotFoundException();
+  }
+
+  @RequestMapping(method = RequestMethod.POST)
+  protected String resourceNotFoundPost() {
+    throw new ResourceNotFoundException();
+  }
 
   @ExceptionHandler(BadRequestException.class)
   public String badRequestError() {
