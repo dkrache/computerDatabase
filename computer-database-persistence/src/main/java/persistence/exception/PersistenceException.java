@@ -1,6 +1,8 @@
 package persistence.exception;
 
-public class PersistenceException extends Exception {
+import java.sql.SQLException;
+
+public class PersistenceException extends SQLException {
   /**
    * 
    */

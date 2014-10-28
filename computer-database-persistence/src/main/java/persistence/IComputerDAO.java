@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import persistence.exception.PersistenceException;
 import core.Computer;
 import core.Page;
 
@@ -14,40 +13,34 @@ public interface IComputerDAO {
   /**
    * @param page
    * @return
-   * @throws PersistenceException
    */
-  List<Computer> readAll(final Page page) throws PersistenceException;
+  List<Computer> readAll(final Page page);
 
   /**
    * @param idComputer
    * @return
-   * @throws PersistenceException
    */
-  Computer read(final long idComputer) throws PersistenceException;
+  Computer read(final long idComputer);
 
   /**
    * @param computer
-   * @throws PersistenceException
    */
-  void create(final Computer computer) throws PersistenceException;
+  void create(final Computer computer);
 
   /**
    * @param computer
-   * @throws PersistenceException
    */
-  void update(final Computer computer) throws PersistenceException;
+  void update(final Computer computer);
 
   /**
    * @param idComputer
-   * @throws PersistenceException
    */
-  void delete(final long idComputer) throws PersistenceException;
+  void delete(final long idComputer);
 
   /**
    * @param page
    * @return List of computers whose refered to the arguments of page
-   * @throws PersistenceException
    */
-  List<Computer> search(final Page page) throws PersistenceException;
+  List<Computer> search(final Page page);
 
 }

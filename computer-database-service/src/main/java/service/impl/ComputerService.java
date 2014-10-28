@@ -11,10 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import persistence.IComputerDAO;
-import persistence.IConnectionDAO;
-import persistence.exception.PersistenceException;
 import service.IComputerService;
-import service.exception.ServiceException;
 import core.Computer;
 import core.Page;
 
@@ -29,9 +26,6 @@ public class ComputerService implements IComputerService {
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerService.class);
 
   @Autowired
-  private IConnectionDAO      connectionDAO;
-
-  @Autowired
   private IComputerDAO        computerDAO;
 
   /* (non-Javadoc)
@@ -40,13 +34,8 @@ public class ComputerService implements IComputerService {
   @Override
   @Transactional(readOnly = true)
   public List<Computer> readAll(final Page page) {
-    try {
-      return computerDAO.readAll(page);
-    } catch (final PersistenceException e) {
-      throw new ServiceException(e);
-    } finally {
-      connectionDAO.closeConnection();
-    }
+    return computerDAO.readAll(page);
+
   }
 
   /* (non-Javadoc)
@@ -55,13 +44,8 @@ public class ComputerService implements IComputerService {
   @Override
   @Transactional(readOnly = true)
   public List<Computer> search(final Page page) {
-    try {
-      return computerDAO.search(page);
-    } catch (final PersistenceException e) {
-      throw new ServiceException(e);
-    } finally {
-      connectionDAO.closeConnection();
-    }
+    return computerDAO.search(page);
+
   }
 
   /* (non-Javadoc)
@@ -70,20 +54,8 @@ public class ComputerService implements IComputerService {
   @Override
   @Transactional(readOnly = true)
   public Computer read(final long externalIdComputer) {
-    Computer computer;
-    try {
-      computer = computerDAO.read(externalIdComputer);
-      if (computer != null) {
-        return computer;
-      } else {
-        LOGGER.warn("Impossible to find the computer referenced by " + externalIdComputer);
-        return null;
-      }
-    } catch (final PersistenceException e) {
-      throw new ServiceException(e);
-    } finally {
-      connectionDAO.closeConnection();
-    }
+    return computerDAO.read(externalIdComputer);
+
   }
 
   /* (non-Javadoc)
@@ -92,17 +64,10 @@ public class ComputerService implements IComputerService {
   @Override
   public boolean create(final Computer computer) {
 
-    try {
-      // we check if the computer is valid before inserting it in database
-      if (validate(computer)) {
-        computerDAO.create(computer);
-        return true;
-      }
-    } catch (final PersistenceException e) {
-      LOGGER.warn("Error while the insertion");
-      throw new ServiceException(e);
-    } finally {
-      connectionDAO.closeConnection();
+    // we check if the computer is valid before inserting it in database
+    if (validate(computer)) {
+      computerDAO.create(computer);
+      return true;
     }
     return false;
   }
@@ -113,21 +78,14 @@ public class ComputerService implements IComputerService {
   @Override
   public boolean update(final Computer computer) {
 
-    try {
-      //We check if c computer is a valid object before updating it in database.
-      if (!validate(computer)) {
-        LOGGER.warn("computer invalid for the update");
-        return false;
-      }
+    //We check if c computer is a valid object before updating it in database.
+    if (validate(computer)) {
       computerDAO.update(computer);
-    } catch (final PersistenceException e) {
-      LOGGER.warn("Error while the update");
-      throw new ServiceException(e);
-    } finally {
-      connectionDAO.closeConnection();
+      return true;
     }
+    LOGGER.warn("computer invalid for the update");
+    return false;
 
-    return true;
   }
 
   /* (non-Javadoc)
@@ -136,13 +94,7 @@ public class ComputerService implements IComputerService {
   @Override
   public void delete(final long externalIdComputer) {
     // Cas concret :  vérifier que l'utilisateur a les droits de supprimer l'objet. Il n y a pas encore d'utilisateur ici...
-    try {
-      computerDAO.delete(externalIdComputer);
-    } catch (final PersistenceException e) {
-      throw new ServiceException(e);
-    } finally {
-      connectionDAO.closeConnection();
-    }
+    computerDAO.delete(externalIdComputer);
   }
 
   public boolean validate(final Computer computer) {
@@ -150,7 +102,6 @@ public class ComputerService implements IComputerService {
       LOGGER.warn("Name size incorrect");
       return false;
     }
-
     return true;
   }
 

@@ -2,8 +2,9 @@ package persistence.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import core.Company;
 
@@ -11,23 +12,12 @@ import core.Company;
  * @author excilys
  *
  */
-public final class CompanyRowMapper {
+@Component
+public final class CompanyRowMapper implements RowMapper<Company> {
 
-  private CompanyRowMapper() {
-
+  @Override
+  public Company mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
+    return Company.builder(resultSet.getString("name")).id(resultSet.getInt("id")).build();
   }
 
-  /**
-   * Get List of COmpanys from resultSet
-   * @param resultSet
-   * @return
-   * @throws SQLException
-   */
-  public static List<Company> convertResultSet(final ResultSet resultSet) throws SQLException {
-    final List<Company> companys = new ArrayList<>();
-    while (resultSet.next()) {
-      companys.add(Company.builder(resultSet.getString("name")).id(resultSet.getInt("id")).build());
-    }
-    return companys;
-  }
 }

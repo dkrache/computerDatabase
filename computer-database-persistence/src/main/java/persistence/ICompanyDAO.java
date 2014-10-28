@@ -2,42 +2,33 @@ package persistence;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-
-import persistence.exception.PersistenceException;
 import core.Company;
 
-@Repository
 public interface ICompanyDAO {
 
   /**
    * @return
-   * @throws PersistenceException
    */
-  List<Company> readAll() throws PersistenceException;
+  List<Company> readAll();
 
   /**
    * @param idCompany
    * @return
-   * @throws PersistenceException
    */
-  Company read(final int idCompany) throws PersistenceException;
+  Company read(final int idCompany);
 
   /**
    * @param company
-   * @throws PersistenceException
    */
-  void create(final Company company) throws PersistenceException;
+  void create(final Company company);
 
   /**
    * @param company
-   * @throws PersistenceException
    */
-  void update(final Company company) throws PersistenceException;
+  void update(final Company company);
 
   /**
    * @param idCompany
-   * @throws PersistenceException
    */
-  void delete(final int idCompany) throws PersistenceException;
+  void delete(final int idCompany);
 }

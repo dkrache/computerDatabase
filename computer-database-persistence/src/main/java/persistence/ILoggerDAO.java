@@ -2,39 +2,36 @@ package persistence;
 
 import java.util.List;
 
-import persistence.exception.PersistenceException;
+import org.springframework.stereotype.Repository;
+
 import core.MyLogger;
 
+@Repository
 public interface ILoggerDAO {
 
   /**
    * @return
-   * @throws PersistenceException
    */
-  List<MyLogger> selectAll() throws PersistenceException;
+  List<MyLogger> selectAll();
 
   /**
    * @param idLogger
    * @return
-   * @throws PersistenceException
    */
-  MyLogger select(final int idLogger) throws PersistenceException;
+  MyLogger select(final int idLogger);
 
   /**
    * @param myLogger
-   * @throws PersistenceException
    */
-  void insert(final MyLogger myLogger) throws PersistenceException;
+  void insert(final MyLogger myLogger);
 
   /**
    * @param myLogger
-   * @throws PersistenceException
    */
-  void update(final MyLogger myLogger) throws PersistenceException;
+  void update(final MyLogger myLogger);
 
   /**
    * @param idLogger
-   * @throws PersistenceException
    */
-  void delete(final int idLogger) throws PersistenceException;
+  void delete(final int idLogger);
 }

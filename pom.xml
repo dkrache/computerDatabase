@@ -36,7 +36,7 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
-		
+
 			<!-- JodaTime pour remplace java.util.Date -->
 			<dependency>
 				<groupId>joda-time</groupId>
@@ -79,7 +79,7 @@
 				<version>${javax.servlet.jstl.version}</version>
 			</dependency>
 
-<!-- Spring -->
+			<!-- Spring -->
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
@@ -120,7 +120,11 @@
 				<artifactId>spring-web</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-			
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
 			<!-- Hibernate validation -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
@@ -137,7 +141,7 @@
 
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<dependencies>
 		<!-- Logger -->
 		<dependency>

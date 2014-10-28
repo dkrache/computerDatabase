@@ -54,9 +54,9 @@
 			<property name="paramName" value="lang"></property>
 		</bean>
 	</mvc:interceptors>
-	<import resource="classpath:serviceApplicationContext.xml"/>
-	<import resource="classpath:bindingApplicationContext.xml"/>
-	
+	<import resource="classpath:serviceApplicationContext.xml" />
+	<import resource="classpath:bindingApplicationContext.xml" />
+
 	<!-- to make Spring MVC supports JSR303 validator via @Valid -->
 	<mvc:annotation-driven validator="validator"
 		conversion-service="conversionService" />
