@@ -2,7 +2,21 @@ package core;
 
 import java.util.Date;
 
-public final class MyLogger extends Basic {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
+@Entity
+@Component("logger")
+@Table(name = "company")
+public final class MyLogger {
+  @Id
+  @GeneratedValue
+  private long      id;
+
   private String    log;
 
   private Date      time;
@@ -38,6 +52,20 @@ public final class MyLogger extends Basic {
     return exception;
   }
 
+  /**
+   * @return the id
+   */
+  public long getId() {
+    return id;
+  }
+
+  /**
+   * @param id the id to set
+   */
+  public void setId(final long id) {
+    this.id = id;
+  }
+
   public static final class Builder {
     private MyLogger logger;
 
@@ -47,7 +75,7 @@ public final class MyLogger extends Basic {
     }
 
     public Builder id(final int id) {
-      logger.id = id;
+      logger.setId(id);
       return this;
     }
 

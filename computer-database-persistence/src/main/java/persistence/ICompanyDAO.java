@@ -15,7 +15,7 @@ public interface ICompanyDAO {
    * @param idCompany
    * @return
    */
-  Company read(final int idCompany);
+  Company read(final long idCompany);
 
   /**
    * @param company
@@ -30,5 +30,6 @@ public interface ICompanyDAO {
   /**
    * @param idCompany
    */
-  void delete(final int idCompany);
+  void delete(final Company company);
+
 }

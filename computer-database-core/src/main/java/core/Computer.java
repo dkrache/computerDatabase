@@ -1,27 +1,51 @@
 package core;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
-public class Computer extends Basic {
+@Entity
+@Table(name = "computer")
+public class Computer {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private long     id;
+  @Column(name = "name")
   private String   computerName;
+  @Column(name = "introduced")
+  @Temporal(TemporalType.TIMESTAMP)
+  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
   private DateTime introducedDate;
+  @Column(name = "discontinued")
+  @Temporal(TemporalType.TIMESTAMP)
+  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
   private DateTime discontinuedDate;
+  @ManyToOne
   private Company  company;
+
+  /**
+   * @return the id
+   */
+  public long getId() {
+    return id;
+  }
 
   /**
    * @return the computerName
    */
   public String getComputerName() {
     return computerName;
-  }
-
-  /**
-   * @return the companyName
-   */
-  public Company getCompany() {
-    return company;
   }
 
   /**
@@ -36,6 +60,48 @@ public class Computer extends Basic {
    */
   public DateTime getDiscontinuedDate() {
     return discontinuedDate;
+  }
+
+  /**
+   * @return the company
+   */
+  public Company getCompany() {
+    return company;
+  }
+
+  /**
+   * @param id the id to set
+   */
+  public void setId(final long id) {
+    this.id = id;
+  }
+
+  /**
+   * @param computerName the computerName to set
+   */
+  public void setComputerName(final String computerName) {
+    this.computerName = computerName;
+  }
+
+  /**
+   * @param introducedDate the introducedDate to set
+   */
+  public void setIntroducedDate(final DateTime introducedDate) {
+    this.introducedDate = introducedDate;
+  }
+
+  /**
+   * @param discontinuedDate the discontinuedDate to set
+   */
+  public void setDiscontinuedDate(final DateTime discontinuedDate) {
+    this.discontinuedDate = discontinuedDate;
+  }
+
+  /**
+   * @param company the company to set
+   */
+  public void setCompany(final Company company) {
+    this.company = company;
   }
 
   public static Builder builder(final String name) {
@@ -76,43 +142,4 @@ public class Computer extends Basic {
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "Computer [computerName=" + computerName + ", introducedDate=" + introducedDate
-        + ", discontinuedDate=" + discontinuedDate + ", company=" + company + ", id=" + id + "]";
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((computerName == null) ? 0 : computerName.hashCode());
-    return result;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
-  @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || !(obj instanceof Computer)) {
-      return false;
-    }
-    final Computer other = (Computer) obj;
-
-    if (!StringUtils.equals(computerName, other.computerName)) {
-      return false;
-    }
-
-    return super.id == other.id;
-  }
 }

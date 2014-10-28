@@ -92,9 +92,9 @@ public class ComputerService implements IComputerService {
    * @see service.IComputerService#delete(long)
    */
   @Override
-  public void delete(final long externalIdComputer) {
+  public void delete(final Computer computer) {
     // Cas concret :  vérifier que l'utilisateur a les droits de supprimer l'objet. Il n y a pas encore d'utilisateur ici...
-    computerDAO.delete(externalIdComputer);
+    computerDAO.delete(computer);
   }
 
   public boolean validate(final Computer computer) {

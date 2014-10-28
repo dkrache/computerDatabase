@@ -1,19 +1,15 @@
 package persistence.impl;
 
-import java.sql.Date;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import persistence.ILoggerDAO;
-import persistence.mapper.LoggerRowMapper;
 import core.MyLogger;
 
 /**
@@ -22,13 +18,10 @@ import core.MyLogger;
  */
 @Repository
 @Transactional(propagation = Propagation.MANDATORY)
-public class LoggerDAO extends JdbcDaoSupport implements ILoggerDAO {
-  @Autowired
-  private DataSource          dataSource;
-  @Autowired
-  private LoggerRowMapper     loggerRowMapper;
+public class LoggerDAO implements ILoggerDAO {
 
-  private static final String INSERT = "insert into logger (log, time, exception) values (?,?,?)";
+  @PersistenceContext(unitName = "persistenceUnit")
+  private EntityManager entityManager;
 
   /**
    * request = private static final String SELECT_ALL = "select id, log, time, exception from logger";
@@ -51,8 +44,7 @@ public class LoggerDAO extends JdbcDaoSupport implements ILoggerDAO {
    * @param myLogger
    */
   public void insert(final MyLogger myLogger) {
-    getJdbcTemplate().update(INSERT, myLogger.getLog(), new Date(myLogger.getTime().getTime()),
-        myLogger.getException());
+    entityManager.persist(myLogger);
   }
 
   /**
@@ -71,8 +63,4 @@ public class LoggerDAO extends JdbcDaoSupport implements ILoggerDAO {
     throw new UnsupportedOperationException("useless pour l'instant");
   }
 
-  @PostConstruct
-  private void initialize() {
-    setDataSource(dataSource);
-  }
 }

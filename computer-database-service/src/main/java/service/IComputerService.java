@@ -48,6 +48,6 @@ public interface IComputerService {
    * Delete the object referenced by externalIdComputer
    * @param externalIdComputer
    */
-  void delete(final long externalIdComputer);
+  void delete(final Computer computer);
 
 }

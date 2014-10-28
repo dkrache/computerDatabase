@@ -29,10 +29,13 @@
 		<org.slf4j.version>1.7.6</org.slf4j.version>
 		<spring.version>3.2.3.RELEASE</spring.version>
 		<javax.servlet.version>3.1.0</javax.servlet.version>
-		<hibernate.version>5.1.2.Final</hibernate.version>
+		<hibernate.validation.version>5.1.2.Final</hibernate.validation.version>
 		<javax.validation.version>1.1.0.Final</javax.validation.version>
 		<joda.time.version>2.5</joda.time.version>
 		<joda.time.tag.version>1.1.1</joda.time.tag.version>
+		<hibernate.version>4.3.6.Final</hibernate.version>
+		<common.dbcp>1.4</common.dbcp>
+		<hibernate.via.jpa.version>1.0.1.Final</hibernate.via.jpa.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -47,6 +50,11 @@
 				<groupId>joda-time</groupId>
 				<artifactId>joda-time-jsptags</artifactId>
 				<version>${joda.time.tag.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-dbcp</groupId>
+				<artifactId>commons-dbcp</artifactId>
+				<version>${common.dbcp}</version>
 			</dependency>
 
 			<!-- BoneCP is using for the the management of the pool connection -->
@@ -125,11 +133,17 @@
 				<artifactId>spring-jdbc</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
 			<!-- Hibernate validation -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
-				<version>${hibernate.version}</version>
+				<version>${hibernate.validation.version}</version>
 			</dependency>
 
 			<!-- The JSR-303 Bean Validation API library. -->
@@ -138,7 +152,47 @@
 				<artifactId>validation-api</artifactId>
 				<version>${javax.validation.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.hibernate.javax.persistence</groupId>
+				<artifactId>hibernate-jpa-2.0-api</artifactId>
+				<version>${hibernate.via.jpa.version}</version>
+			</dependency>
 
+			<!-- Hibernate -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+
+			<!-- for JPA, use hibernate-entitymanager instead of hibernate-core -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<!-- optional -->
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-envers</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-c3p0</artifactId>
+				<version>4.3.6.Final</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-infinispan</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-ehcache</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

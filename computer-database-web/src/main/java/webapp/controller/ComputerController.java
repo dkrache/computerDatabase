@@ -20,6 +20,7 @@ import service.IComputerService;
 import service.exception.ServiceException;
 import util.Constants;
 import binding.ComputerMapper;
+import core.Computer;
 import core.Page;
 import core.dto.ComputerDto;
 
@@ -53,7 +54,7 @@ public class ComputerController {
     try {
       final Page page = Page.builder().limit(limit).searchString(searchString).order(order)
           .currentPage(currentPage).ascendancy(ascendancy).build();
-      final List<ComputerDto> computerDtos = ComputerMapper.toDto(computerService.search(page));
+      final List<ComputerDto> computerDtos = ComputerMapper.toDto(computerService.readAll(page));
       model.addAttribute("computers", computerDtos);
       model.addAttribute("page", page);
     } catch (final ServiceException e) {
@@ -103,7 +104,9 @@ public class ComputerController {
   protected String delete(@RequestParam
   final int codereq, final RedirectAttributes redirectAttrs) {
     try {
-      computerService.delete(codereq);
+      final Computer computer = new Computer();
+      computer.setId(codereq);
+      computerService.delete(computer);
       redirectAttrs.addFlashAttribute(Constants.PARAM_MESSAGE, "back.message.computer.deleted");
     } catch (final ServiceException e) {
       LOGGER.warn("Error: impossible to delete the object Computer", e);

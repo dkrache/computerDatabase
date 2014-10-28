@@ -55,6 +55,9 @@ public final class ComputerMapper {
 
   public static List<ComputerDto> toDto(final List<Computer> computers) {
     final List<ComputerDto> computerDtos = new ArrayList<>();
+    if (computers == null) {
+      return null;
+    }
     for (final Computer computer : computers) {
       computerDtos.add(toDto(computer));
     }

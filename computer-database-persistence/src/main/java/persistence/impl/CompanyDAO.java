@@ -2,77 +2,87 @@ package persistence.impl;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import persistence.ICompanyDAO;
-import persistence.mapper.CompanyRowMapper;
 import core.Company;
 
 /**
  * @author excilys
  *
  */
-@Repository
+@Repository("companyDAO")
 @Transactional(propagation = Propagation.MANDATORY)
-public class CompanyDAO extends JdbcDaoSupport implements ICompanyDAO {
-  private static final String SELECT_ALL = "select id, name from company";
-  private static final String SELECT     = "select id, name from company where id=?";
-  private static final String INSERT     = "insert into company (name) values (?)";
-  private static final String UPDATE     = "update company set name=? where id=?";
-  private static final String DELETE     = "delete from company where id=?";
-  @Autowired
-  private CompanyRowMapper    companyRowMapper;
+public class CompanyDAO implements ICompanyDAO {
+  @PersistenceContext(unitName = "persistenceUnit")
+  private EntityManager entityManager;
 
-  @Autowired
-  private DataSource          dataSource;
-
-  /**
-   * @return
-   */
-  public List<Company> readAll() {
-    return getJdbcTemplate().query(SELECT_ALL, companyRowMapper);
-  }
-
-  /**
-   * @param idCompany
-   * @return
-   */
-  public Company read(final int idCompany) {
-    final List<Company> companys = getJdbcTemplate().query(SELECT, companyRowMapper, idCompany);
-    return companys.size() > 0 ? companys.get(0) : null;
-  }
-
-  /**
-   * @param company
-   */
+  @Override
   public void create(final Company company) {
-    getJdbcTemplate().update(INSERT, company.getName());
+
+    entityManager.persist(company);
 
   }
 
-  /**
-   * @param company
-   */
+  @SuppressWarnings("unchecked")
+  @Override
+  @Transactional
+  public List<Company> readAll() {
+
+    return entityManager.createQuery("FROM core.Company").getResultList();
+
+  }
+
+  @Override
+  @Transactional
+  public Company read(final long idCompany) {
+    Company result = null;
+    final EntityTransaction transaction = entityManager.getTransaction();
+    try {
+      transaction.begin();
+      result = (Company) entityManager.createQuery("SELECT p FROM company p where p.id = :id")
+          .setParameter("id", idCompany).getSingleResult();
+      transaction.commit();
+    } catch (final Exception e) {
+      e.printStackTrace();
+      transaction.rollback();
+    }
+    return result;
+  }
+
+  @Override
+  @Transactional
   public void update(final Company company) {
-    getJdbcTemplate().update(UPDATE, company.getName(), company.getId());
+    final EntityTransaction transaction = entityManager.getTransaction();
+    try {
+      transaction.begin();
+      entityManager.merge(company);
+      transaction.commit();
+    } catch (final Exception e) {
+      e.printStackTrace();
+      transaction.rollback();
+    }
+
   }
 
-  /**
-   * @param idCompany
-   */
-  public void delete(final int idCompany) {
-    getJdbcTemplate().update(DELETE, idCompany);
+  @Override
+  @Transactional
+  public void delete(final Company company) {
+    final EntityTransaction transaction = entityManager.getTransaction();
+    try {
+      transaction.begin();
+      entityManager.remove(company);
+      transaction.commit();
+    } catch (final Exception e) {
+      e.printStackTrace();
+      transaction.rollback();
+    }
   }
 
-  @PostConstruct
-  private void initialize() {
-    setDataSource(dataSource);
-  }
 }

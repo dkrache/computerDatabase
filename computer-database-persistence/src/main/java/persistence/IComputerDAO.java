@@ -35,7 +35,7 @@ public interface IComputerDAO {
   /**
    * @param idComputer
    */
-  void delete(final long idComputer);
+  void delete(final Computer computer);
 
   /**
    * @param page

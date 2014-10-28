@@ -1,20 +1,55 @@
 package core;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * 
  * @author excilys
  *
  */
-public class Company extends Basic {
+@Entity
+@Table(name = "company")
+public class Company {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private long   id;
+
+  @Column(name = "name")
   private String name;
+
+  /**
+   * @return the id
+   */
+  public long getId() {
+    return id;
+  }
 
   /**
    * @return the name
    */
   public String getName() {
     return name;
+  }
+
+  /**
+    * @param id the id to set
+    */
+  public void setId(final long id) {
+    this.id = id;
+  }
+
+  /**
+   * @param name the name to set
+   */
+  public void setName(final String name) {
+    this.name = name;
   }
 
   public static Builder builder(final String name) {
@@ -39,42 +74,4 @@ public class Company extends Basic {
       return company;
     }
   }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "Company [name=" + name + ", id=" + super.id + "]";
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((name == null) ? 0 : name.hashCode());
-    return result;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
-  @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || !(obj instanceof Company)) {
-      return false;
-    }
-    final Company other = (Company) obj;
-    if (!StringUtils.equals(name, other.name)) {
-      return false;
-    }
-    return true;
-  }
-
 }
