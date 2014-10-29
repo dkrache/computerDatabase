@@ -10,7 +10,7 @@ public class Page {
   public static final String  DOWN                = "down";
   private int                 limit;
   private int                 currentPage;
-  private int                 totalCount;
+  private long                totalCount;
   private String              searchString;
   private String              order;
   private String              ascendancy;
@@ -42,7 +42,7 @@ public class Page {
   /**
    * @return the nbPages
    */
-  public int getNbPages() {
+  public long getNbPages() {
 
     return limit <= 0 ? 1 : totalCount / limit;
   }
@@ -65,7 +65,7 @@ public class Page {
   /**
    * @return the totalCount
    */
-  public int getTotalCount() {
+  public long getTotalCount() {
     return totalCount;
   }
 
@@ -91,10 +91,10 @@ public class Page {
   }
 
   /**
-   * @param totalCount the totalCount to set
+   * @param l the totalCount to set
    */
-  public void setTotalCount(final int totalCount) {
-    this.totalCount = totalCount;
+  public void setTotalCount(final long l) {
+    this.totalCount = l;
   }
 
   public static Builder builder() {
@@ -102,31 +102,22 @@ public class Page {
   }
 
   public String getBackLink() {
-    return new StringBuilder().append(PARAM_LIMIT).append(limit)
-        .append(PARAM_CURRENT_PAGE).append(currentPage - 1)
-        .append(PARAM_SEARCH_STRING).append(searchString)
-        .append(PARAM_ORDER).append(order)
-        .append(PARAM_ASCENDANCY).append(ascendancy)
-        .toString();
+    return new StringBuilder().append(PARAM_LIMIT).append(limit).append(PARAM_CURRENT_PAGE)
+        .append(currentPage - 1).append(PARAM_SEARCH_STRING).append(searchString)
+        .append(PARAM_ORDER).append(order).append(PARAM_ASCENDANCY).append(ascendancy).toString();
 
   }
 
   public String getnextLink() {
-    return new StringBuilder().append(PARAM_LIMIT).append(limit)
-        .append(PARAM_CURRENT_PAGE).append(currentPage + 1)
-        .append(PARAM_SEARCH_STRING).append(searchString)
-        .append(PARAM_ORDER).append(order)
-        .append(PARAM_ASCENDANCY).append(ascendancy)
-        .toString();
+    return new StringBuilder().append(PARAM_LIMIT).append(limit).append(PARAM_CURRENT_PAGE)
+        .append(currentPage + 1).append(PARAM_SEARCH_STRING).append(searchString)
+        .append(PARAM_ORDER).append(order).append(PARAM_ASCENDANCY).append(ascendancy).toString();
   }
 
   public String getCurrentLink() {
-    return new StringBuilder()
-    .append(PARAM_LIMIT).append(limit)
-    .append(PARAM_CURRENT_PAGE).append(currentPage)
-    .append(PARAM_SEARCH_STRING).append(searchString)
-    .append(PARAM_ASCENDANCY).append(getNextAscendancy())
-        .toString();
+    return new StringBuilder().append(PARAM_LIMIT).append(limit).append(PARAM_CURRENT_PAGE)
+        .append(currentPage).append(PARAM_SEARCH_STRING).append(searchString)
+        .append(PARAM_ASCENDANCY).append(getNextAscendancy()).toString();
   }
 
   /**
@@ -161,7 +152,7 @@ public class Page {
       return this;
     }
 
-    public Builder totalCount(final int totalCount) {
+    public Builder totalCount(final long totalCount) {
       page.totalCount = totalCount;
       return this;
     }
