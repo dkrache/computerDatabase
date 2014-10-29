@@ -25,64 +25,33 @@ public class CompanyDAO implements ICompanyDAO {
 
   @Override
   public void create(final Company company) {
-
     entityManager.persist(company);
-
   }
 
   @SuppressWarnings("unchecked")
   @Override
   @Transactional
   public List<Company> readAll() {
-
     return entityManager.createQuery("FROM company").getResultList();
-
   }
 
   @Override
   @Transactional
   public Company read(final long idCompany) {
-    Company result = null;
-    final EntityTransaction transaction = entityManager.getTransaction();
-    try {
-      transaction.begin();
-      result = (Company) entityManager.createQuery("SELECT p FROM company p where p.id = :id")
-          .setParameter("id", idCompany).getSingleResult();
-      transaction.commit();
-    } catch (final Exception e) {
-      e.printStackTrace();
-      transaction.rollback();
-    }
-    return result;
+    return (Company) entityManager.createQuery("SELECT p FROM company p where p.id = :id")
+        .setParameter("id", idCompany).getSingleResult();
   }
 
   @Override
   @Transactional
   public void update(final Company company) {
-    final EntityTransaction transaction = entityManager.getTransaction();
-    try {
-      transaction.begin();
-      entityManager.merge(company);
-      transaction.commit();
-    } catch (final Exception e) {
-      e.printStackTrace();
-      transaction.rollback();
-    }
-
+    entityManager.merge(company);
   }
 
   @Override
   @Transactional
   public void delete(final Company company) {
-    final EntityTransaction transaction = entityManager.getTransaction();
-    try {
-      transaction.begin();
-      entityManager.remove(company);
-      transaction.commit();
-    } catch (final Exception e) {
-      e.printStackTrace();
-      transaction.rollback();
-    }
+    entityManager.remove(company);
   }
 
 }
