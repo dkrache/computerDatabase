@@ -64,7 +64,7 @@ public class ComputerDAO implements IComputerDAO {
     criteriaQuery.where(criteriaBuilder.equal(computer.<Integer> get("id"), idComputer));
     final TypedQuery<Computer> query = entityManager.createQuery(criteriaQuery);
     final List<Computer> computers = query.getResultList();
-    if (computers.size() > 0) {
+    if (!computers.isEmpty()) {
       return computers.get(0);
     }
     return null;
@@ -107,12 +107,7 @@ public class ComputerDAO implements IComputerDAO {
     final TypedQuery<Computer> query = entityManager.createQuery(criteriaQuery);
     return query.setFirstResult(page.getOffset()).setMaxResults(page.getLimit()).getResultList();
 
-    //   
-    //    
-    //    return entityManager.createQuery(searchWithOrderBy(page))
-    //        .setParameter("nom", wildcard + page.getSearchString() + wildcard)
-    //        .setFirstResult(page.getOffset()).setMaxResults(page.getLimit()).getResultList();
-
+   
   }
 
   private long count(final Page page) {

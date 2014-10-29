@@ -20,6 +20,7 @@ import core.MyLogger;
 @Transactional(propagation = Propagation.MANDATORY)
 public class LoggerDAO implements ILoggerDAO {
 
+  private static final String USELESS_POUR_L_INSTANT = "useless pour l'instant";
   @PersistenceContext(unitName = "persistenceUnit")
   private EntityManager entityManager;
 
@@ -28,7 +29,7 @@ public class LoggerDAO implements ILoggerDAO {
    * @return
    */
   public List<MyLogger> selectAll() {
-    throw new UnsupportedOperationException("useless pour l'instant");
+    throw new UnsupportedOperationException(USELESS_POUR_L_INSTANT);
   }
 
   /**
@@ -37,7 +38,7 @@ public class LoggerDAO implements ILoggerDAO {
    * @return
    */
   public MyLogger select(final int idLogger) {
-    throw new UnsupportedOperationException("useless pour l'instant");
+    throw new UnsupportedOperationException(USELESS_POUR_L_INSTANT);
   }
 
   /**
@@ -53,7 +54,7 @@ public class LoggerDAO implements ILoggerDAO {
    * @param myLogger
    */
   public void update(final MyLogger myLogger) {
-    throw new UnsupportedOperationException("useless pour l'instant");
+    throw new UnsupportedOperationException(USELESS_POUR_L_INSTANT);
   }
 
   /**
@@ -61,7 +62,7 @@ public class LoggerDAO implements ILoggerDAO {
    * @param idLogger
    */
   public void delete(final int idLogger) {
-    throw new UnsupportedOperationException("useless pour l'instant");
+    throw new UnsupportedOperationException(USELESS_POUR_L_INSTANT);
   }
 
 }
