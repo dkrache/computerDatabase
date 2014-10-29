@@ -7,6 +7,7 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<class>core.Computer</class>
 		<class>core.Company</class>
+		<class>core.MyLogger</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"

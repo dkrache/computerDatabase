@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
-@Entity
+@Entity(name = "computer")
 @Table(name = "computer")
 public class Computer {
 

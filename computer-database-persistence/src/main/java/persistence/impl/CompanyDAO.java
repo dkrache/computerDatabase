@@ -35,7 +35,7 @@ public class CompanyDAO implements ICompanyDAO {
   @Transactional
   public List<Company> readAll() {
 
-    return entityManager.createQuery("FROM core.Company").getResultList();
+    return entityManager.createQuery("FROM company").getResultList();
 
   }
 

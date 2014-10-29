@@ -40,7 +40,7 @@
 	</servlet-mapping>
 
 <servlet>
-<servlet-name>initialisation</servlet-name>
+<servlet-name>LoadServlet</servlet-name>
 		<servlet-class>
                       webapp.computer.LoadServlet
                 </servlet-class>

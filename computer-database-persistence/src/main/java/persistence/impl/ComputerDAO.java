@@ -5,12 +5,15 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import persistence.IComputerDAO;
+import persistence.ILoggerDAO;
 import core.Computer;
+import core.MyLogger;
 import core.Page;
 
 @Repository("computerDAO")
@@ -19,6 +22,8 @@ public class ComputerDAO implements IComputerDAO {
 
   @PersistenceContext(unitName = "persistenceUnit")
   private EntityManager entityManager;
+  @Autowired
+  private ILoggerDAO     loggerDAO;
 
   public ComputerDAO() {
 
@@ -53,20 +58,26 @@ public class ComputerDAO implements IComputerDAO {
   @Transactional
   public void update(final Computer computer) {
     entityManager.merge(computer);
+    
+    loggerDAO.insert(MyLogger.builder().log("mise à jour de : " + computer.toString()).build());
   }
 
   @Override
   @Transactional
-  public void delete(final Computer computer) {
-    entityManager.remove(computer);
+  public void delete(final long idComputer) {
+    entityManager.createQuery("delete from computer c where c.id = :id")
+        .setParameter("id", idComputer).executeUpdate();
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   @Transactional
   public List<Computer> search(final Page page) {
     final char wildcard = '%';
+
     return entityManager.createQuery(searchWithOrderBy(page))
-        .setParameter("name", wildcard + page.getSearchString() + wildcard)
+        .setParameter("cnom", wildcard + page.getSearchString() + wildcard)
+        .setParameter("pnom", wildcard + page.getSearchString() + wildcard)
         .setFirstResult(page.getOffset()).setMaxResults(page.getLimit()).getResultList();
 
   }
@@ -80,22 +91,22 @@ public class ComputerDAO implements IComputerDAO {
       return "";
     }
     final StringBuilder search = new StringBuilder(
-        "SELECT p FROM core.Computer p  where p.name like :nom or p.company_id in (select c from core.Company c where c.name like :nom) ");
+        "SELECT p FROM computer p  where p.computerName like :pnom or p.company.name like :cnom ");
     switch (page.getOrder()) {
       case "name":
-        search.append(" order by computer.name ");
+        search.append(" order by p.computerName ");
         break;
       case "idate":
-        search.append(" order by introduced ");
+        search.append(" order by p.introducedDate ");
         break;
       case "ddate":
-        search.append(" order by discontinued ");
+        search.append(" order by p.discontinuedDate ");
         break;
       case "comp":
-        search.append(" order by company.name ");
+        search.append(" order by p.company.name ");
         break;
       default:
-        search.append(" order by computer.id ");
+        search.append(" order by p.id ");
     }
     search.append(getAscendancy(page));
     return search.toString();

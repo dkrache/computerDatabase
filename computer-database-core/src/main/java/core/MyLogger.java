@@ -2,30 +2,24 @@ package core;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.stereotype.Component;
-
-@Entity
-@Component("logger")
-@Table(name = "company")
+@Entity(name = "myLogger")
+@Table(name = "logger")
 public final class MyLogger {
   @Id
   @GeneratedValue
   private long      id;
-
+  @Column(name = "log")
   private String    log;
-
-  private Date      time;
-
+  @Column(name = "time")
+  private Date      time = new Date(System.currentTimeMillis());
+  @Column(name = "exception")
   private Exception exception;
-
-  private MyLogger() {
-
-  }
 
   /**
    * @return the log

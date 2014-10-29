@@ -44,6 +44,7 @@ public class LoggerDAO implements ILoggerDAO {
    * @param myLogger
    */
   public void insert(final MyLogger myLogger) {
+
     entityManager.persist(myLogger);
   }
 
