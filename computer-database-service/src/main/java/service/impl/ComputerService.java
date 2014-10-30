@@ -6,13 +6,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import persistence.IComputerDAO;
+import persistence.ILoggerDAO;
 import service.IComputerService;
 import core.Computer;
+import core.MyLogger;
 import core.Page;
 
 /**
@@ -24,6 +27,8 @@ import core.Page;
 public class ComputerService implements IComputerService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerService.class);
+  @Autowired
+  private ILoggerDAO          loggerDAO;
 
   @Autowired
   private IComputerDAO        computerDAO;
@@ -33,9 +38,8 @@ public class ComputerService implements IComputerService {
    */
   @Override
   @Transactional(readOnly = true)
-  public List<Computer> readAll(final Page page) {
-    return computerDAO.readAll(page);
-
+  public List<Computer> findAll(final Page page) {
+    return computerDAO.findAll();
   }
 
   /* (non-Javadoc)
@@ -44,7 +48,10 @@ public class ComputerService implements IComputerService {
   @Override
   @Transactional(readOnly = true)
   public List<Computer> search(final Page page) {
-    return computerDAO.search(page);
+    page.setTotalCount(computerDAO.countSearch('%' + page.getSearchString() + '%'));
+
+    return computerDAO.search('%' + page.getSearchString() + '%',
+        new PageRequest(page.getCurrentPage(), page.getLimit()));
 
   }
 
@@ -54,7 +61,8 @@ public class ComputerService implements IComputerService {
   @Override
   @Transactional(readOnly = true)
   public Computer read(final long externalIdComputer) {
-    return computerDAO.read(externalIdComputer);
+
+    return computerDAO.findOne(externalIdComputer);
 
   }
 
@@ -66,7 +74,10 @@ public class ComputerService implements IComputerService {
 
     // we check if the computer is valid before inserting it in database
     if (validate(computer)) {
-      computerDAO.create(computer);
+      computerDAO.save(computer);
+
+      loggerDAO.save(MyLogger.builder()
+          .log("Enregistrement d'un nouvel ordinateur : " + computer.getComputerName()).build());
       return true;
     }
     return false;
@@ -80,7 +91,10 @@ public class ComputerService implements IComputerService {
 
     //We check if c computer is a valid object before updating it in database.
     if (validate(computer)) {
-      computerDAO.update(computer);
+      computerDAO.update(computer.getId(), computer.getComputerName());
+      loggerDAO.save(MyLogger.builder()
+          .log("MAJ d'un ordinateur(" + computer.getId() + ") : " + computer.getComputerName())
+          .build());
       return true;
     }
     LOGGER.warn("computer invalid for the update");
@@ -94,7 +108,7 @@ public class ComputerService implements IComputerService {
   @Override
   public void delete(final long idComputer) {
     // Cas concret :  vérifier que l'utilisateur a les droits de supprimer l'objet. Il n y a pas encore d'utilisateur ici...
-    computerDAO.delete(idComputer);
+    computerDAO.deleteById(idComputer);
   }
 
   public boolean validate(final Computer computer) {

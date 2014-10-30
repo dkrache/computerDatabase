@@ -2,45 +2,28 @@ package persistence;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import core.Computer;
-import core.Page;
 
-@Repository
-public interface IComputerDAO {
+public interface IComputerDAO extends MyBaseRepository<Computer, Long> {
+  List<Computer> findByComputerNameLike(String computerName);
 
-  /**
-   * @param page
-   * @return
-   */
-  List<Computer> readAll(final Page page);
+  List<Computer> findAll();
 
-  /**
-   * @param idComputer
-   * @return
-   */
-  Computer read(final long idComputer);
+  Computer getOne(Long idComputer);
 
-  /**
-   * @param computer
-   */
-  void create(final Computer computer);
+  @Modifying
+  @Query("update computer c set c.computerName = ?2 where c.id = ?1")
+  void update(final long idComputer, final String name);
 
-  /**
-   * @param computer
-   */
-  void update(final Computer computer);
+  void deleteById(Long id);
 
-  /**
-   * @param idComputer
-   */
-  void delete(final long idComputer);
+  @Query("select c from computer c where c.computerName like ?1 or c.company.name like ?1 ")
+  List<Computer> search(final String name, Pageable pageable);
 
-  /**
-   * @param page
-   * @return List of computers whose refered to the arguments of page
-   */
-  List<Computer> search(final Page page);
-
+  @Query("select count(*) from computer c where c.computerName like ?1 or c.company.name like ?1 ")
+  int countSearch(final String name);
 }

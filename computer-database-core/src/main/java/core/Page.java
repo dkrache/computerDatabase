@@ -17,7 +17,7 @@ public class Page {
 
   /**
    * @param limit
-   * @param currentPage
+   * @param currentPageCount
    * @param totalCount
    * @param searchString
    */
@@ -40,7 +40,7 @@ public class Page {
   }
 
   /**
-   * @return the nbPages
+   * @return theCount nbPages
    */
   public long getNbPages() {
 

@@ -15,17 +15,31 @@
 	src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 <!-- Bootstrap -->
-<link href="/computer-database-web/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="/computer-database-web/css/main.css" rel="stylesheet" media="screen">
+<link href="/computer-database-web/css/bootstrap.min.css"
+	rel="stylesheet" media="screen">
+<link href="/computer-database-web/css/main.css" rel="stylesheet"
+	media="screen">
 </head>
 <body>
 
 	<header class="topbar">
 		<h1 class="fill">
-			<a href="/computer-database-web/dashboard"><spring:message code="front.header.title" /></a>
+			<a href="/computer-database-web/dashboard"><spring:message
+					code="front.header.title" /></a>
 		</h1>
-		<span style="float: right"> <a href="/computer-database-web/dashboard?lang=en"><img alt="en" src="img/en.png"/></a> | <a
-			href="/computer-database-web/dashboard?lang=fr"><img alt="fr" src="img/fr.png"/></a>
+
+		<span style="float:right;"> <a
+			href="/computer-database-web/dashboard?lang=en"><img alt="en"
+				src="img/en.png" /></a> | <a
+			href="/computer-database-web/dashboard?lang=fr"><img alt="fr"
+				src="img/fr.png" /></a> <c:if
+				test="${pageContext.request.userPrincipal.name != null}">
+
+				<p>
+					Welcome : ${pageContext.request.userPrincipal.name} | <a
+						href="/computer-database-web/login?logout"> Logout</a>
+				</p>
+
+			</c:if>
 		</span>
 	</header>
-	

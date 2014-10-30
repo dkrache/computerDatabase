@@ -14,7 +14,7 @@ public interface IComputerService {
    * Extract a List of computers.
    * @return
    */
-  List<Computer> readAll(final Page page);
+  List<Computer> findAll(final Page page);
 
   /**
    * Get computers whose name is name.

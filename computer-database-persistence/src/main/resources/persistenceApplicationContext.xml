@@ -67,7 +67,7 @@
 
 
 
-	<jpa:repositories base-package="persistence" />
+	<jpa:repositories base-package="persistence" entity-manager-factory-ref="entityManagerFactory" transaction-manager-ref="transactionManager" />
 
 
 

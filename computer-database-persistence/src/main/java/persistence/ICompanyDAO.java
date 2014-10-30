@@ -4,32 +4,8 @@ import java.util.List;
 
 import core.Company;
 
-public interface ICompanyDAO {
+public interface ICompanyDAO extends MyBaseRepository<Company, Long> {
 
-  /**
-   * @return
-   */
-  List<Company> readAll();
-
-  /**
-   * @param idCompany
-   * @return
-   */
-  Company read(final long idCompany);
-
-  /**
-   * @param company
-   */
-  void create(final Company company);
-
-  /**
-   * @param company
-   */
-  void update(final Company company);
-
-  /**
-   * @param idCompany
-   */
-  void delete(final Company company);
+  List<Company> findAll();
 
 }

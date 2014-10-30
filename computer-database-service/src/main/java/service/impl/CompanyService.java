@@ -27,7 +27,7 @@ public class CompanyService implements ICompanyService {
   @Override
   @Transactional(readOnly = true)
   public List<Company> readAll() {
-    return companyDAO.readAll();
+    return companyDAO.findAll();
   }
 
 }
