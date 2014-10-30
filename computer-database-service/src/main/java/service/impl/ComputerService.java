@@ -98,7 +98,7 @@ public class ComputerService implements IComputerService {
   }
 
   public boolean validate(final Computer computer) {
-    if (StringUtils.isEmpty(computer.getComputerName()) || computer.getComputerName().length() < 4) {
+    if (StringUtils.isEmpty(computer.getComputerName()) || computer.getComputerName().length() < 3) {
       LOGGER.warn("Name size incorrect");
       return false;
     }

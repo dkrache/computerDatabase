@@ -12,6 +12,7 @@ import javax.persistence.Table;
  * @author excilys
  *
  */
+
 @Entity(name = "company")
 @Table(name = "company")
 public class Company {

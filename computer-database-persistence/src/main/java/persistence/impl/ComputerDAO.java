@@ -4,12 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,18 +12,27 @@ import org.springframework.transaction.annotation.Transactional;
 
 import persistence.IComputerDAO;
 import persistence.ILoggerDAO;
+
+import com.mysema.query.jpa.JPQLQuery;
+import com.mysema.query.jpa.impl.JPADeleteClause;
+import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.jpa.impl.JPAUpdateClause;
+import com.mysema.query.types.OrderSpecifier;
+
 import core.Computer;
 import core.MyLogger;
 import core.Page;
+import core.QComputer;
 
 @Repository("computerDAO")
 @Transactional(propagation = Propagation.MANDATORY)
 public class ComputerDAO implements IComputerDAO {
 
+  private static final char WILDCARD = '%';
   @PersistenceContext(unitName = "persistenceUnit")
-  private EntityManager entityManager;
+  private EntityManager     entityManager;
   @Autowired
-  private ILoggerDAO    loggerDAO;
+  private ILoggerDAO        loggerDAO;
 
   public ComputerDAO() {
 
@@ -45,106 +48,92 @@ public class ComputerDAO implements IComputerDAO {
   @Override
   @Transactional
   public List<Computer> readAll(final Page page) {
-    final CriteriaBuilder criteria = entityManager.getCriteriaBuilder();
-    final CriteriaQuery<Computer> criteriaQuery = criteria.createQuery(Computer.class);
-    final Root<Computer> root = criteriaQuery.from(Computer.class);
-    criteriaQuery.select(root);
-    final TypedQuery<Computer> query = entityManager.createQuery(criteriaQuery);
-    return query.getResultList();
+    final JPQLQuery query = new JPAQuery(entityManager);
+    page.setTotalCount(query.from(QComputer.computer).count());
+    return query.from(QComputer.computer).list(QComputer.computer);
 
   }
 
   @Override
   @Transactional
   public Computer read(final long idComputer) {
-    final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-    final CriteriaQuery<Computer> criteriaQuery = criteriaBuilder.createQuery(Computer.class);
-    final Root<Computer> computer = criteriaQuery.from(Computer.class);
-    criteriaQuery.select(computer);
-    criteriaQuery.where(criteriaBuilder.equal(computer.<Integer> get("id"), idComputer));
-    final TypedQuery<Computer> query = entityManager.createQuery(criteriaQuery);
-    final List<Computer> computers = query.getResultList();
-    if (!computers.isEmpty()) {
-      return computers.get(0);
-    }
-    return null;
+    final JPQLQuery query = new JPAQuery(entityManager);
+    return query.from(QComputer.computer).where(QComputer.computer.id.eq(idComputer))
+        .uniqueResult(QComputer.computer);
   }
 
   @Override
   @Transactional
   public void update(final Computer computer) {
-    entityManager.merge(computer);
+    final QComputer qcomputer = QComputer.computer;
+    new JPAUpdateClause(entityManager, qcomputer).where(qcomputer.id.eq(computer.getId()))
+        .set(qcomputer.computerName, computer.getComputerName())
+        .set(qcomputer.discontinuedDate, computer.getDiscontinuedDate())
+        .set(qcomputer.introducedDate, computer.getIntroducedDate())
+        .set(qcomputer.company, computer.getCompany()).execute();
 
-    loggerDAO.insert(MyLogger.builder().log("mise à jour de : " + computer.toString()).build());
+    loggerDAO.insert(MyLogger.builder().log("mise à jour de : " + qcomputer.toString()).build());
   }
 
   @Override
   @Transactional
   public void delete(final long idComputer) {
-    entityManager.createQuery("delete from computer c where c.id = :id")
-        .setParameter("id", idComputer).executeUpdate();
+    final QComputer computer = QComputer.computer;
+    new JPADeleteClause(entityManager, computer).where(computer.id.eq(idComputer)).execute();
   }
 
+  /* (non-Javadoc)
+   * @see persistence.IComputerDAO#search(core.Page)
+   */
   @Override
   @Transactional
   public List<Computer> search(final Page page) {
-    final char wildcard = '%';
+    final JPQLQuery query = new JPAQuery(entityManager);
     page.setTotalCount(count(page));
 
-    final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-    final CriteriaQuery<Computer> criteriaQuery = criteriaBuilder.createQuery(Computer.class);
-    final Root<Computer> root = criteriaQuery.from(Computer.class);
+    return query
+        .from(QComputer.computer)
+        .where(QComputer.computer.computerName.like(WILDCARD + page.getSearchString() + WILDCARD))
+        .where(
+            QComputer.computer.company.name.like(WILDCARD + page.getSearchString() + WILDCARD).or(
+                QComputer.computer.company.name.isNull()))
+        .orderBy(searchWithOrderBy(page, QComputer.computer)).limit(page.getLimit())
+        .offset(page.getOffset()).list(QComputer.computer);
 
-    criteriaQuery.select(root);
-    root.fetch("company");
-    criteriaQuery.where(criteriaBuilder.like(root.<String> get("computerName"),
-        wildcard + page.getSearchString() + wildcard));
-
-    criteriaQuery.where(criteriaBuilder.like(root.<String> get("company").<String> get("name"),
-        wildcard + page.getSearchString() + wildcard));
-    criteriaQuery.orderBy(searchWithOrderBy(page, criteriaBuilder, root));
-
-    final TypedQuery<Computer> query = entityManager.createQuery(criteriaQuery);
-    return query.setFirstResult(page.getOffset()).setMaxResults(page.getLimit()).getResultList();
-
-   
   }
 
   private long count(final Page page) {
-    final char wildcard = '%';
-    return (long) entityManager
-        .createQuery(
-            "select count(*) from computer  where computerName like :nom or company.id in (select id from company where name like :nom)")
-        .setParameter("nom", wildcard + page.getSearchString() + wildcard).getSingleResult();
-
+    final JPQLQuery query = new JPAQuery(entityManager);
+    return query
+        .from(QComputer.computer)
+        .where(QComputer.computer.computerName.like(WILDCARD + page.getSearchString() + WILDCARD))
+        .where(
+            QComputer.computer.company.name.like(WILDCARD + page.getSearchString() + WILDCARD).or(
+                QComputer.computer.company.name.isNull()))
+        .orderBy(searchWithOrderBy(page, QComputer.computer)).limit(page.getLimit())
+        .offset(page.getOffset()).count();
   }
 
   /**
-  * @param page
-  * @return
-  */
-  private Order searchWithOrderBy(final Page page, final CriteriaBuilder criteriaBuilder,
-      final Root<Computer> root) {
-    final Path<Computer> path;
+   * @param page
+   * @param computer
+   * @return
+   */
+  private OrderSpecifier<?> searchWithOrderBy(final Page page, final QComputer computer) {
+    final boolean ascendant = "asc".equals(getAscendancy(page));
     switch (page.getOrder()) {
       case "name":
-
-        path = root.get("computerName");
-        break;
+        return ascendant ? computer.computerName.asc() : computer.computerName.desc();
       case "idate":
-        path = root.get("introducedDate");
-        break;
+        return ascendant ? computer.introducedDate.asc() : computer.introducedDate.desc();
       case "ddate":
-        path = root.get("discontinuedDate");
-        break;
+        return ascendant ? computer.discontinuedDate.asc() : computer.discontinuedDate.desc();
       case "comp":
-        path = root.get("company.name");
-        break;
+        return ascendant ? computer.company.name.asc() : computer.company.name.desc();
       default:
-        path = root.get("id");
+        return computer.id.asc();
     }
-    return "asc".equals(getAscendancy(page)) ? criteriaBuilder.asc(path) : criteriaBuilder
-        .desc(path);
+
   }
 
   /**
