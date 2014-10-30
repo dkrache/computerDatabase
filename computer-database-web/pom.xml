@@ -6,7 +6,7 @@
 	<packaging>war</packaging>
 
 	<parent>
-		<version>3.2.0.RELEASE</version>
+		<version>3.6.0.RELEASE</version>
 		<artifactId>computer-database</artifactId>
 		<groupId>com.excilys.formation</groupId>
 	</parent>
@@ -16,17 +16,17 @@
 		<dependency>
 			<groupId>computer-database-service</groupId>
 			<artifactId>computer-database-service</artifactId>
-			<version>3.2.0.RELEASE</version>
+			<version>3.6.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>computer-database-binding</groupId>
 			<artifactId>computer-database-binding</artifactId>
-			<version>3.2.0.RELEASE</version>
+			<version>3.6.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>computer-database-core</groupId>
 			<artifactId>computer-database-core</artifactId>
-			<version>3.2.0.RELEASE</version>
+			<version>3.6.0.RELEASE</version>
 		</dependency>
 		<!-- Presentation : Servlet, JSP, tag, JSTL...etc -->
 		<dependency>

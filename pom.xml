@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.excilys.formation</groupId>
 	<artifactId>computer-database</artifactId>
-	<version>3.2.0.RELEASE</version>
+	<version>3.6.0.RELEASE</version>
 	<packaging>pom</packaging>
 
 	<modules>
