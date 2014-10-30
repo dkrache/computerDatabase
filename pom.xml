@@ -39,6 +39,7 @@
 		<querydsl.version>3.5.0</querydsl.version>
 		<spring.data.jpa.version>1.7.0.RELEASE</spring.data.jpa.version>
 		<spring.security.version>3.2.5.RELEASE</spring.security.version>
+		<org.jadira.version>3.1.0.CR1</org.jadira.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -90,6 +91,12 @@
 				<artifactId>joda-time-jsptags</artifactId>
 				<version>${joda.time.tag.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.jadira.usertype</groupId>
+				<artifactId>usertype.core</artifactId>
+				<version>${org.jadira.version}</version>
+			</dependency>
+			<!-- Connection Pool -->
 			<dependency>
 				<groupId>commons-dbcp</groupId>
 				<artifactId>commons-dbcp</artifactId>
