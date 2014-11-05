@@ -11,13 +11,13 @@ import core.Page;
  */
 public interface IComputerService {
   /**
-   * Extract a List of computers.
+   * Extract a List of computers in the limit and offset defined in Page.
    * @return
    */
   List<Computer> findAll(final Page page);
 
   /**
-   * Get computers whose name is name.
+   * Get computers whose name is like %page.searchString%.
    * @param name
    * @return
    */

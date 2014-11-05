@@ -76,7 +76,8 @@
 	<!-- to make Spring MVC supports JSR303 validator via @Valid -->
 	<mvc:annotation-driven validator="validator"
 		conversion-service="conversionService" />
+	<mvc:default-servlet-handler />
+
 
 	<import resource="spring-security.xml" />
-
 </beans>

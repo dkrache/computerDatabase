@@ -8,6 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * @author excilys
+ *
+ */
 @Entity(name = "myLogger")
 @Table(name = "logger")
 public final class MyLogger {

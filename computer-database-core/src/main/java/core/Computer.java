@@ -9,10 +9,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlElement;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+/**
+ * @author excilys
+ *
+ */
 @Entity(name = "computer")
 @Table(name = "computer")
 public class Computer {
@@ -37,6 +42,7 @@ public class Computer {
   /**
    * @return the id
    */
+  @XmlElement(name = "id")
   public long getId() {
     return id;
   }
@@ -44,6 +50,7 @@ public class Computer {
   /**
    * @return the computerName
    */
+  @XmlElement(name = "computerName")
   public String getComputerName() {
     return computerName;
   }
@@ -51,6 +58,7 @@ public class Computer {
   /**
    * @return the introducedDate
    */
+  @XmlElement(name = "introducedDate")
   public DateTime getIntroducedDate() {
     return introducedDate;
   }
@@ -58,6 +66,7 @@ public class Computer {
   /**
    * @return the discontinuedDate
    */
+  @XmlElement(name = "discontinuedDate")
   public DateTime getDiscontinuedDate() {
     return discontinuedDate;
   }
@@ -65,6 +74,7 @@ public class Computer {
   /**
    * @return the company
    */
+  @XmlElement(name = "company")
   public Company getCompany() {
     return company;
   }
@@ -91,7 +101,7 @@ public class Computer {
   }
 
   /**
-   * @param discontinuedDate the discontinuedDate to set
+   * @param discontinuedDate the discontinuedDate tCompanyo set
    */
   public void setDiscontinuedDate(final DateTime discontinuedDate) {
     this.discontinuedDate = discontinuedDate;
@@ -108,9 +118,12 @@ public class Computer {
     return new Builder(name);
   }
 
-  //BUILDER
+  /**
+   * @author excilys
+   *  Builder
+   */
   public static final class Builder {
-    private Computer c;
+    private transient Computer c;
 
     private Builder(final String name) {
       c = new Computer();

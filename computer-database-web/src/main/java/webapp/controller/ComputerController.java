@@ -64,6 +64,10 @@ public class ComputerController {
     return Constants.VUE_DASHBOARD;
   }
 
+  /**
+   * @param model
+   * @return
+   */
   @RequestMapping(value = Constants.VUE_ADD, method = RequestMethod.GET)
   protected String doGet(final ModelMap model) {
 
@@ -72,6 +76,12 @@ public class ComputerController {
 
   }
 
+  /**
+   * @param computerDto
+   * @param result
+   * @param redirectAttrs
+   * @return
+   */
   @RequestMapping(value = Constants.VUE_ADD, method = RequestMethod.POST)
   protected String addComputer(@Valid
   final ComputerDto computerDto, final BindingResult result, final RedirectAttributes redirectAttrs) {
@@ -111,8 +121,11 @@ public class ComputerController {
     return Constants.REDIRECT + '/' + Constants.VUE_COMPUTER;
   }
 
-  /* (non-Javadoc)
-   * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+  /**
+   * @param codereq
+   * @param model
+   * @param redirectAttrs
+   * @return
    */
   @RequestMapping(value = Constants.VUE_UPDATE, method = RequestMethod.GET)
   protected String update(@RequestParam(required = false, defaultValue = "-1")

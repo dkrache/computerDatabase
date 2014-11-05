@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>computer-database-jaxws</groupId>
+	<artifactId>computer-database-jaxws</artifactId>
+	<packaging>war</packaging>
+	<version>3.7.0.RELEASE</version>
+
+	<parent>
+		<version>3.6.0.RELEASE</version>
+		<artifactId>computer-database</artifactId>
+		<groupId>com.excilys.formation</groupId>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>computer-database-service</groupId>
+			<artifactId>computer-database-service</artifactId>
+			<version>3.6.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>computer-database-binding</groupId>
+			<artifactId>computer-database-binding</artifactId>
+			<version>3.6.0.RELEASE</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+		</dependency>
+	</dependencies>
+
+</project>

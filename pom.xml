@@ -12,6 +12,8 @@
 		<module>computer-database-persistence</module>
 		<module>computer-database-service</module>
 		<module>computer-database-web</module>
+		<module>computer-database-jaxws</module>
+		<module>computer-database-rs</module>
 	</modules>
 
 	<properties>
@@ -40,9 +42,32 @@
 		<spring.data.jpa.version>1.7.0.RELEASE</spring.data.jpa.version>
 		<spring.security.version>3.2.5.RELEASE</spring.security.version>
 		<org.jadira.version>3.1.0.CR1</org.jadira.version>
+		<jackson.mapper-version>1.9.13</jackson.mapper-version>
+		<jackson.databind-version>2.4.3</jackson.databind-version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>version99</id>
+			<!-- highly available repository serving empty artifacts -->
+			<url>http://version99.qos.ch/</url>
+		</repository>
+	</repositories>
 	<dependencyManagement>
 		<dependencies>
+
+			<dependency>
+				<groupId>com.sun.xml.ws</groupId>
+				<artifactId>jaxws-rt</artifactId>
+				<version>2.2.3</version>
+			</dependency>
+
+			<!-- Library from java.net, integrate Spring with JAX-WS -->
+			<dependency>
+				<groupId>org.jvnet.jax-ws-commons.spring</groupId>
+				<artifactId>jaxws-spring</artifactId>
+				<version>1.7</version>
+			</dependency>
+
 			<!-- Spring Security -->
 			<dependency>
 				<groupId>org.springframework.security</groupId>
@@ -217,6 +242,7 @@
 				<artifactId>hibernate-entitymanager</artifactId>
 				<version>${hibernate.version}</version>
 			</dependency>
+
 			<!-- optional -->
 
 			<dependency>
@@ -239,6 +265,21 @@
 				<artifactId>hibernate-ehcache</artifactId>
 				<version>${hibernate.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>99-empty</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.databind-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>${jackson.mapper-version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -246,9 +287,23 @@
 		<!-- Logger -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${org.slf4j.version}</version>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.7</version>
 		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.7</version>
+		</dependency>
+
+		<!-- get empty jar instead of commons-logging -->
+
+
 		<!-- For StringUtils, totally useful! -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -267,8 +322,26 @@
 	<build>
 
 		<plugins>
-
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>analyze</id>
+						<phase>package</phase>
+						<goals>
+							<goal>analyze-dep-mgt</goal>
+						</goals>
+						<configuration>
+							<failBuild>true</failBuild>
+							<ignoreDirect>false</ignoreDirect>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
@@ -283,6 +356,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
+
 				<executions>
 					<execution>
 						<id>enforce-versions</id>

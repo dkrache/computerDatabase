@@ -21,6 +21,9 @@ public class ComputerDto extends BasicDto {
   private String     discontinuedDate;
   private CompanyDto companyDto;
 
+  /**
+   * Default constructor
+   */
   public ComputerDto() {
     super();
   }
@@ -106,7 +109,7 @@ public class ComputerDto extends BasicDto {
         .append("?codereq=")
         .append(externalId)
         .append(
-            "\"> <img src=\"/computer-database-web/img/update_icon.jpeg\" width=32 height=32 border=\"0\" alt=\"Supprimer ")
+            "\"> <img src=\"/computer-database-web/img/update_icon.jpeg\" width=32 height=32 border=\"0\" alt=\"Modifier ")
         .append(computerName + " \">" + "</a>").toString();
 
   }

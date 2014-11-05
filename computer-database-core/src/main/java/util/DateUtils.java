@@ -10,14 +10,27 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+/**
+ * @author excilys
+ *
+ */
 public final class DateUtils {
 
   private static final String FORMAT_DD_MM_YYYY = "dd/MM/yyyy";
 
+  /**
+   * private constructor for util class
+   */
   private DateUtils() {
 
   }
 
+  /**
+   * Get the calendar of a String 
+   * @param date
+   * @return
+   * @throws ParseException
+   */
   public static Calendar createStringToCalendar(final String date) throws ParseException {
     final SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT_DD_MM_YYYY);
     final Calendar cal = GregorianCalendar.getInstance();
@@ -25,12 +38,24 @@ public final class DateUtils {
     return cal;
   }
 
+  /**
+   * Get a String date of a Calendar
+   * @param calendar
+   * @return
+   * @throws ParseException
+   */
   public static String createCalendarToString(final Calendar calendar) throws ParseException {
     final SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT_DD_MM_YYYY);
     dateFormat.setCalendar(calendar);
     return dateFormat.format(calendar.getTime());
   }
 
+  /**
+   * create the DateTime with a date
+   * @param date
+   * @return
+   * @throws ParseException
+   */
   public static DateTime createStringToDate(final String date) throws ParseException {
     final DateTimeFormatter formatter = DateTimeFormat.forPattern(FORMAT_DD_MM_YYYY);
     return formatter.parseDateTime(date);

@@ -13,6 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/login")
 public class LoginController {
 
+  /**
+   * @param error
+   * @param logout
+   * @return
+   */
   @RequestMapping(method = RequestMethod.GET)
   public ModelAndView login(@RequestParam(value = "error", required = false)
   final String error, @RequestParam(value = "logout", required = false)

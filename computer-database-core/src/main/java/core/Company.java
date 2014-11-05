@@ -6,13 +6,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
 
 /**
  * 
  * @author excilys
  *
  */
-
 @Entity(name = "company")
 @Table(name = "company")
 public class Company {
@@ -28,6 +28,7 @@ public class Company {
   /**
    * @return the id
    */
+  @XmlElement(name = "id")
   public long getId() {
     return id;
   }
@@ -35,6 +36,7 @@ public class Company {
   /**
    * @return the name
    */
+  @XmlElement(name = "name")
   public String getName() {
     return name;
   }
@@ -59,7 +61,7 @@ public class Company {
 
   //BUILDER
   public static final class Builder {
-    private Company company;
+    private transient Company company;
 
     private Builder(final String name) {
       company = new Company();

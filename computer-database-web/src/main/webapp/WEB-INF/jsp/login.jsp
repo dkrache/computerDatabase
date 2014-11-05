@@ -2,11 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page session="true"%>
 <section id="main">
-	<h1>Spring Security Login Form (Database Authentication)</h1>
+	<h1><spring:message code="front.login.title"/></h1>
 
 	<div id="login-box">
 
-		<h3>Login with Username and Password</h3>
+		<h3><spring:message code="front.login.form.title"/></h3>
 
 		<c:if test="${not empty error}">
 			<div class="error">${error}</div>

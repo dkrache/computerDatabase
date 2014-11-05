@@ -8,6 +8,10 @@ import org.springframework.ui.ModelMap;
 
 import core.Page;
 
+/**
+ * @author excilys
+ *
+ */
 public final class PageUtils {
   private static final Logger LOGGER = LoggerFactory.getLogger(PageUtils.class);
 
@@ -18,6 +22,10 @@ public final class PageUtils {
     //
   }
 
+  /**
+   * @param model
+   * @return
+   */
   public static Page createPage(final ModelMap model) {
     int currentPage = 0;
     int limit = 10;
@@ -41,6 +49,10 @@ public final class PageUtils {
     return page;
   }
 
+  /**
+   * @param request
+   * @return
+   */
   public static Page createPage(final HttpServletRequest request) {
     int currentPage = 0;
     int limit = 10;

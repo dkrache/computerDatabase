@@ -53,6 +53,10 @@ public final class ComputerMapper {
 
   }
 
+  /**
+   * @param computers
+   * @return
+   */
   public static List<ComputerDto> toDto(final List<Computer> computers) {
     final List<ComputerDto> computerDtos = new ArrayList<>();
     if (computers == null) {

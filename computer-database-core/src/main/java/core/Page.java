@@ -1,5 +1,10 @@
 package core;
 
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 public class Page {
   private static final String PARAM_ORDER         = "&order=";
   private static final String PARAM_ASCENDANCY    = "&ascendancy=";
@@ -14,6 +19,7 @@ public class Page {
   private String              searchString;
   private String              order;
   private String              ascendancy;
+  private List<Computer>      computers;
 
   /**
    * @param limit
@@ -42,29 +48,50 @@ public class Page {
   /**
    * @return theCount nbPages
    */
+  @XmlElement(name = "nbPages")
   public long getNbPages() {
-
     return limit <= 0 ? 1 : totalCount / limit;
+  }
+
+  public void setNbPages(final long nbPages) {
+    return;
   }
 
   /**
    * @return the pageSize  private static final String UP = "up";
   private static final String DOWN = "down";
    */
+  @XmlElement(name = "limit")
   public int getLimit() {
     return limit;
   }
 
   /**
+   * @param limit
+   */
+  public void setLimit(final int limit) {
+    this.limit = limit;
+  }
+
+  /**
    * @return the currentPage
    */
+  @XmlElement(name = "currentPage")
   public int getCurrentPage() {
     return currentPage;
   }
 
   /**
+   * @return the currentPage
+   */
+  public void setCurrentPage(final int currentPage) {
+    this.currentPage = currentPage;
+  }
+
+  /**
    * @return the totalCount
    */
+  @XmlElement(name = "totalCount")
   public long getTotalCount() {
     return totalCount;
   }
@@ -72,20 +99,34 @@ public class Page {
   /**
    * @return the order
    */
+  @XmlElement(name = "order")
   public String getOrder() {
     return order;
+  }
+
+  public void setOrder(final String order) {
+    this.order = order;
   }
 
   /**
    * @return the searchString
    */
+  @XmlElement(name = "searchString")
   public String getSearchString() {
     return searchString;
   }
 
   /**
+   * @return the searchString
+   */
+  public void setSearchString(final String searchString) {
+    this.searchString = searchString;
+  }
+
+  /**
    * @return
    */
+  @XmlTransient
   public int getOffset() {
     return currentPage * limit;
   }
@@ -101,6 +142,7 @@ public class Page {
     return new Builder();
   }
 
+  @XmlTransient
   public String getBackLink() {
     return new StringBuilder().append(PARAM_LIMIT).append(limit).append(PARAM_CURRENT_PAGE)
         .append(currentPage - 1).append(PARAM_SEARCH_STRING).append(searchString)
@@ -108,12 +150,14 @@ public class Page {
 
   }
 
+  @XmlTransient
   public String getnextLink() {
     return new StringBuilder().append(PARAM_LIMIT).append(limit).append(PARAM_CURRENT_PAGE)
         .append(currentPage + 1).append(PARAM_SEARCH_STRING).append(searchString)
         .append(PARAM_ORDER).append(order).append(PARAM_ASCENDANCY).append(ascendancy).toString();
   }
 
+  @XmlTransient
   public String getCurrentLink() {
     return new StringBuilder().append(PARAM_LIMIT).append(limit).append(PARAM_CURRENT_PAGE)
         .append(currentPage).append(PARAM_SEARCH_STRING).append(searchString)
@@ -123,6 +167,7 @@ public class Page {
   /**
    * @return
    */
+  @XmlElement(name = "ascendancy")
   public String getAscendancy() {
     return ascendancy;
   }
@@ -130,8 +175,24 @@ public class Page {
   /**
    * @return
    */
+  @XmlTransient
   public String getNextAscendancy() {
     return DOWN.equals(ascendancy) ? UP : DOWN;
+  }
+
+  /**
+   * @return the computers
+   */
+  @XmlElement(name = "computers")
+  public List<Computer> getComputers() {
+    return computers;
+  }
+
+  /**
+   * @param computers the computers to set
+   */
+  public void setComputers(final List<Computer> computers) {
+    this.computers = computers;
   }
 
   //BUILDER

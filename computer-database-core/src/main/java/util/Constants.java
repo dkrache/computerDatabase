@@ -16,6 +16,9 @@ public final class Constants {
   public static final String PARAM_ERROR   = "error";
   public static final String VUE_ADD       = "/add";
 
+  /**
+   * private constructor for util class
+   */
   private Constants() {
     //
   }
